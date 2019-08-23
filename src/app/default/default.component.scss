@@ -1,0 +1,15 @@
+.ui-calendar {
+    position: relative;
+    display: block !important;
+}
+.green {
+    background-color: #f44236;
+    border-color:#f44236;
+   }
+
+   .tableFixHead          { overflow-y: auto; height: 500px; }
+.tableFixHead thead th { position: sticky; top: 0; }
+
+table  { border-collapse: collapse; width: 100%; }
+th, td { padding: 8px 16px; }
+th     { background:#eee; }

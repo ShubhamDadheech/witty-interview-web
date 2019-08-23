@@ -1,0 +1,453 @@
+<form [formGroup]="addForm" *ngIf="showCandidate">
+  <div class="row">
+    <div class="col-sm-12">
+      <app-card cardTitle="Personal Details" [options]="false">
+        <div class="row">
+          <div class="col-md-4">
+
+            <div class="form-group">
+              <label for="exampleInputEmail1">First Name *</label>
+              <input type="text" class="form-control" id="firstName" placeholder="First Name"
+                formControlName="firstName">
+
+              <div>
+                <span *ngIf="addForm.get('firstName').invalid && addForm.get('firstName').touched"
+                  style="color: #a94442;text-align: left;font-size: 12px">First Name is Required</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Last Name *</label>
+              <input type="text" class="form-control" id="lastName" placeholder="Last Name" formControlName="lastName">
+              <div>
+                <span *ngIf="addForm.get('lastName').invalid && addForm.get('lastName').touched"
+                  style="color: #a94442;text-align: left;font-size: 12px">Last Name is Required</span>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col-md-4">
+
+            <div class="form-group">
+              <label for="exampleInputEmail1">Father's Name *</label>
+              <input type="text" class="form-control" id="fatherName" placeholder="Father's Name"
+                formControlName="fatherName">
+              <div>
+                <span *ngIf="addForm.get('fatherName').invalid && addForm.get('fatherName').touched"
+                  style="color: #a94442;text-align: left;font-size: 12px">Father Name is Required</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4">
+
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email *</label>
+              <input type="text" class="form-control" id="email" placeholder="Email" formControlName="email">
+              <div>
+                <span *ngIf="addForm.get('email').invalid && addForm.get('email').touched"
+                  style="color: #a94442;text-align: left;font-size: 12px">Email is Required</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+
+            <div class="form-group">
+              <label for="exampleInputEmail1">Primary Mobile Number *</label>
+              <input type="text" class="form-control" id="pMobile" placeholder="Primary Mobile Number"
+                formControlName="pMobile" (change)="onKeyPress($event)" maxlength="10" minlength="10"
+                (focus)="notFocusedPMobile=false" (focusout)="notFocusedPMobile=true">
+              <div>
+                <span *ngIf="addForm.get('pMobile').hasError('required') && addForm.get('pMobile').touched"
+                  style="color: #a94442;text-align: left;font-size: 12px">Primary Mobile Number is Required</span>
+                <span
+                  *ngIf="((addForm.get('pMobile').hasError('minlength') ||addForm.get('pMobile').hasError('maxlength') )&& notFocusedPMobile) && !addForm.get('pMobile').hasError('pattern')"
+                  style="color: #a94442;text-align: left;font-size: 12px">Mobile number must be 10 digits</span>
+                <span *ngIf="addForm.get('pMobile').hasError('pattern') && addForm.get('pMobile').touched"
+                  style="color: #a94442;text-align: left;font-size: 12px">Invalid Mobile Number</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+
+            <div class="form-group">
+              <label for="exampleInputEmail1">Secondry Mobile Number</label>
+              <input type="text" class="form-control" id="sMobile" placeholder="Secondry Mobile Number"
+                formControlName="sMobile" (keypress)="onKeyPress($event)" (focus)="notFocused=false"
+                (focusout)="notFocused=true" maxlength="10" minlength="10">
+              <div>
+                <span
+                  *ngIf=" (notFocused && (addForm.get('sMobile').hasError('minlength') ||addForm.get('sMobile').hasError('maxlength')))&& !addForm.get('sMobile').hasError('pattern') "
+                  style="color: #a94442;text-align: left;font-size: 12px">Mobile number must be 10 digits</span>
+                <span *ngIf="addForm.get('sMobile').hasError('pattern') "
+                  style="color: #a94442;text-align: left;font-size: 12px">Invalid Number</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+
+          <div class="col-md-4">
+              <div class="form-group">
+                  <label for="exampleInputEmail1">Aadhar Number *</label>
+                  <input type="text" class="form-control" id="pMobile" placeholder="Aadhar Number"
+                    formControlName="aadhar"  maxlength="12" minlength="12"
+                    (focus)="notFocusedPMobile=false" (focusout)="notFocusedPMobile=true">
+                  <div>
+                    <span *ngIf="addForm.get('aadhar').hasError('required') && addForm.get('aadhar').touched"
+                      style="color: #a94442;text-align: left;font-size: 12px">Aadhar Number is Required</span>
+                    <span
+                      *ngIf="((addForm.get('aadhar').hasError('minlength') ||addForm.get('aadhar').hasError('maxlength') )&& notFocusedPMobile) && !addForm.get('aadhar').hasError('pattern')"
+                      style="color: #a94442;text-align: left;font-size: 12px">Aadhar number must be 12 digits</span>
+                  </div>
+                </div>
+
+          </div>
+
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">Gender *</label>
+              <select class="form-control" id="exampleFormControlSelect1" formControlName="gender" placeholder="Select gender">
+                <option value="" disabled selected hidden>Select a value</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+              <div>
+
+                  <span
+                    *ngIf="addForm.get('gender').invalid && addForm.get('gender').touched"
+                    style="color: #a94442;text-align: left;font-size: 12px">Please select gender</span>
+                <!-- <span
+              *ngIf="addForm.get('interview')['controls'][i].controls.result.invalid && addForm.get('interview')['controls'][i].controls.result.touched"
+              style="color: #a94442;text-align: left;font-size: 12px">Select at least one Result</span> -->
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="row">
+
+          <div class="col-md-6">
+
+            <div class="form-group form-check">
+              <input type="checkbox" class="form-check-input" id="blacklist" formControlName="blacklist">
+              <label class="form-check-label" for="exampleCheck1">Black listed</label>
+            </div>
+          </div>
+        </div>
+
+
+      </app-card>
+
+      <app-card cardTitle="Education Details" [options]="false">
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">Qualification *</label>
+              <select class="form-control" id="exampleFormControlSelect1" formControlName="education"
+                (change)="changeActionEducation($event.target.value)">
+                <option value="postgraduate">Postgraduate</option>
+                <option value="graduate">Graduate</option>
+              </select>
+              <div>
+                <!-- <span
+              *ngIf="addForm.get('interview')['controls'][i].controls.result.invalid && addForm.get('interview')['controls'][i].controls.result.touched"
+              style="color: #a94442;text-align: left;font-size: 12px">Select at least one Result</span> -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+        <div class="row" *ngIf="showPG">
+          <div class="col-md-6">
+
+            <div class="form-group">
+              <label for="exampleInputEmail1">Post-Graduation College Name *</label>
+              <input type="text" class="form-control" id="pCollege" placeholder="Post-Graduation College"
+                formControlName="pCollege">
+              <div>
+                <span *ngIf="addForm.get('pCollege').invalid && addForm.get('pCollege').touched"
+                  style="color: #a94442;text-align: left;font-size: 12px">College Name is Required</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+
+            <div class="form-group">
+              <label for="exampleInputEmail1">Marks *</label>
+              <input type="text" class="form-control" id="collegeMarks" placeholder="Marks"
+                formControlName="pCollegeMarks" (keypress)="onKeyPress($event)">
+              <div>
+                <span *ngIf="addForm.get('pCollegeMarks').invalid && addForm.get('pCollegeMarks').touched"
+                  style="color: #a94442;text-align: left;font-size: 12px">College Marks is Required</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-6">
+
+            <div class="form-group">
+              <label for="exampleInputEmail1">Graduation College Name *</label>
+              <input type="text" class="form-control" id="college" placeholder="Graduation College"
+                formControlName="college">
+              <div>
+                <span *ngIf="addForm.get('college').invalid && addForm.get('college').touched"
+                  style="color: #a94442;text-align: left;font-size: 12px">College Name is Required</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+
+            <div class="form-group">
+              <label for="exampleInputEmail1">Marks *</label>
+              <input type="text" class="form-control" id="collegeMarks" placeholder="Marks"
+                formControlName="collegeMarks" (keypress)="onKeyPress($event)">
+              <div>
+                <span *ngIf="addForm.get('collegeMarks').invalid && addForm.get('collegeMarks').touched"
+                  style="color: #a94442;text-align: left;font-size: 12px">College Marks is Required</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+
+            <div class="form-group">
+              <label for="exampleInputEmail1">High School *</label>
+              <input type="text" class="form-control" id="hSchool" placeholder="High School" formControlName="hSchool">
+              <div>
+                <span *ngIf="addForm.get('hSchool').invalid && addForm.get('hSchool').touched"
+                  style="color: #a94442;text-align: left;font-size: 12px">High School Name is Required</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+
+            <div class="form-group">
+              <label for="exampleInputEmail1">High School Marks *</label>
+              <input type="text" class="form-control" id="hMarks" placeholder="High School Marks"
+                formControlName="hMarks" (keypress)="onKeyPressPersent($event)">
+              <div>
+                <span *ngIf="addForm.get('hMarks').hasError('required') && addForm.get('hMarks').touched"
+                  style="color: #a94442;text-align: left;font-size: 12px">High School Marks is Required</span>
+                <span *ngIf="addForm.get('hMarks').hasError('pattern')"
+                  style="color: #a94442;text-align: left;font-size: 12px">Invalid Pattern</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+
+            <div class="form-group">
+              <label for="exampleInputEmail1">Inter School *</label>
+              <input type="text" class="form-control" id="iSchool" placeholder="Inter School" formControlName="iSchool">
+              <div>
+                <span *ngIf="addForm.get('iSchool').invalid && addForm.get('iSchool').touched"
+                  style="color: #a94442;text-align: left;font-size: 12px">Inter School Name is Required</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+
+            <div class="form-group">
+              <label for="exampleInputEmail1">Inter School Marks *</label>
+              <input type="text" class="form-control" id="iMarks" placeholder="Inter School Marks"
+                formControlName="iMarks">
+              <div>
+                <span *ngIf="addForm.get('iMarks').invalid && addForm.get('iMarks').touched"
+                  style="color: #a94442;text-align: left;font-size: 12px">Inter School Marks is Required</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </app-card>
+
+      <app-card cardTitle="Interview Details" [options]="false" formArrayName="interview">
+        <!-- <div *ngFor="let i of [1,2,3,4]" > -->
+
+        <div *ngFor="let group of interviewArray.controls; let i = index;" [formGroupName]="i">
+          <hr />
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+
+                <label for="exampleInputEmail1">Profile *</label>
+                <input type="text" class="form-control" id="profile" placeholder="Profile" formControlName="profile"
+                  [attr.disabled]="disabledTextField[i]===true? 'disabled':null">
+                <div>
+                  <span
+                    *ngIf="addForm.get('interview')['controls'][i].controls.profile.invalid && addForm.get('interview')['controls'][i].controls.profile.touched"
+                    style="color: #a94442;text-align: left;font-size: 12px">Profile is Required</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+
+              <div class="form-group">
+                <label for="exampleInputEmail1">Interviewer Name *</label>
+                <input type="text" class="form-control" id="interviewer" placeholder="Interviewer"
+                  formControlName="interviewer" [attr.disabled]="disabledTextField[i]===true? 'disabled':null">
+                <div>
+                  <span
+                    *ngIf="addForm.get('interview')['controls'][i].controls.interviewer.invalid && addForm.get('interview')['controls'][i].controls.interviewer.touched"
+                    style="color: #a94442;text-align: left;font-size: 12px">Interviewer Name is Required</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Reference Name </label>
+                <input type="text" class="form-control" id="reference" placeholder="Reference Name"
+                  formControlName="reference" [attr.disabled]="disabledTextField[i]===true? 'disabled':null">
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Result *</label>
+                <select class="form-control" id="exampleFormControlSelect1" formControlName="result"
+                  (change)="changeAction($event.target.value,i)"
+                  [attr.disabled]="disabledTextField[i]===true? 'disabled':null">
+                  <option value="" disabled selected hidden>Select a value</option>
+                  <option value="true">Pass</option>
+                  <option value="false">Reject</option>
+                  <option value="null">Next</option>
+                </select>
+                <div>
+                  <span
+                    *ngIf="addForm.get('interview')['controls'][i].controls.result.invalid && addForm.get('interview')['controls'][i].controls.result.touched"
+                    style="color: #a94442;text-align: left;font-size: 12px">Select at least one Result</span>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Interview Date *</label>
+                <p-calendar [showIcon]="true" [showTime]="false" class="ui-calendar" formControlName="interviewDate"
+                  [disabled]="disabledTextField[i]">
+                </p-calendar>
+                <div>
+                  <span
+                    *ngIf="addForm.get('interview')['controls'][i].controls.interviewDate.invalid && addForm.get('interview')['controls'][i].controls.interviewDate.touched"
+                    style="color: #a94442;text-align: left;font-size: 12px">Interview Date is Required</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4" *ngIf="showNextRoundDate[i]">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Next Round Date *</label>
+                <p-calendar [showIcon]="true" [showTime]="true" hourFormat="24" class="ui-calendar"
+                  formControlName="nextRoundDate" [disabled]="disabledTextField[i]">
+                </p-calendar>
+                <div>
+                  <span
+                    *ngIf="addForm.get('interview')['controls'][i].controls.nextRoundDate.invalid && addForm.get('interview')['controls'][i].controls.nextRoundDate.touched"
+                    style="color: #a94442;text-align: left;font-size: 12px">Next Round is Required</span>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-md-4" *ngIf="showJoinDate[i]">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Joining Date * {{group.joining}}</label>
+                <p-calendar [showIcon]="true" [showTime]="false" class="ui-calendar" formControlName="joining"
+                  [disabled]="disabledTextField[i]">
+                </p-calendar>
+                <div>
+                  <span
+                    *ngIf="addForm.get('interview')['controls'][i].controls.joining.invalid && addForm.get('interview')['controls'][i].controls.joining.touched"
+                    style="color: #a94442;text-align: left;font-size: 12px">Joining Date is Required</span>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+
+          <!-- <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Joining Date</label>
+                <p-calendar [showIcon]="true" [showTime]="false" class="ui-calendar" formControlName="joining">
+                </p-calendar>
+              </div>
+            </div>
+          </div> -->
+
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Feedback</label>
+                <textarea class="form-control" id="feedback" rows="3" formControlName="feedback"
+                  [attr.disabled]="disabledTextField[i]===true? 'disabled':null"></textarea>
+                <div>
+                  <span
+                    *ngIf="addForm.get('interview')['controls'][i].controls.feedback.invalid && addForm.get('interview')['controls'][i].controls.feedback.touched"
+                    style="color: #a94442;text-align: left;font-size: 12px">Feedback is Required</span>
+                </div>
+              </div>
+            </div>
+
+
+
+          </div>
+          <br />
+
+          <div class="row" style="float: right" *ngIf="i===(interviewArray.controls.length-1) ">
+            <button type="button" class="btn btn-success" (click)="addInterview()" [disabled]="addForm.invalid">Add
+              More</button>
+
+            <button type="button" class="btn btn-primary" [disabled]="i===0" 
+              (click)="removeInterview(i,addForm.get('interview')['controls'][i].controls.interviewId.value)">Remove</button>
+             
+            <button type="button" class="btn btn-primary" *ngIf="showEditButton" (click)="editCandidate(addForm.get('interview')['controls'][i].controls.interviewId.value)">Edit</button>
+          </div>
+
+        </div>
+        <br />
+      </app-card>
+
+    </div>
+
+  </div>
+  <button type="button" class="btn btn-success" (click)="addCandidate()" [disabled]="addForm.invalid">Submit</button>
+</form>
+
+<app-edit-interview-modal *ngIf="showEditModal" [editModalData]="editModalData"
+  (closeModalEvent)="hideEditModal($event)"></app-edit-interview-modal>

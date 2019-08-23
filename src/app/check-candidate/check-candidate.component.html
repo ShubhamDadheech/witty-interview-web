@@ -1,0 +1,130 @@
+<form [formGroup]="checkCandidateForm">
+  <app-card cardTitle="Check Candidate" [options]="false">
+    <!-- <div *ngFor="let i of [1,2,3,4]" > -->
+    <div>
+      <hr />
+
+      <div class="row">
+
+
+        <div class="col-md-4">
+
+          <div class="form-group">
+            <label for="exampleInputEmail1">First Name *</label>
+            <input type="text" class="form-control" id="interviewer" placeholder="First Name"
+              formControlName="firstName">
+            <div>
+              <span
+                *ngIf="checkCandidateForm.get('firstName').hasError('required') && checkCandidateForm.get('firstName').touched"
+                style="color: #a94442;text-align: left;font-size: 12px">First Name is Required</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Last Name *</label>
+            <input type="text" class="form-control" id="reference" placeholder="Last Name" formControlName="lastName">
+            <div>
+              <span
+                *ngIf="checkCandidateForm.get('lastName').hasError('required') && checkCandidateForm.get('lastName').touched"
+                style="color: #a94442;text-align: left;font-size: 12px">Last Name is Required</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Father's Name *</label>
+            <input type="text" class="form-control" id="reference" placeholder="Father's Name"
+              formControlName="fatherName">
+            <div>
+              <span
+                *ngIf="checkCandidateForm.get('fatherName').hasError('required') && checkCandidateForm.get('fatherName').touched"
+                style="color: #a94442;text-align: left;font-size: 12px">Father's Name is Required</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Primary Mobile Number *</label>
+            <input type="text" class="form-control" id="profile" placeholder="Primary Mobile Number"
+              formControlName="pMobile" (keypress)="onKeyPress($event)" (focus)="notFocused=false"
+              (focusout)="notFocused=true" maxlength="10" minlength="10">
+            <div>
+              <span
+                *ngIf="checkCandidateForm.get('pMobile').hasError('required') && checkCandidateForm.get('pMobile').touched"
+                style="color: #a94442;text-align: left;font-size: 12px">Primary Mobile Number is Required</span>
+              <span
+                *ngIf=" notFocused && (checkCandidateForm.get('pMobile').hasError('minlength') ||checkCandidateForm.get('pMobile').hasError('maxlength')) "
+                style="color: #a94442;text-align: left;font-size: 12px">Mobile number must be 10 digits</span>
+            </div>
+          </div>
+        </div>
+
+
+
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email *</label>
+              <input type="text" class="form-control" id="profile" placeholder="Email" formControlName="email">
+              <div>
+                <span
+                  *ngIf="checkCandidateForm.get('email').hasError('required') && checkCandidateForm.get('email').touched"
+                  style="color: #a94442;text-align: left;font-size: 12px">Email is Required</span>
+              </div>
+            </div>
+          </div>
+        </div>
+       </div>
+      <br />
+
+      <div class="row" style="float: right">
+        <button type="button" class="btn btn-primary" (click)="searchCnadidate()">Search</button>
+        <!-- <button type="button" class="btn btn-primary" >Edit</button> -->
+      </div>
+
+    </div>
+    <br />
+  </app-card>
+</form>
+
+<app-card cardTitle="Hover Table" [options]="false" blockClass="table-border-style">
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Username</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+        </tr>
+        <tr>
+          <th scope="row">2</th>
+          <td>Jacob</td>
+          <td>Thornton</td>
+          <td>@fat</td>
+        </tr>
+        <tr>
+          <th scope="row">3</th>
+          <td>Larry</td>
+          <td>the Bird</td>
+          <td>@twitter</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </app-card>

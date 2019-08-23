@@ -1,0 +1,56 @@
+body {
+  line-height: 1.5;
+}
+header {
+  width: 100%;
+}
+
+.form-control{
+  height: auto;
+}
+
+.border-less-image-gallery ks-modal-gallery .plain-container .image {
+  border: none;
+}
+
+.datta-accordion {
+  .card-header{
+    .btn{
+      padding: 0;
+    }
+  }
+}
+
+.datta-scroll {
+  .ps__rail-y {
+    &:hover > .ps__thumb-y, &:focus > .ps__thumb-y, &.ps--clicking .ps__thumb-y {
+      background-color: #a7a7a7;
+      width: 3px;
+    }
+  }
+  .ps__thumb-y {
+    background-color: #aaa;
+    border-radius: 6px;
+    width: 3px;
+    right: 0;
+  }
+}
+
+perfect-scrollbar.datta-scroll > .ps {
+  &.ps--active-y > .ps__rail-y {
+    width: 3px;
+    &:hover, &.ps--clicking {
+      width: 3px;
+    }
+  }
+  &.ps--scrolling-y > .ps__rail-y, &.ps--scrolling-x > .ps__rail-x {
+    opacity: 0.7;
+    background-color: transparent;
+  }
+  &.ps--active-y > .ps__rail-y {
+    &:hover, &.ps--clicking {
+      width: 3px;
+    }
+  }
+}
+

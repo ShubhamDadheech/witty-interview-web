@@ -1,0 +1,45 @@
+<div class="auth-wrapper">
+  <div class="auth-content">
+    <div class="auth-bg">
+   <span class="r"></span>
+      <span class="r s"></span>
+      <span class="r s"></span>
+      <span class="r"></span> 
+     
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <div class="card">
+        <div class="card-body text-center">
+          <div class="mb-4">
+            <!-- <i class="feather icon-unlock auth-icon"></i> -->
+            <img alt="" src="assets/img/logo.png" style="margin-left: 15px;max-width: 250px;">
+          </div>
+          <h3 class="mb-4">Login</h3>
+          <div class="input-group ">
+            <input type="text" class="form-control" placeholder="Email" formControlName="email" required>
+          </div>
+          <div style="color: #a94442;text-align: left;font-size: 12px;">
+            <span *ngIf="loginForm.get('email').hasError('required') && loginForm.get('email').touched " >Email is Required</span>
+            <span *ngIf="loginForm.get('email').hasError('pattern')" >Email in Correct Pattern</span>
+          </div>
+          <div class="input-group" style="margin-top: 15px">
+            <input type="password" class="form-control" placeholder="Password" formControlName="password" required>
+
+          </div>
+          <div style="color: #a94442;text-align: left;font-size: 12px;"> <span
+              *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched  ">Password is Required</span>
+              
+          </div>
+
+          <button class="btn btn-primary mb-4" style="margin-top: 15px">Login</button>
+          <div>
+            <span style="color: #a94442;text-align: left;font-size: 14px;margin-top: 5pt;">{{errorMessage}}</span>
+          </div>
+
+
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

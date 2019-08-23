@@ -1,0 +1,99 @@
+<form [formGroup]="dateForm">
+  <div class="row">
+
+    <div class="col-md-5">
+      <div class="form-group" style="margin-top: 25px;">
+        <div class="input-group">
+          <label for="exampleInputEmail1"></label>
+          <input class="form-control" type="text" placeholder="Search" aria-label="Search" [(ngModel)]="searchText"
+            [ngModelOptions]="{standalone: true}" autocomplete="off">
+          <div class="input-group-append">
+            <span class="input-group-text red lighten-3" id="basic-text1"><i class="fas fa-search text-grey"
+                aria-hidden="true"></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="exampleInputEmail1">From Date *</label>
+        <p-calendar [showIcon]="true" [showTime]="false" [maxDate]="this.dateForm.get('to').value" [minDate]="todayDate" class="ui-calendar" formControlName="from">
+        </p-calendar>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="exampleInputEmail1">To Date *</label>
+        <p-calendar [showIcon]="true" [showTime]="false" [minDate]="this.dateForm.get('from').value"  class="ui-calendar" formControlName="to">
+        </p-calendar>
+      </div>
+    </div>
+
+    <div class="col-md-1">
+      <div class="form-group" style="padding-top: 26px; float: right;">
+        <button type="button" class="btn btn-success"
+          [class.green]="this.dateForm.get('from').value > this.dateForm.get('to').value || this.dateForm.get('from').value==null "
+          (click)="apply()"
+          [disabled]="this.dateForm.get('from').value > this.dateForm.get('to').value || this.dateForm.get('from').value==null ">Apply</button>
+      </div>
+    </div>
+  </div>
+</form>
+
+
+<div class="row">
+
+  <div class="col-xl-12 col-md-12">
+    <div class="table-responsive">
+      <div class="tableFixHead">
+        <table class="table table-hover" style="background-color: #fff">
+          <thead>
+            <tr>
+              <th>Name </th>
+              <th>Email</th>
+              <th>Profile</th>
+              <th>Mobile Number</th>
+              <th>Aadhar number</th>
+              <th>Interview Date</th>
+              <th>Round Number</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let d of candidates | filterInterview:searchText"  (click)="openCandidate(d.candidateDto.id)">
+              <td>
+                <h6 class="m-0">{{d.candidateDto.firstName}} {{d.candidateDto.lastName}}</h6>
+              </td>
+              <td>
+
+                <h6 class="m-0">{{d.candidateDto.email}}</h6>
+              </td>
+              <td>
+                <h6 class="m-0">{{d.profile}}</h6>
+              </td>
+              <td>
+                <h6 class="m-0">{{d.candidateDto.primaryMobileNum}}</h6>
+              </td>
+              <td>
+                <h6 class="m-0 ">{{d.candidateDto.aadhaarNum}}</h6>
+              </td>
+              <td>
+                <h6 class="m-0 ">{{d.roundDate}}</h6>
+              </td>
+              <td>
+                <h6 class="m-0 ">{{d.roundNo}}</h6>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+
+
+</div>
