@@ -11,111 +11,109 @@
             <label for="exampleInputEmail1">Profile *</label>
             <input type="text" class="form-control" id="profile" placeholder="Profile" formControlName="profile">
             <div>
-              <span
-                *ngIf="editInterviewForm.get('profile').invalid && editInterviewForm.get('profile').touched"
+              <span *ngIf="editInterviewForm.get('profile').invalid && editInterviewForm.get('profile').touched"
                 style="color: #a94442;text-align: left;font-size: 12px">Profile is Required</span>
             </div>
           </div>
         </div>
+
         <div class="col-md-4">
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Result *</label>
+            <select class="form-control" id="exampleFormControlSelect1" formControlName="result"
+              (change)="changeAction($event.target.value,i)">
+              <option value="" disabled selected hidden>Select a value</option>
+              <option *ngFor="let data of statusDropdownData" value="{{data}}">{{data}}</option>
+            </select>
+            <div>
+              <span *ngIf="editInterviewForm.get('result').invalid && editInterviewForm.get('result').touched"
+                style="color: #a94442;text-align: left;font-size: 12px">Select at least one Result</span>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-md-4" *ngIf="showInterviwer">
 
           <div class="form-group">
             <label for="exampleInputEmail1">Interviewer Name *</label>
             <input type="text" class="form-control" id="interviewer" placeholder="Interviewer"
               formControlName="interviewer">
-              <div>
-                <span
-                  *ngIf="editInterviewForm.get('interviewer').invalid && editInterviewForm.get('interviewer').touched"
-                  style="color: #a94442;text-align: left;font-size: 12px">Interviewer Name is Required</span>
-              </div>
+            <div>
+              <span *ngIf="editInterviewForm.get('interviewer').invalid && editInterviewForm.get('interviewer').touched"
+                style="color: #a94442;text-align: left;font-size: 12px">Interviewer Name is Required</span>
+            </div>
           </div>
         </div>
 
-        <div class="col-md-4">
+
+      </div>
+      <div class="row">
+
+        <div class="col-md-4" *ngIf="showRoundDate">
           <div class="form-group">
-            <label for="exampleInputEmail1">Reference Name </label>
-            <input type="text" class="form-control" id="reference" placeholder="Reference Name"
-              formControlName="reference">
-              <div>
-                <span
-                  *ngIf="editInterviewForm.get('reference').invalid && editInterviewForm.get('reference').touched"
-                  style="color: #a94442;text-align: left;font-size: 12px">Reference Name is Required</span>
-              </div>
+            <label for="exampleInputEmail1">Interview Date *</label>
+            <p-calendar [showIcon]="true" [showTime]="false" class="ui-calendar" hideOnDateTimeSelect="true" formControlName="interviewDate">
+            </p-calendar>
+            <div>
+              <span
+                *ngIf="editInterviewForm.get('interviewDate').invalid && editInterviewForm.get('interviewDate').touched"
+                style="color: #a94442;text-align: left;font-size: 12px">Interview Date is Required</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4" *ngIf="showNextRoundDate">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Next Round Date *</label>
+            <p-calendar [showIcon]="true" [showTime]="true" hourFormat="24" class="ui-calendar" hideOnDateTimeSelect="true"
+              formControlName="nextRoundDate">
+            </p-calendar>
+            <div>
+              <span
+                *ngIf="editInterviewForm.get('nextRoundDate').invalid && editInterviewForm.get('nextRoundDate').touched"
+                style="color: #a94442;text-align: left;font-size: 12px">Next Round is Required</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-md-4" *ngIf="showJoinDate">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Joining Date *</label>
+            <p-calendar [showIcon]="true" [showTime]="false" class="ui-calendar" hideOnDateTimeSelect="true" formControlName="joining" >
+            </p-calendar>
+            <div>
+              <span *ngIf="editInterviewForm.get('joining').invalid && editInterviewForm.get('joining').touched"
+                style="color: #a94442;text-align: left;font-size: 12px">Joining is Required</span>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-md-4" *ngIf="showScheduledDate">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Scheduled Date * </label>
+            <p-calendar [showIcon]="true" class="ui-calendar" [showTime]="true" hourFormat="24" hideOnDateTimeSelect="true"
+              formControlName="scheduledDate">
+            </p-calendar>
+            <div>
+              <span
+                *ngIf="editInterviewForm.get('scheduledDate').invalid && editInterviewForm.get('scheduledDate').touched"
+                style="color: #a94442;text-align: left;font-size: 12px">Scheduled Date is Required</span>
+            </div>
           </div>
         </div>
 
       </div>
       <div class="row">
 
-          <div class="col-md-4">
-              <div class="form-group">
-                <label for="exampleFormControlSelect1">Result *</label>
-                <select class="form-control" id="exampleFormControlSelect1" formControlName="result"
-                  (change)="changeAction($event.target.value)">
-                  <option value="true">Pass</option>
-                  <option value="false">Reject</option>
-                  <option value="null">Next</option>
-                </select>
-                <div>
-                  <span
-                  *ngIf="editInterviewForm.get('result').invalid && editInterviewForm.get('result').touched"
-                  style="color: #a94442;text-align: left;font-size: 12px">Select at least one Result</span>
-                </div>
-              </div>
-            </div>
-
-
-
-            <div class="col-md-4">
-              <div class="form-group">
-                <label for="exampleInputEmail1">Interview Date *</label>
-                <p-calendar [showIcon]="true" [showTime]="false" class="ui-calendar" formControlName="interviewDate">
-                </p-calendar>
-                <div>
-                  <span
-                    *ngIf="editInterviewForm.get('interviewDate').invalid && editInterviewForm.get('interviewDate').touched"
-                    style="color: #a94442;text-align: left;font-size: 12px">Interview Date is Required</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-md-4" *ngIf="showNextRoundDate">
-              <div class="form-group">
-                <label for="exampleInputEmail1">Next Round Date *</label>
-                <p-calendar [showIcon]="true" [showTime]="true" hourFormat="24" class="ui-calendar"
-                  formControlName="nextRoundDate">
-                </p-calendar>
-                <div>
-                  <span
-                    *ngIf="editInterviewForm.get('nextRoundDate').invalid && editInterviewForm.get('nextRoundDate').touched"
-                    style="color: #a94442;text-align: left;font-size: 12px">Next Round is Required</span>
-                </div>
-              </div>
-
-            </div>
-
-            <div class="col-md-4" *ngIf="showJoinDate">
-              <div class="form-group">
-                <label for="exampleInputEmail1">Joining Date *</label>
-                <p-calendar [showIcon]="true" [showTime]="false" class="ui-calendar" formControlName="joining">
-                </p-calendar>
-                <div>
-                    <span
-                    *ngIf="editInterviewForm.get('joining').invalid && editInterviewForm.get('joining').touched"
-                    style="color: #a94442;text-align: left;font-size: 12px">Joining is Required</span>
-                </div>
-              </div>
-            </div>
-      </div>
-      <div class="row">
-
-        <div class="col-md-6">
+        <div class="col-md-6" *ngIf="!showScheduledDate">
           <div class="form-group">
             <label for="exampleInputEmail1">Feedback</label>
             <textarea class="form-control" id="feedback" rows="3" formControlName="feedback"></textarea>
             <div>
-                <span
-                *ngIf="editInterviewForm.get('feedback').invalid && editInterviewForm.get('feedback').touched"
+              <span *ngIf="editInterviewForm.get('feedback').invalid && editInterviewForm.get('feedback').touched"
                 style="color: #a94442;text-align: left;font-size: 12px">Feedback Required</span>
             </div>
           </div>
@@ -129,6 +127,8 @@
 
       <div class="row" style="float: right">
         <button type="button" class="btn btn-primary" (click)="saveInterview()">Save</button>
+
+        <button type="button" class="btn btn-primary" (click)="cancle()">Cancle</button>
       </div>
 
     </div>

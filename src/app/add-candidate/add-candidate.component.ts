@@ -3,7 +3,9 @@ import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 // import { moment } from 'fullcalendar';
 import * as moment from 'moment-timezone';
 import { HttpService } from '../service/http.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { StatusDropdownDataService } from '../service/status-dropdown-data.service';
 
 @Component({
   selector: 'app-add-candidate',
@@ -17,22 +19,34 @@ export class AddCandidateComponent implements OnInit {
   showCandidate: boolean = false
   editModalData: any;
   showJoinDate: boolean[] = [false];
+  showRoundDate: boolean[] = [false];
   showPG: boolean = false;
   showNextRoundDate: boolean[] = [false];
+  showScheduledDate: boolean[] = [false];
   notFocused = false;
   notFocusedPMobile = false;
   interviewList: any = [];
   showEditButton: boolean = false;
   disabledTextField: boolean[] = [false];
   routeParamId: any;
-  constructor(private fb: FormBuilder, private httpService: HttpService, private route: ActivatedRoute) {
-
+  showInterviwer: boolean[] = [false];
+  statusDropdownData: any;
+  constructor(private fb: FormBuilder, private httpService: HttpService, private route: ActivatedRoute,
+    private toastr: ToastrService, private StatusDropdownDataService: StatusDropdownDataService, private router: Router) {
   }
 
   ngOnInit() {
+
     this.showCandidate = true;
     this.loadLoginForm();
     this.addForm.get('education').setValue("graduate");
+
+    // this.statusDropdownDataService = StatusDropdownDataService;
+    this.StatusDropdownDataService.getStatusDropdownData((data) => {
+      this.statusDropdownData = data;
+    })
+
+
     this.route.params.subscribe(params => {
       console.log(params.id);
       this.routeParamId = params.id;
@@ -63,7 +77,7 @@ export class AddCandidateComponent implements OnInit {
         this.showEditButton = true;
         this.setValue(response)
       }, error => {
-
+        this.toastr.error(error.error.message)
       })
     } else {
 
@@ -76,32 +90,42 @@ export class AddCandidateComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       fatherName: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['', Validators.compose([
+        Validators.required,
+        Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}')
+      ])],
       pMobile: ['', Validators.compose([
         Validators.required,
-        Validators.pattern('^[0-9]*$')
+        Validators.pattern('[6-9]\\d{9}')
       ])],
       sMobile: ['', Validators.compose([
-        Validators.pattern('^[0-9]*$')
+        Validators.pattern('[6-9]\\d{9}')
       ])],
       blacklist: [],
       education: ['', Validators.required],
       pCollege: [],
       pCollegeMarks: [],
       college: ['', Validators.required],
-      collegeMarks: ['', Validators.required],
+      collegeMarks: ['', Validators.compose([
+        Validators.required,
+        Validators.pattern('(^100(\\.0{1,2})?$)|(^([0-9]([0-9])?|0)(\\.[0-9]{1,2})?$)')
+      ])],
       hSchool: ['', Validators.required],
       hMarks: ['', Validators.compose([
         Validators.required,
-        //  Validators.pattern('^(100\.0000|[1-9]?\d\.\d{4})$')
+        Validators.pattern('(^100(\\.0{1,2})?$)|(^([0-9]([0-9])?|0)(\\.[0-9]{1,2})?$)')
       ])],
       iSchool: ['', Validators.required],
-      iMarks: ['', Validators.required],
+      iMarks: ['', Validators.compose([
+        Validators.required,
+        Validators.pattern('(^100(\\.0{1,2})?$)|(^([0-9]([0-9])?|0)(\\.[0-9]{1,2})?$)')
+      ])],
       interview: this.fb.array([this.addinterviewsGroup()]),
       aadhar: ['', Validators.compose([
         Validators.pattern('^[0-9]*$')
       ])],
-      gender: ['', Validators.required]
+      gender: ['', Validators.required],
+      reference: ['']
 
     });
   }
@@ -110,19 +134,20 @@ export class AddCandidateComponent implements OnInit {
     return this.fb.group({
       round: [(data && data.round) ? data.round : ''],
       profile: [(data && data.profile) ? data.profile : '', Validators.required],
-      interviewer: [(data && data.interviewer) ? data.interviewer : '', Validators.required],
-      reference: [(data && data.reference) ? data.reference : ''],
+      interviewer: [(data && data.interviewer) ? data.interviewer : ''],
       joining: [(data && data.joining) ? data.joining : null],
-      interviewDate: [(data && data.interviewDate) ? data.interviewDate : null, Validators.required],
+      interviewDate: [(data && data.interviewDate) ? data.interviewDate : null],
       nextRoundDate: [(data && data.nextRoundDate) ? data.nextRoundDate : null],
-      feedback: [(data && data.feedback) ? data.feedback : '', Validators.required],
+      feedback: [(data && data.feedback) ? data.feedback : ''],
       result: [(data && data.result) ? data.result : '', Validators.required],
-      interviewId: [(data && data.interviewId) ? data.interviewId : null]
+      interviewId: [(data && data.interviewId) ? data.interviewId : null],
+      scheduledDate: [(data && data.scheduledDate) ? data.scheduledDate : null]
     });
   }
 
   addInterview() {
     this.interviewArray.push(this.addinterviewsGroup());
+    this.disabledTextField[this.interviewArray.length - 1] = false;
     this.showEditButton = false;
   }
 
@@ -137,13 +162,18 @@ export class AddCandidateComponent implements OnInit {
       if (id) {
         this.httpService.callApi('deleteInterview', { pathVariable: id }).subscribe((response) => {
           console.log('response success ==> ' + JSON.stringify(response));
-          this.ngOnInit();
+          this.toastr.success("successful deleted");
+          this.interviewArray.removeAt(index);
+          this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+          this.router.onSameUrlNavigation = 'reload';
+          this.router.navigate(['candidate', this.routeParamId]);
+
         }, error => {
 
         })
       } else {
         this.interviewArray.removeAt(index);
-        this.ngOnInit();
+        // this.ngOnInit();
       }
     }
 
@@ -162,8 +192,10 @@ export class AddCandidateComponent implements OnInit {
     this.httpService.callApi('createOrUpdateCandidate', { body: body }).subscribe((response) => {
       // console.log('response ==> ' +JSON.stringify(response) );
       this.ngOnInit();
+      this.toastr.success("success");
     }, error => {
-
+      console.log(error);
+      this.toastr.error(error.error.message);
     })
   }
 
@@ -195,6 +227,7 @@ export class AddCandidateComponent implements OnInit {
       postGraduationCollegeMarksPercentage: data.pCollegeMarks,
       aadhaarNum: data.aadhar,
       gender: data.gender,
+      referedBy: data.reference
     }
     // console.log("final JSON ==> " + JSON.stringify(json));
 
@@ -211,6 +244,8 @@ export class AddCandidateComponent implements OnInit {
         let id = null;
         let nextRoundDate;
         let nextRoundDateArray;
+        let scheduledRoundDate;
+        let scheduledDateArray;
         if (value.interviewId) {
           id = value.interviewId;
         }
@@ -219,9 +254,13 @@ export class AddCandidateComponent implements OnInit {
           nextRoundDateArray = nextRoundDate.split('+');
           // console.log(" check date ==> "+nextRoundDateArray[0]+".173");
         }
+        if (value.scheduledDate) {
+          scheduledRoundDate = moment.tz(new Date(value.scheduledDate), "Asia/Calcutta").format();
+          scheduledDateArray = scheduledRoundDate.split('+');
+        }
 
         return {
-          "selected": value.result,
+          "candidateStatus": value.result,
           "roundDate": value.interviewDate == null ? null : moment.tz(new Date(value.interviewDate), "Asia/Calcutta").format("YYYY-MM-DD"),
           "interviewedBy": value.interviewer,
           "description": value.feedback,
@@ -229,7 +268,7 @@ export class AddCandidateComponent implements OnInit {
           "profile": value.profile,
           "joiningDate": value.joining == null ? null : moment.tz(new Date(value.joining), "Asia/Calcutta").format("YYYY-MM-DD"),
           "id": id,
-
+          "scheduledDate": value.scheduledDate == null ? null : scheduledDateArray[0] + ".173",
 
         }
       });
@@ -275,7 +314,7 @@ export class AddCandidateComponent implements OnInit {
 
       this.showPG = true;
       this.addForm.get('pCollege').setValidators(Validators.required);
-      this.addForm.get('pCollegeMarks').setValidators(Validators.required);
+      this.addForm.get('pCollegeMarks').setValidators([Validators.required, Validators.pattern('(^100(\\.0{1,2})?$)|(^([0-9]([0-9])?|0)(\\.[0-9]{1,2})?$)')])
       this.addForm.get('education').setValue('postgraduate');
 
 
@@ -293,20 +332,51 @@ export class AddCandidateComponent implements OnInit {
   }
 
 
+
+
   changeAction(e, index) {
 
-    if (e === "null") {
+    this.showRoundDate[index] = true;
+    this.showScheduledDate[index] = false;
+    this.showInterviwer[index] = true;
+
+    this.addForm.get('interview')['controls'][index].controls['interviewDate'].setValidators(Validators.required);
+    this.addForm.get('interview')['controls'][index].controls['feedback'].setValidators(Validators.required);
+    this.addForm.get('interview')['controls'][index].controls['interviewer'].setValidators(Validators.required);
+    this.addForm.get('interview')['controls'][index].controls['scheduledDate'].clearValidators;
+    this.addForm.get('interview')['controls'][index].controls['scheduledDate'].setValue(null);
+    if (e === "Next Round") {
       this.showNextRoundDate[index] = true;
       this.showJoinDate[index] = false;
 
       // this.addForm.get('attachment').get('url').clearValidators();
       this.addForm.get('interview')['controls'][index].controls['nextRoundDate'].setValidators(Validators.required);
       this.addForm.get('interview')['controls'][index].controls['joining'].setValue(null);
-    } else if (e === "true") {
+    } else if (e === "Joining") {
       this.showJoinDate[index] = true;
       this.showNextRoundDate[index] = false;
       this.addForm.get('interview')['controls'][index].controls['joining'].setValidators(Validators.required);
       this.addForm.get('interview')['controls'][index].controls['nextRoundDate'].setValue(null);
+    } else if (e === "Scheduled") {
+      this.showScheduledDate[index] = true;
+      this.showNextRoundDate[index] = false;
+      this.showJoinDate[index] = false;
+      this.showRoundDate[index] = false;
+      this.showInterviwer[index] = false;
+
+      this.addForm.get('interview')['controls'][index].controls['scheduledDate'].setValidators(Validators.required);
+      this.addForm.get('interview')['controls'][index].controls['nextRoundDate'].clearValidators();
+      this.addForm.get('interview')['controls'][index].controls['joining'].clearValidators();
+      this.addForm.get('interview')['controls'][index].controls['interviewDate'].clearValidators();
+      this.addForm.get('interview')['controls'][index].controls['feedback'].clearValidators();
+      this.addForm.get('interview')['controls'][index].controls['interviewer'].clearValidators();
+
+      this.addForm.get('interview')['controls'][index].controls['nextRoundDate'].setValue(null);
+      this.addForm.get('interview')['controls'][index].controls['joining'].setValue(null);
+      this.addForm.get('interview')['controls'][index].controls['interviewDate'].setValue(null);
+      this.addForm.get('interview')['controls'][index].controls['feedback'].setValue(null);
+      this.addForm.get('interview')['controls'][index].controls['interviewer'].setValue(null);
+
     } else {
       this.showNextRoundDate[index] = false;
       this.showJoinDate[index] = false;
@@ -348,6 +418,7 @@ export class AddCandidateComponent implements OnInit {
           pCollegeMarks: data.postGraduationCollegeMarksPercentage != null ? data.postGraduationCollegeMarksPercentage : '',
           aadhar: data.aadhaarNum,
           gender: data.gender,
+          reference: data.referedBy
         };
         // console.log('data1 ', data1)
         this.addForm.patchValue(data1);
@@ -377,7 +448,9 @@ export class AddCandidateComponent implements OnInit {
 
       let incVaribale = 0;
       let myData = data.interviewDetailsDtos.map(value => {
-
+        this.showRoundDate[incVaribale] = true;
+        this.showScheduledDate[incVaribale] = false;
+        this.showInterviwer[incVaribale] = true;
         // console.log('value.selected ==> '+value.selected);
         // console.log('============================');
         let nextRoundDate;
@@ -396,6 +469,21 @@ export class AddCandidateComponent implements OnInit {
           console.log(" check date ==> " + nextRoundDateArray[0] + ".173");
 
         }
+        let scheduleDate;
+        let scheduledDateArray;
+
+        if (value.scheduledDate) {
+          this.showJoinDate[incVaribale] = false;
+          this.showNextRoundDate[incVaribale] = false;
+          this.showScheduledDate[incVaribale] = true;
+          this.showInterviwer[incVaribale] = false;
+          this.showRoundDate[incVaribale] = false;
+          scheduleDate = moment.tz(new Date(value.scheduledDate), "Asia/Calcutta").format();
+          scheduledDateArray = scheduleDate.split('+');
+          console.log(" check date ==> " + scheduledDateArray[0] + ".173");
+
+        }
+
 
         incVaribale++;
 
@@ -405,14 +493,14 @@ export class AddCandidateComponent implements OnInit {
 
           round: value.round ? value.round : null,
           joining: value.joiningDate ? moment.tz(new Date(value.joiningDate), "Asia/Calcutta").toDate() : null,
-          result: value.selected == null ? "null" : value.selected == true ? "true" : "false",
+          result: value.candidateStatus,
           interviewDate: value.roundDate ? moment.tz(new Date(value.roundDate), "Asia/Calcutta").toDate() : null,
           interviewer: value.interviewedBy,
           feedback: value.description,
           nextRoundDate: value.nextRoundScheduleOn ? moment.tz(new Date(value.nextRoundScheduleOn), "Asia/Calcutta").toDate() : null,
           profile: value.profile,
-          reference: value.referedBy ? value.referedBy : null,
           interviewId: value.id,
+          scheduledDate: value.scheduledDate ? moment.tz(new Date(value.scheduledDate), "Asia/Calcutta").toDate() : null,
         }
         this.interviewList.push(arrayData);
         return arrayData;

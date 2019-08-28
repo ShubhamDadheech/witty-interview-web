@@ -78,8 +78,8 @@ export class DefaultComponent implements OnInit {
 
   lodaDataForm() {
     this.dateForm = this.fb.group({
-      from: [],
-      to: []
+      from: [this.todayDate],
+      to: [this.todayDate]
     });
   }
 }

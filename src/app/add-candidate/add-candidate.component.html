@@ -49,8 +49,10 @@
               <label for="exampleInputEmail1">Email *</label>
               <input type="text" class="form-control" id="email" placeholder="Email" formControlName="email">
               <div>
-                <span *ngIf="addForm.get('email').invalid && addForm.get('email').touched"
+                <span *ngIf="addForm.get('email').hasError('required') && addForm.get('email').touched"
                   style="color: #a94442;text-align: left;font-size: 12px">Email is Required</span>
+                  <span *ngIf="addForm.get('email').hasError('pattern') && addForm.get('email').touched"
+                  style="color: #a94442;text-align: left;font-size: 12px">Invalid Email Formate abc@xyz.com</span>
               </div>
             </div>
           </div>
@@ -132,6 +134,13 @@
           </div>
 
 
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Reference Name </label>
+              <input type="text" class="form-control" id="reference" placeholder="Reference Name"
+                formControlName="reference" [attr.disabled]="disabledTextField[i]===true? 'disabled':null">
+            </div>
+          </div>
         </div>
 
         <div class="row">
@@ -190,10 +199,12 @@
             <div class="form-group">
               <label for="exampleInputEmail1">Marks *</label>
               <input type="text" class="form-control" id="collegeMarks" placeholder="Marks"
-                formControlName="pCollegeMarks" (keypress)="onKeyPress($event)">
+                formControlName="pCollegeMarks">
               <div>
-                <span *ngIf="addForm.get('pCollegeMarks').invalid && addForm.get('pCollegeMarks').touched"
+                <span *ngIf="addForm.get('pCollegeMarks').hasError('required') && addForm.get('pCollegeMarks').touched"
                   style="color: #a94442;text-align: left;font-size: 12px">College Marks is Required</span>
+                  <span *ngIf="addForm.get('pCollegeMarks').hasError('pattern')"
+                  style="color: #a94442;text-align: left;font-size: 12px">Invalid Pattern</span>
               </div>
             </div>
           </div>
@@ -220,10 +231,12 @@
             <div class="form-group">
               <label for="exampleInputEmail1">Marks *</label>
               <input type="text" class="form-control" id="collegeMarks" placeholder="Marks"
-                formControlName="collegeMarks" (keypress)="onKeyPress($event)">
+                formControlName="collegeMarks">
               <div>
-                <span *ngIf="addForm.get('collegeMarks').invalid && addForm.get('collegeMarks').touched"
+                <span *ngIf="addForm.get('collegeMarks').hasError('required') && addForm.get('collegeMarks').touched"
                   style="color: #a94442;text-align: left;font-size: 12px">College Marks is Required</span>
+                  <span *ngIf="addForm.get('collegeMarks').hasError('pattern')"
+                  style="color: #a94442;text-align: left;font-size: 12px">Invalid Pattern</span>
               </div>
             </div>
           </div>
@@ -248,7 +261,7 @@
             <div class="form-group">
               <label for="exampleInputEmail1">High School Marks *</label>
               <input type="text" class="form-control" id="hMarks" placeholder="High School Marks"
-                formControlName="hMarks" (keypress)="onKeyPressPersent($event)">
+                formControlName="hMarks" >
               <div>
                 <span *ngIf="addForm.get('hMarks').hasError('required') && addForm.get('hMarks').touched"
                   style="color: #a94442;text-align: left;font-size: 12px">High School Marks is Required</span>
@@ -279,8 +292,10 @@
               <input type="text" class="form-control" id="iMarks" placeholder="Inter School Marks"
                 formControlName="iMarks">
               <div>
-                <span *ngIf="addForm.get('iMarks').invalid && addForm.get('iMarks').touched"
+                <span *ngIf="addForm.get('iMarks').hasError('required') && addForm.get('iMarks').touched"
                   style="color: #a94442;text-align: left;font-size: 12px">Inter School Marks is Required</span>
+                  <span *ngIf="addForm.get('iMarks').hasError('pattern')"
+                  style="color: #a94442;text-align: left;font-size: 12px">Invalid Pattern</span>
               </div>
             </div>
           </div>
@@ -307,8 +322,30 @@
                 </div>
               </div>
             </div>
-
+        
             <div class="col-md-4">
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Result *</label>
+                <select class="form-control" id="exampleFormControlSelect1" formControlName="result"
+                  (change)="changeAction($event.target.value,i)"
+                  [attr.disabled]="disabledTextField[i]===true? 'disabled':null">
+                  <option value="" disabled selected hidden>Select a value</option>
+                  <option *ngFor="let data of statusDropdownData" value="{{data}}">{{data}}</option>
+                  <!-- <option value="true">Pass</option>
+                  <option value="false">Reject</option>
+                  <option value="null">Next</option>
+                  <option value="scheduled">scheduled</option> -->
+                </select>
+                <div>
+                  <span
+                    *ngIf="addForm.get('interview')['controls'][i].controls.result.invalid && addForm.get('interview')['controls'][i].controls.result.touched"
+                    style="color: #a94442;text-align: left;font-size: 12px">Select at least one Result</span>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-md-4" *ngIf="showInterviwer[i]">
 
               <div class="form-group">
                 <label for="exampleInputEmail1">Interviewer Name *</label>
@@ -322,41 +359,12 @@
               </div>
             </div>
 
-            <div class="col-md-4">
-              <div class="form-group">
-                <label for="exampleInputEmail1">Reference Name </label>
-                <input type="text" class="form-control" id="reference" placeholder="Reference Name"
-                  formControlName="reference" [attr.disabled]="disabledTextField[i]===true? 'disabled':null">
-              </div>
-            </div>
-
           </div>
           <div class="row">
-            <div class="col-md-4">
-              <div class="form-group">
-                <label for="exampleFormControlSelect1">Result *</label>
-                <select class="form-control" id="exampleFormControlSelect1" formControlName="result"
-                  (change)="changeAction($event.target.value,i)"
-                  [attr.disabled]="disabledTextField[i]===true? 'disabled':null">
-                  <option value="" disabled selected hidden>Select a value</option>
-                  <option value="true">Pass</option>
-                  <option value="false">Reject</option>
-                  <option value="null">Next</option>
-                </select>
-                <div>
-                  <span
-                    *ngIf="addForm.get('interview')['controls'][i].controls.result.invalid && addForm.get('interview')['controls'][i].controls.result.touched"
-                    style="color: #a94442;text-align: left;font-size: 12px">Select at least one Result</span>
-                </div>
-              </div>
-            </div>
-
-
-
-            <div class="col-md-4">
+            <div class="col-md-4" *ngIf="showRoundDate[i]">
               <div class="form-group">
                 <label for="exampleInputEmail1">Interview Date *</label>
-                <p-calendar [showIcon]="true" [showTime]="false" class="ui-calendar" formControlName="interviewDate"
+                <p-calendar [showIcon]="true" [showTime]="false" class="ui-calendar" formControlName="interviewDate" hideOnDateTimeSelect="true"
                   [disabled]="disabledTextField[i]">
                 </p-calendar>
                 <div>
@@ -370,7 +378,7 @@
             <div class="col-md-4" *ngIf="showNextRoundDate[i]">
               <div class="form-group">
                 <label for="exampleInputEmail1">Next Round Date *</label>
-                <p-calendar [showIcon]="true" [showTime]="true" hourFormat="24" class="ui-calendar"
+                <p-calendar [showIcon]="true" [showTime]="true" hourFormat="24" class="ui-calendar" hideOnDateTimeSelect="true"
                   formControlName="nextRoundDate" [disabled]="disabledTextField[i]">
                 </p-calendar>
                 <div>
@@ -384,8 +392,8 @@
 
             <div class="col-md-4" *ngIf="showJoinDate[i]">
               <div class="form-group">
-                <label for="exampleInputEmail1">Joining Date * {{group.joining}}</label>
-                <p-calendar [showIcon]="true" [showTime]="false" class="ui-calendar" formControlName="joining"
+                <label for="exampleInputEmail1">Joining Date *</label>
+                <p-calendar [showIcon]="true" [showTime]="false" class="ui-calendar" formControlName="joining" hideOnDateTimeSelect="true"
                   [disabled]="disabledTextField[i]">
                 </p-calendar>
                 <div>
@@ -395,6 +403,24 @@
                 </div>
               </div>
             </div>
+
+
+
+
+            <div class="col-md-4" *ngIf="showScheduledDate[i]">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Scheduled Date * </label>
+                <p-calendar [showIcon]="true"  class="ui-calendar" [showTime]="true" hourFormat="24" formControlName="scheduledDate" hideOnDateTimeSelect="true"
+                  [disabled]="disabledTextField[i]">
+                </p-calendar>
+                <div>
+                  <span
+                    *ngIf="addForm.get('interview')['controls'][i].controls.scheduledDate.invalid && addForm.get('interview')['controls'][i].controls.scheduledDate.touched"
+                    style="color: #a94442;text-align: left;font-size: 12px">Scheduled Date is Required</span>
+                </div>
+              </div>
+            </div>
+
 
 
           </div>
@@ -410,7 +436,7 @@
           </div> -->
 
 
-          <div class="row">
+          <div class="row" *ngIf="!showScheduledDate[i]">
             <div class="col-md-6">
               <div class="form-group">
                 <label for="exampleInputEmail1">Feedback</label>
