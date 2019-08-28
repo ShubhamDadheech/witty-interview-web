@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpService } from '../service/http.service';
 import * as moment from 'moment-timezone';
+import { StatusDropdownDataService } from '../service/status-dropdown-data.service';
 
 @Component({
   selector: 'app-edit-interview-modal',
@@ -17,7 +18,11 @@ export class EditInterviewModalComponent implements OnInit {
   showJoinDate: boolean = false;
   showNextRoundDate: boolean = false;
   round: any;
-  constructor(private fb: FormBuilder, private router: Router, private httpService: HttpService) {
+  statusDropdownData: any;
+  showRoundDate = true;
+  showScheduledDate = false;
+  showInterviwer = true;
+  constructor(private fb: FormBuilder, private router: Router, private httpService: HttpService, private StatusDropdownDataService: StatusDropdownDataService) {
 
 
   }
@@ -25,12 +30,14 @@ export class EditInterviewModalComponent implements OnInit {
   ngOnInit() {
 
     this.loadForm();
-
+    this.StatusDropdownDataService.getStatusDropdownData((data) => {
+      this.statusDropdownData = data;
+    })
     if (this.editModalData) {
 
       this.httpService.callApi('getInterviewById', { pathVariable: this.editModalData }).subscribe((response) => {
         console.log('response ==> ' + JSON.stringify(response));
-        // this.addForm.get('interview').setValue(null);
+        // this.editInterviewForm.get('interview').setValue(null);
         this.setValue(response);
         this.round = response.roundNo;
         console.log('response.roundNo ==> ' + response.roundNo);
@@ -45,15 +52,16 @@ export class EditInterviewModalComponent implements OnInit {
   loadForm() {
     this.editInterviewForm = this.fb.group({
       profile: ['', Validators.required],
-      interviewer: ['', Validators.required],
-      reference: ['', Validators.required],
+      interviewer: [''],
+      reference: [''],
       joining: [],
-      feedback: ['', Validators.required],
-      result: ['', Validators.required],
-      interviewDate: ['', Validators.required],
+      feedback: [''],
+      result: [''],
+      interviewDate: [''],
       nextRoundDate: [],
       interviewId: [],
       round: [],
+      scheduledDate: [],
     });
   }
 
@@ -62,15 +70,15 @@ export class EditInterviewModalComponent implements OnInit {
     let body = this.prepareJson();
 
     this.httpService.callApi('SaveOrUpdateInterview', { body: body }).subscribe((response) => {
-      console.log('response ==> ' +JSON.stringify(response) );
+      console.log('response ==> ' + JSON.stringify(response));
       this.closeModalEvent.emit(false);
     }, error => {
 
     })
 
 
-    console.log('hum');
-   
+    
+
   }
 
 
@@ -79,14 +87,25 @@ export class EditInterviewModalComponent implements OnInit {
     let data = this.editInterviewForm.getRawValue();
     let nextRoundDate;
     let nextRoundDateArray;
+
+    let scheduledRoundDate;
+    let scheduledRoundDateArray;
     if (data.nextRoundDate) {
       nextRoundDate = moment.tz(new Date(data.nextRoundDate), "Asia/Calcutta").format();
       nextRoundDateArray = nextRoundDate.split('+');
       // console.log(" check date ==> "+nextRoundDateArray[0]+".173");
     }
+
+    if (data.scheduledDate) {
+      scheduledRoundDate = moment.tz(new Date(data.scheduledDate), "Asia/Calcutta").format();
+      scheduledRoundDateArray = scheduledRoundDate.split('+');
+      // console.log(" check date ==> "+nextRoundDateArray[0]+".173");
+    }
+
     let jsonData = {
 
-      round: this.round,
+      // roundNum: this.round,
+      roundNo: this.round,
       joiningDate: data.joining == null ? null : moment.tz(new Date(data.joining), "Asia/Calcutta").format("YYYY-MM-DD"),
       selected: data.result,
       roundDate: data.interviewDate == null ? null : moment.tz(new Date(data.interviewDate), "Asia/Calcutta").format("YYYY-MM-DD"),
@@ -96,25 +115,62 @@ export class EditInterviewModalComponent implements OnInit {
       profile: data.profile,
       referedBy: data.reference,
       id: this.editModalData,
+      scheduledDate:data.scheduledDate == null ? null : scheduledRoundDateArray[0] + ".173",
     }
     console.log('jsonDATA ==>  ' + JSON.stringify(jsonData));
 
     return jsonData;
   }
 
-  changeAction(event) {
-    if (event === "null") {
+
+
+
+
+
+
+  changeAction(e) {
+
+    this.showRoundDate = true;
+    this.showScheduledDate = false;
+    this.showInterviwer = true;
+
+    this.editInterviewForm.get('interviewDate').setValidators(Validators.required);
+    this.editInterviewForm.get('feedback').setValidators(Validators.required);
+    this.editInterviewForm.get('interviewer').setValidators(Validators.required);
+    this.editInterviewForm.get('scheduledDate').setValue(null);
+    this.editInterviewForm.get('scheduledDate').clearValidators();
+    if (e === "Next Round") {
       this.showNextRoundDate = true;
       this.showJoinDate = false;
 
-      // this.addForm.get('attachment').get('url').clearValidators();
+      // this.editInterviewForm.get('attachment').get('url').clearValidators();
       this.editInterviewForm.get('nextRoundDate').setValidators(Validators.required);
       this.editInterviewForm.get('joining').setValue(null);
-    } else if (event === "true") {
+    } else if (e === "Joining") {
       this.showJoinDate = true;
       this.showNextRoundDate = false;
       this.editInterviewForm.get('joining').setValidators(Validators.required);
       this.editInterviewForm.get('nextRoundDate').setValue(null);
+    } else if (e === "Scheduled") {
+      this.showScheduledDate = true;
+      this.showNextRoundDate = false;
+      this.showJoinDate = false;
+      this.showRoundDate = false;
+      this.showInterviwer = false;
+
+      this.editInterviewForm.get('scheduledDate').setValidators(Validators.required);
+      this.editInterviewForm.get('nextRoundDate').clearValidators();
+      this.editInterviewForm.get('joining').clearValidators();
+      this.editInterviewForm.get('interviewDate').clearValidators();
+      this.editInterviewForm.get('feedback').clearValidators();
+      this.editInterviewForm.get('interviewer').clearValidators();
+
+      this.editInterviewForm.get('nextRoundDate').setValue(null);
+      this.editInterviewForm.get('joining').setValue(null);
+      this.editInterviewForm.get('interviewDate').setValue(null);
+      this.editInterviewForm.get('feedback').setValue(null);
+      this.editInterviewForm.get('interviewer').setValue(null);
+
     } else {
       this.showNextRoundDate = false;
       this.showJoinDate = false;
@@ -125,27 +181,40 @@ export class EditInterviewModalComponent implements OnInit {
     }
   }
 
+
+
+
+
   setValue(value) {
 
     if (value.nextRoundScheduleOn) {
-      this.changeAction('null');
+      this.changeAction("Next Round");
     } else if (value.joiningDate) {
-      this.changeAction('true');
+      this.changeAction("Joining");
+    } else if (value.scheduledDate){
+      this.changeAction("Scheduled");
     }
 
-    let arrayData = {
+      let arrayData = {
 
-      round: value.round ? value.round : null,
-      joining: value.joiningDate ? moment.tz(new Date(value.joiningDate), "Asia/Calcutta").toDate() : null,
-      result: value.selected == null ? "null" : value.selected == true ? "true" : "false",
-      interviewDate: value.roundDate ? moment.tz(new Date(value.roundDate), "Asia/Calcutta").toDate() : null,
-      interviewer: value.interviewedBy,
-      feedback: value.description,
-      nextRoundDate: value.nextRoundScheduleOn ? moment.tz(new Date(value.nextRoundScheduleOn), "Asia/Calcutta").toDate() : null,
-      profile: value.profile,
-      reference: value.referedBy ? value.referedBy : null,
-      interviewId: value.id,
-    }
+        round: value.round ? value.round : null,
+        joining: value.joiningDate ? moment.tz(new Date(value.joiningDate), "Asia/Calcutta").toDate() : null,
+        result: value.candidateStatus,
+        interviewDate: value.roundDate ? moment.tz(new Date(value.roundDate), "Asia/Calcutta").toDate() : null,
+        interviewer: value.interviewedBy,
+        feedback: value.description,
+        nextRoundDate: value.nextRoundScheduleOn ? moment.tz(new Date(value.nextRoundScheduleOn), "Asia/Calcutta").toDate() : null,
+        profile: value.profile,
+        reference: value.referedBy ? value.referedBy : null,
+        interviewId: value.id,
+        scheduledDate: value.scheduledDate ? moment.tz(new Date(value.scheduledDate), "Asia/Calcutta").toDate() : null,
+      }
     this.editInterviewForm.patchValue(arrayData);
   }
+
+
+  cancle() {
+    this.closeModalEvent.emit(false);
+  }
+
 }

@@ -71,8 +71,8 @@ export class DoneInterviewComponent implements OnInit {
 
   lodaDataForm() {
     this.dateForm = this.fb.group({
-      from: [],
-      to: []
+      from: [this.todayDate],
+      to: [this.todayDate]
     });
   }
 

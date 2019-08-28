@@ -63,14 +63,14 @@ export class UrlsService {
       'interviewBetweenTwoDate':{
         'method': 'GET',
         'url': urlString + 'interview/upcoming'
-      },
-      
-      'doneInterviewBetweenTwoDate':{
+      },'doneInterviewBetweenTwoDate':{
         'method': 'GET',
         'url': urlString + 'interview/between-dates'
       },
-      
-      
+      'StatusDropDownData':{
+        'method': 'GET',
+        'url': urlString + 'interview/candidate-status'
+      },
 
     }
   }

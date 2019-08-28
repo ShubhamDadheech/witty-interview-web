@@ -36,10 +36,12 @@ const routes: Routes = [
         component:DoneInterviewComponent
       },
       {
-        
         path: 'dashboard',
         component:DefaultComponent
-
+      },
+      {
+        path: '',
+        component:DefaultComponent
       }
     ]
   },

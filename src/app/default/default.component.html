@@ -1,5 +1,5 @@
 <form [formGroup]="dateForm">
-  <div class="row">
+  <div class="row" style="max-width: 100%;">
 
     <div class="col-md-5">
       <div class="form-group" style="margin-top: 25px;">
@@ -17,7 +17,7 @@
 
 
 
-    <div class="col-md-3">
+    <div class="col-md-3"  style="max-width: 100%;">
       <div class="form-group">
         <label for="exampleInputEmail1">From Date *</label>
         <p-calendar [showIcon]="true" [showTime]="false" [maxDate]="this.dateForm.get('to').value" [minDate]="todayDate" class="ui-calendar" formControlName="from">
@@ -25,7 +25,7 @@
       </div>
     </div>
 
-    <div class="col-md-3">
+    <div class="col-md-3" style="max-width: 100%;">
       <div class="form-group">
         <label for="exampleInputEmail1">To Date *</label>
         <p-calendar [showIcon]="true" [showTime]="false" [minDate]="this.dateForm.get('from').value"  class="ui-calendar" formControlName="to">
@@ -33,7 +33,7 @@
       </div>
     </div>
 
-    <div class="col-md-1">
+    <div class="col-md-1" >
       <div class="form-group" style="padding-top: 26px; float: right;">
         <button type="button" class="btn btn-success"
           [class.green]="this.dateForm.get('from').value > this.dateForm.get('to').value || this.dateForm.get('from').value==null "
