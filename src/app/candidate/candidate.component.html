@@ -1,3 +1,11 @@
-<p>
-  candidate works!
-</p>
+<!-- <div class="row" style="max-width: 100%;">
+  <p-fullCalendar  [options]="options"  (dateClick)="dateClick($event)" (eventClick)="eventClick($event)"  [events]="[
+  { title: 'event 1', date: '2019-08-04' },
+  { title: 'event 2', date: '2019-08-07' }
+]"></p-fullCalendar>
+</div> -->
+
+
+<full-calendar *ngIf="options" #fullcalendar [editable]="true" [header]="options.header"
+  [customButtons]="options.customButtons" (dateClick)="dateClick($event)" (eventDragStop)="eventDragStop($event)"
+  [plugins]="options.plugins" (eventClick)="eventClick($event)" [events]="events"></full-calendar>

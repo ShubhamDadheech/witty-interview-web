@@ -37,8 +37,7 @@ import { EditInterviewModalComponent } from './edit-interview-modal/edit-intervi
 import { FilterListPipePipe } from './pipe/filter-list-pipe.pipe';
 import { FilterInterviewPipe} from './pipe/filter-interview.pipe';
 import { TokenInterceptor } from './service/token-interceptor';
-
-
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 
 
@@ -81,6 +80,7 @@ import { TokenInterceptor } from './service/token-interceptor';
     ReactiveFormsModule,
     HttpClientModule,
     CalendarModule,
+    FullCalendarModule,
     ToastrModule.forRoot()
     
   ],

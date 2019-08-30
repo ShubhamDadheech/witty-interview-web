@@ -24,6 +24,7 @@ export class NavRightComponent implements OnInit {
   public visibleUserList: boolean;
   public chatMessage: boolean;
   public friendId: boolean;
+  userData:any;
 
   constructor(config: NgbDropdownConfig, private httpService: HttpService) {
     config.placement = 'bottom-right';
@@ -32,6 +33,14 @@ export class NavRightComponent implements OnInit {
   }
 
   ngOnInit() {
+    let userEmail = sessionStorage.getItem('email');
+    this.httpService.callApi('getLogedinUserByEmail', {pathVariable: userEmail}).subscribe((response) => {
+      console.log('user detail ==> ' + JSON.stringify(response));
+      this.userData = response.firstName+" "+response.lastName;
+    }, error => {
+
+    })
+
   }
 
   onChatToggle(friend_id) {

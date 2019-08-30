@@ -48,9 +48,11 @@ export class AuthSigninComponent implements OnInit {
     this.httpService.callApi('login', { body, headers }).subscribe(
       (response) => {
         if (response['access_token']) {
-
+           let userEmail = this.loginForm.get('email').value;
           sessionStorage.setItem('token', response['access_token']);
-          sessionStorage.setItem('userId', response['user_id']);
+          sessionStorage.setItem('email', userEmail);
+          console.log("email ===> "+this.loginForm.get('email'));
+          
           this.goDashboard();
   
         }

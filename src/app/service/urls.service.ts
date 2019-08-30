@@ -71,6 +71,10 @@ export class UrlsService {
         'method': 'GET',
         'url': urlString + 'interview/candidate-status'
       },
+      'getLogedinUserByEmail':{
+        'method': 'GET',
+        'url': urlString + 'user/email/'
+      },
 
     }
   }

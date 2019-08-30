@@ -53,7 +53,8 @@
         <div class="col-md-4" *ngIf="showRoundDate">
           <div class="form-group">
             <label for="exampleInputEmail1">Interview Date *</label>
-            <p-calendar [showIcon]="true" [showTime]="false" class="ui-calendar" hideOnDateTimeSelect="true" formControlName="interviewDate">
+            <p-calendar [showIcon]="true" [showTime]="false" class="ui-calendar" hideOnDateTimeSelect="true"
+              formControlName="interviewDate">
             </p-calendar>
             <div>
               <span
@@ -66,8 +67,8 @@
         <div class="col-md-4" *ngIf="showNextRoundDate">
           <div class="form-group">
             <label for="exampleInputEmail1">Next Round Date *</label>
-            <p-calendar [showIcon]="true" [showTime]="true" hourFormat="24" class="ui-calendar" hideOnDateTimeSelect="true"
-              formControlName="nextRoundDate">
+            <p-calendar [showIcon]="true" [showTime]="true" hourFormat="24" class="ui-calendar"
+              hideOnDateTimeSelect="true" formControlName="nextRoundDate">
             </p-calendar>
             <div>
               <span
@@ -81,7 +82,8 @@
         <div class="col-md-4" *ngIf="showJoinDate">
           <div class="form-group">
             <label for="exampleInputEmail1">Joining Date *</label>
-            <p-calendar [showIcon]="true" [showTime]="false" class="ui-calendar" hideOnDateTimeSelect="true" formControlName="joining" >
+            <p-calendar [showIcon]="true" [showTime]="false" class="ui-calendar" hideOnDateTimeSelect="true"
+              formControlName="joining">
             </p-calendar>
             <div>
               <span *ngIf="editInterviewForm.get('joining').invalid && editInterviewForm.get('joining').touched"
@@ -94,8 +96,8 @@
         <div class="col-md-4" *ngIf="showScheduledDate">
           <div class="form-group">
             <label for="exampleInputEmail1">Scheduled Date * </label>
-            <p-calendar [showIcon]="true" class="ui-calendar" [showTime]="true" hourFormat="24" hideOnDateTimeSelect="true"
-              formControlName="scheduledDate">
+            <p-calendar [showIcon]="true" class="ui-calendar" [showTime]="true" hourFormat="24"
+              hideOnDateTimeSelect="true" formControlName="scheduledDate">
             </p-calendar>
             <div>
               <span
@@ -128,7 +130,7 @@
       <div class="row" style="float: right">
         <button type="button" class="btn btn-primary" (click)="saveInterview()">Save</button>
 
-        <button type="button" class="btn btn-primary" (click)="cancle()">Cancle</button>
+        <button type="button" class="btn btn-primary" (click)="cancle()">Cancel</button>
       </div>
 
     </div>
