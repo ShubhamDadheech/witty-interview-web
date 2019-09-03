@@ -51,7 +51,7 @@ export class CandidateComponent implements OnInit {
 
       },
       header: {
-        left: 'prev,next myCustomButton',
+        left: 'prev,next ',
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay'
       },
