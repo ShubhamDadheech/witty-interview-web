@@ -28,7 +28,7 @@ export class DefaultComponent implements OnInit {
 
     console.log('from date ==> ' + this.dateForm.get('from').value);
     console.log('to date ==> ' + this.dateForm.get('to').value);
-    this.todayInterview();
+    this. apply();
   }
 
 
