@@ -10,7 +10,7 @@ export class UrlsService {
   constructor(configService: ConfigService) {
 
 
-    let urlString = 'http://' + configService.HOST + ':' + configService.PORT + '/';
+    let urlString = 'http://' + configService.HOST + ':' + configService.PORT + '/wims/';
 
 
 
