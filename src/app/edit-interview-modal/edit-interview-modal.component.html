@@ -21,7 +21,7 @@
           <div class="form-group">
             <label for="exampleFormControlSelect1">Result *</label>
             <select class="form-control" id="exampleFormControlSelect1" formControlName="result"
-              (change)="changeAction($event.target.value,i)">
+              (change)="changeAction($event.target.value)">
               <option value="" disabled selected hidden>Select a value</option>
               <option *ngFor="let data of statusDropdownData" value="{{data}}">{{data}}</option>
             </select>
@@ -54,7 +54,8 @@
           <div class="form-group">
             <label for="exampleInputEmail1">Interview Date *</label>
             <p-calendar [showIcon]="true" [showTime]="false" class="ui-calendar" hideOnDateTimeSelect="true"
-              formControlName="interviewDate">
+              formControlName="interviewDate"
+              [maxDate]="editInterviewForm.get('nextRoundDate').value != null?editInterviewForm.get('nextRoundDate').value:editInterviewForm.get('joining').value !=null?editInterviewForm.get('joining').value:null">
             </p-calendar>
             <div>
               <span
@@ -68,7 +69,8 @@
           <div class="form-group">
             <label for="exampleInputEmail1">Next Round Date *</label>
             <p-calendar [showIcon]="true" [showTime]="true" hourFormat="24" class="ui-calendar"
-              hideOnDateTimeSelect="true" formControlName="nextRoundDate">
+              hideOnDateTimeSelect="true" formControlName="nextRoundDate"
+              [minDate]="editInterviewForm.get('interviewDate').value">
             </p-calendar>
             <div>
               <span
@@ -83,7 +85,7 @@
           <div class="form-group">
             <label for="exampleInputEmail1">Joining Date *</label>
             <p-calendar [showIcon]="true" [showTime]="false" class="ui-calendar" hideOnDateTimeSelect="true"
-              formControlName="joining">
+              formControlName="joining" [minDate]="editInterviewForm.get('interviewDate').value">
             </p-calendar>
             <div>
               <span *ngIf="editInterviewForm.get('joining').invalid && editInterviewForm.get('joining').touched"

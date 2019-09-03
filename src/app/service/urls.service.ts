@@ -40,40 +40,44 @@ export class UrlsService {
         'method': 'GET',
         'url': urlString + 'candidate/search'
       },
-      'createOrUpdateCandidate':{
+      'createOrUpdateCandidate': {
         'method': 'POST',
         'url': urlString + 'candidate'
       },
-      'getInterviewById':{
+      'getInterviewById': {
         'method': 'GET',
-        'url': urlString + 'interview/id/'
+        'url': urlString + 'interview/'
       },
-      'SaveOrUpdateInterview':{
+      'SaveOrUpdateInterview': {
         'method': 'POST',
         'url': urlString + 'interview'
       },
-      'deleteInterview':{
+      'deleteInterview': {
         'method': 'DELETE',
         'url': urlString + 'interview/'
       },
-      'todayInterview':{
+      'todayInterview': {
         'method': 'GET',
         'url': urlString + 'interview/on-today'
       },
-      'interviewBetweenTwoDate':{
+      'interviewBetweenTwoDate': {
         'method': 'GET',
         'url': urlString + 'interview/upcoming'
-      },'doneInterviewBetweenTwoDate':{
+      }, 'doneInterviewBetweenTwoDate': {
         'method': 'GET',
-        'url': urlString + 'interview/between-dates'
+        'url': urlString + 'interview/completed'
       },
-      'StatusDropDownData':{
+      'StatusDropDownData': {
         'method': 'GET',
         'url': urlString + 'interview/candidate-status'
       },
-      'getLogedinUserByEmail':{
+      'getLogedinUserByEmail': {
         'method': 'GET',
         'url': urlString + 'user/email/'
+      },
+      'dashboardData': {
+        'method': 'GET',
+        'url': urlString + 'interview/dashboard'
       },
 
     }

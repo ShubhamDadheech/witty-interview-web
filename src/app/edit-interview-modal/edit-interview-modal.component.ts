@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { HttpService } from '../service/http.service';
 import * as moment from 'moment-timezone';
 import { StatusDropdownDataService } from '../service/status-dropdown-data.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit-interview-modal',
@@ -22,7 +23,7 @@ export class EditInterviewModalComponent implements OnInit {
   showRoundDate = true;
   showScheduledDate = false;
   showInterviwer = true;
-  constructor(private fb: FormBuilder, private router: Router, private httpService: HttpService, private StatusDropdownDataService: StatusDropdownDataService) {
+  constructor(private fb: FormBuilder, private router: Router, private httpService: HttpService, private StatusDropdownDataService: StatusDropdownDataService, private toastr: ToastrService) {
 
 
   }
@@ -71,13 +72,14 @@ export class EditInterviewModalComponent implements OnInit {
 
     this.httpService.callApi('SaveOrUpdateInterview', { body: body }).subscribe((response) => {
       console.log('response ==> ' + JSON.stringify(response));
+      this.toastr.success("success");
       this.closeModalEvent.emit(false);
     }, error => {
-
+      this.toastr.error(error.error.message);
     })
 
 
-    
+
 
   }
 
@@ -107,7 +109,7 @@ export class EditInterviewModalComponent implements OnInit {
       // roundNum: this.round,
       roundNo: this.round,
       joiningDate: data.joining == null ? null : moment.tz(new Date(data.joining), "Asia/Calcutta").format("YYYY-MM-DD"),
-      selected: data.result,
+      candidateStatus: data.result,
       roundDate: data.interviewDate == null ? null : moment.tz(new Date(data.interviewDate), "Asia/Calcutta").format("YYYY-MM-DD"),
       interviewedBy: data.interviewer,
       description: data.feedback,
@@ -115,7 +117,7 @@ export class EditInterviewModalComponent implements OnInit {
       profile: data.profile,
       referedBy: data.reference,
       id: this.editModalData,
-      scheduledDate:data.scheduledDate == null ? null : scheduledRoundDateArray[0] + ".173",
+      scheduledDate: data.scheduledDate == null ? null : scheduledRoundDateArray[0] + ".173",
     }
     console.log('jsonDATA ==>  ' + JSON.stringify(jsonData));
 
@@ -191,24 +193,24 @@ export class EditInterviewModalComponent implements OnInit {
       this.changeAction("Next Round");
     } else if (value.joiningDate) {
       this.changeAction("Joining");
-    } else if (value.scheduledDate){
+    } else if (value.scheduledDate) {
       this.changeAction("Scheduled");
     }
 
-      let arrayData = {
+    let arrayData = {
 
-        round: value.round ? value.round : null,
-        joining: value.joiningDate ? moment.tz(new Date(value.joiningDate), "Asia/Calcutta").toDate() : null,
-        result: value.candidateStatus,
-        interviewDate: value.roundDate ? moment.tz(new Date(value.roundDate), "Asia/Calcutta").toDate() : null,
-        interviewer: value.interviewedBy,
-        feedback: value.description,
-        nextRoundDate: value.nextRoundScheduleOn ? moment.tz(new Date(value.nextRoundScheduleOn), "Asia/Calcutta").toDate() : null,
-        profile: value.profile,
-        reference: value.referedBy ? value.referedBy : null,
-        interviewId: value.id,
-        scheduledDate: value.scheduledDate ? moment.tz(new Date(value.scheduledDate), "Asia/Calcutta").toDate() : null,
-      }
+      round: value.round ? value.round : null,
+      joining: value.joiningDate ? moment.tz(new Date(value.joiningDate), "Asia/Calcutta").toDate() : null,
+      result: value.candidateStatus,
+      interviewDate: value.roundDate ? moment.tz(new Date(value.roundDate), "Asia/Calcutta").toDate() : null,
+      interviewer: value.interviewedBy,
+      feedback: value.description,
+      nextRoundDate: value.nextRoundScheduleOn ? moment.tz(new Date(value.nextRoundScheduleOn), "Asia/Calcutta").toDate() : null,
+      profile: value.profile,
+      reference: value.referedBy ? value.referedBy : null,
+      interviewId: value.id,
+      scheduledDate: value.scheduledDate ? moment.tz(new Date(value.scheduledDate), "Asia/Calcutta").toDate() : null,
+    }
     this.editInterviewForm.patchValue(arrayData);
   }
 

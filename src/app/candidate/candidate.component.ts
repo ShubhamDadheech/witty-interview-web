@@ -4,7 +4,11 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { OptionsInput } from '@fullcalendar/core';
 import { FullCalendarComponent } from '@fullcalendar/angular';
-
+import { HttpService } from '../service/http.service';
+import { HttpParams } from '@angular/common/http';
+import { moment } from 'fullcalendar';
+import { Router } from '@angular/router';
+import * as $ from 'jquery';
 
 
 @Component({
@@ -17,83 +21,67 @@ export class CandidateComponent implements OnInit {
   events: any[];
   todayDate = new Date();
   eventsModel: any;
+  paramData;
   @ViewChild('fullcalendar') fullcalendar: FullCalendarComponent;
-  constructor() { }
+  constructor(private httpService: HttpService, private router: Router) { }
 
   ngOnInit() {
-    // this.options = {
-    //   plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-    //   defaultDate: this.todayDate,
-    //   header: {
-    //     left: 'prev,next',
-    //     center: 'title',
-    //     right: 'dayGridMonth,dayGridWeek,dayGridDay'
-    //   },
-    //   editable: true,
-    // };
 
-    let a = [
-      {
-        "id": 1,
-        "name": "shubham",
-        "date": "2019-08-04",
-        "status": true
+    this.paramData = new HttpParams()
+      .set('date', moment(this.todayDate).tz("Asia/Calcutta").format("YYYY-MM-DD"));
+    // .set('disciminator', "month");
 
-      },
-      {
-        "id": 2,
-        "name": "shubham",
-        "date": "2019-08-14",
-        "status": false
+    this.httpService.callApi('dashboardData', { params: this.paramData }).subscribe((response) => {
+      this.events = response;
+    }, error => {
 
-      },
-      {
-        "id": 3,
-        "name": "shubham",
-        "date": "2019-08-03",
-        "status": true
+    })
 
-      }, {
-        "id": 4,
-        "name": "shubham",
-        "date": "2019-08-05",
-        "status": false
-
-      }
-    ]
-    for (let i = 0; i < a.length; i++) {
-
-    }
-
-    this.events = [
-      { title: 'event 1', date: '2019-08-01T18:26:52.173+05:30', color: 'green', textColor: 'yellow' },
-      { title: 'event 2', date: '2019-08-06T18:26:52.173+05:30', color: 'black', textColor: 'yellow' }
-    ];
 
     this.options = {
       editable: true,
       customButtons: {
         myCustomButton: {
           text: 'custom!',
+          themeIcon: 'green',
           click: function () {
             alert('clicked the custom button!');
           }
         }
+
       },
       header: {
-        left: 'prev,next today myCustomButton',
+        left: 'prev,next myCustomButton',
         center: 'title',
-        right: 'dayGridMonth,dayGridWeek,dayGridDay'
+        right: 'dayGridMonth,timeGridWeek,timeGridDay'
       },
-      plugins: [dayGridPlugin, interactionPlugin]
+      plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+      defaultView: 'dayGridMonth'
     };
 
 
+
+    // $('body').on('click', 'button.fc-prev-button', function () {
+    //   //do something
+    //   alert('prev is clicked, do something');
+
+    //   // console.log(this.todayDate);
+
+    // });
+
+    // $('body').on('click', 'button.fc-next-button', function () {
+    //   //do something
+    //   alert('next is clicked, do something');
+    // });
   }
 
 
+
+
+
   eventClick(model) {
-    console.log(model);
+    console.log(model.event.id);
+    this.router.navigate(['candidate', model.event.id]);
   }
   eventDragStop(model) {
     console.log(model);

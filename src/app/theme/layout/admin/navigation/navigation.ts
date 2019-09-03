@@ -36,7 +36,7 @@ const NavigationItems = [
         id: 'dashboard',
         title: 'Dashboard',
         type: 'item',
-        url: '/dashboard',
+        url: '/candidate',
         icon: 'feather icon-home',
         classes: 'nav-item'
       },
@@ -49,8 +49,16 @@ const NavigationItems = [
         classes: 'nav-item'
       },
       {
+        id: 'dashboard',
+        title: 'Future Interview',
+        type: 'item',
+        url: '/dashboard',
+        icon: 'feather icon-home',
+        classes: 'nav-item'
+      },
+      {
         id: 'done-interview',
-        title: 'Interview',
+        title: 'Done Interview',
         type: 'item',
         url: '/done-interview',
         icon: 'feather icon-users',

@@ -191,8 +191,10 @@ export class AddCandidateComponent implements OnInit {
 
     this.httpService.callApi('createOrUpdateCandidate', { body: body }).subscribe((response) => {
       // console.log('response ==> ' +JSON.stringify(response) );
-      this.ngOnInit();
-      this.toastr.success("success");
+     this.toastr.success("success");
+     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+     this.router.onSameUrlNavigation = 'reload';
+     this.router.navigate(['candidate', response.id]);
     }, error => {
       console.log(error);
       this.toastr.error(error.error.message);

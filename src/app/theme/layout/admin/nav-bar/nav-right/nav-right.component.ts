@@ -49,6 +49,8 @@ export class NavRightComponent implements OnInit {
   }
 
   logout(){
+    console.log("Inside logout");
+    
     this.httpService.logout();
   }
 }

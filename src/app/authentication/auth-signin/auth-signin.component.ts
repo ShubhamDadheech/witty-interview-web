@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { HttpService } from 'src/app/service/http.service';
 import { Router } from '@angular/router';
+import { DataService } from 'src/app/service/data.service';
 
 @Component({
   selector: 'app-auth-signin',
@@ -15,7 +16,7 @@ export class AuthSigninComponent implements OnInit {
   private loginSubscription: Subscription;
   public errorMessage: string;
   loginForm: FormGroup;
-  constructor(private fb: FormBuilder, private httpService: HttpService, private router: Router) { }
+  constructor(private fb: FormBuilder, private httpService: HttpService, private router: Router, private dataService: DataService) { }
 
   ngOnInit() {
     this.loadLoginForm();
@@ -51,7 +52,8 @@ export class AuthSigninComponent implements OnInit {
            let userEmail = this.loginForm.get('email').value;
           sessionStorage.setItem('token', response['access_token']);
           sessionStorage.setItem('email', userEmail);
-          console.log("email ===> "+this.loginForm.get('email'));
+         
+          this.dataService.isLoggedIn = true;
           
           this.goDashboard();
   
@@ -67,6 +69,6 @@ export class AuthSigninComponent implements OnInit {
 
 
   goDashboard() {
-    this.router.navigate(['add-candidate']);
+    this.router.navigate(['candidate']);
   }
 }
