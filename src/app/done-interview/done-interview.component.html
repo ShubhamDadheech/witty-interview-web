@@ -57,7 +57,7 @@
             <tr>
               <th>Name </th>
               <th>Email</th>
-              <th>Profile</th>
+              <!-- <th>Profile</th> -->
               <th>Mobile Number</th>
               <th>Aadhar number</th>
               <th>Interview Date</th>
@@ -73,9 +73,9 @@
 
                 <h6 class="m-0">{{d.candidateDto.email}}</h6>
               </td>
-              <td>
+              <!-- <td>
                 <h6 class="m-0">{{d.profile}}</h6>
-              </td>
+              </td> -->
               <td>
                 <h6 class="m-0">{{d.candidateDto.primaryMobileNum}}</h6>
               </td>
@@ -83,10 +83,10 @@
                 <h6 class="m-0 ">{{d.candidateDto.aadhaarNum}}</h6>
               </td>
               <td>
-                <h6 class="m-0 ">{{d.roundDate}}</h6>
+                <h6 class="m-0 ">{{d.roundDate  | date: 'dd/MM/yyyy hh:mm a'}}</h6>
               </td>
               <td>
-                <h6 class="m-0 ">{{d.roundNo}}</h6>
+                <h6 class="m-0 ">{{d.roundNum}}</h6>
               </td>
             </tr>
           </tbody>

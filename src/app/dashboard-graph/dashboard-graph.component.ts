@@ -29,7 +29,7 @@ export class DashboardGraphComponent implements OnInit {
       labels: ['Did not Appear', 'Joined', 'Next Round', 'Offer Placed', 'Rejected', 'Scheduled'],
       datasets: [
         {
-          data: [0, 0, 0, 0, 0, 0],
+          data: [10, 10, 10, 20, 20, 20],
           backgroundColor: [
             "#FF6384",
             "#36A2EB",
@@ -70,7 +70,7 @@ export class DashboardGraphComponent implements OnInit {
 
     this.httpService.callApi('graphCount', { params: this.timePeriod }).subscribe((response => {
       this.obj = response;
-      this.setValue(this.obj);
+      // this.setValue(this.obj);
     }), (error) => {
       console.log(error);
     })
@@ -167,7 +167,7 @@ export class DashboardGraphComponent implements OnInit {
 
     this.httpService.callApi('graphCount', { params: this.timePeriod }).subscribe((response => {
       this.obj = response;
-      this.setValue(this.obj);
+      // this.setValue(this.obj);
 
     }), (error) => {
       console.log(error);
