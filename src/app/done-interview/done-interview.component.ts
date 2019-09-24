@@ -65,7 +65,7 @@ export class DoneInterviewComponent implements OnInit {
 
   openCandidate(id: string) {
     console.log('id==>' + id);
-    this.router.navigate(['candidate', id]);
+    this.router.navigate(['witty/candidate', id]);
 
   }
 

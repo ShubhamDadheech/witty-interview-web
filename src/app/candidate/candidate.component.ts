@@ -81,7 +81,7 @@ export class CandidateComponent implements OnInit {
 
   eventClick(model) {
     console.log(model.event.id);
-    this.router.navigate(['candidate', model.event.id]);
+    this.router.navigate(['witty/candidate', model.event.id]);
   }
   eventDragStop(model) {
     console.log(model);

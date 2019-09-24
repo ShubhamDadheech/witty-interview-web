@@ -1,0 +1,103 @@
+<form [formGroup]="dateForm">
+    <div class="row" style="max-width: 100%;">
+
+
+
+
+
+        <div class="col-md-2" style="max-width: 100%;">
+            <div class="form-group">
+                <label for="exampleInputEmail1">From Date *</label><br>
+                <p-calendar [showIcon]="true" [showTime]="false" [maxDate]="this.dateForm.get('to').value"
+                    class="ui-calendar" formControlName="from">
+                </p-calendar>
+            </div>
+        </div>
+
+        <div class="col-md-2" style="max-width: 100%;">
+            <div class="form-group">
+                <label for="exampleInputEmail1">To Date *</label><br>
+                <p-calendar [showIcon]="true" [showTime]="false" [minDate]="this.dateForm.get('from').value"
+                    class="ui-calendar" formControlName="to">
+                </p-calendar>
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <div class="form-group" style="padding-top: 26px; float: right;">
+                <button type="button" class="btn btn-success"
+                    [class.green]="this.dateForm.get('from').value > this.dateForm.get('to').value || this.dateForm.get('from').value==null "
+                    (click)="apply()"
+                    [disabled]="this.dateForm.get('from').value > this.dateForm.get('to').value || this.dateForm.get('from').value==null ">Apply</button>
+            </div>
+        </div>
+        <div class="col-md-5"></div>
+        <div class="col-md-2" *ngIf="!showGraph">
+            <div class="form-group" style="padding-top: 26px; float: right;">
+                <button type="button" class="btn btn-success" (click)="showGraphs()">Show Graph</button>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+<!-- style="max-height: 700px;max-width: 700px;" -->
+
+<div style="max-height: 700px;max-width: 700px;" *ngIf="showGraph">
+    <p-chart type="pie" [data]="data" [responsive]="true" [options]="options" (onDataSelect)="selectData($event)">
+    </p-chart>
+</div>
+
+<div class="row" *ngIf="!showGraph">
+
+    <div class="col-xl-12 col-md-12">
+        <div class="table-responsive">
+            <div class="tableFixHead">
+                <table class="table table-hover" style="background-color: #fff">
+                    <thead>
+                        <tr>
+                            <th>Name </th>
+                            <th>Email</th>
+                            <th>Profile</th>
+                            <th>Mobile Number</th>
+                            <th>Aadhar number</th>
+                            <th>Interview Date</th>
+                            <th>Round Number</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let d of candidates | filterListPipe:searchText"
+                            (click)="openCandidate(d.candidateDto.id)">
+                            <td>
+                                <h6 class="m-0">{{d.candidateDto.firstName}} {{d.candidateDto.lastName}}</h6>
+                            </td>
+                            <td>
+
+                                <h6 class="m-0">{{d.candidateDto.email}}</h6>
+                            </td>
+                            <td>
+                                <h6 class="m-0">{{d.profile}}</h6>
+                            </td>
+                            <td>
+                                <h6 class="m-0">{{d.candidateDto.primaryMobileNum}}</h6>
+                            </td>
+                            <td>
+                                <h6 class="m-0 ">{{d.candidateDto.aadhaarNum}}</h6>
+                            </td>
+                            <td>
+                                <h6 class="m-0 ">{{d.nextRoundScheduleOn}}{{d.scheduledDate}}</h6>
+                            </td>
+                            <td>
+                                <h6 class="m-0 ">{{d.roundNo}}</h6>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+
+
+</div>

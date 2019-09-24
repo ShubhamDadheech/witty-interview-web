@@ -12,7 +12,7 @@
             <input type="text" class="form-control" id="profile" placeholder="Profile" formControlName="profile">
             <div>
               <span *ngIf="editInterviewForm.get('profile').invalid && editInterviewForm.get('profile').touched"
-                style="color: #a94442;text-align: left;font-size: 12px">Profile is Required</span>
+                style="color: red;text-align: left;font-size: 12px">Profile is Required</span>
             </div>
           </div>
         </div>
@@ -27,7 +27,7 @@
             </select>
             <div>
               <span *ngIf="editInterviewForm.get('result').invalid && editInterviewForm.get('result').touched"
-                style="color: #a94442;text-align: left;font-size: 12px">Select at least one Result</span>
+                style="color: red;text-align: left;font-size: 12px">Select at least one Result</span>
             </div>
           </div>
         </div>
@@ -41,7 +41,7 @@
               formControlName="interviewer">
             <div>
               <span *ngIf="editInterviewForm.get('interviewer').invalid && editInterviewForm.get('interviewer').touched"
-                style="color: #a94442;text-align: left;font-size: 12px">Interviewer Name is Required</span>
+                style="color: red;text-align: left;font-size: 12px">Interviewer Name is Required</span>
             </div>
           </div>
         </div>
@@ -60,7 +60,7 @@
             <div>
               <span
                 *ngIf="editInterviewForm.get('interviewDate').invalid && editInterviewForm.get('interviewDate').touched"
-                style="color: #a94442;text-align: left;font-size: 12px">Interview Date is Required</span>
+                style="color: red;text-align: left;font-size: 12px">Interview Date is Required</span>
             </div>
           </div>
         </div>
@@ -75,7 +75,7 @@
             <div>
               <span
                 *ngIf="editInterviewForm.get('nextRoundDate').invalid && editInterviewForm.get('nextRoundDate').touched"
-                style="color: #a94442;text-align: left;font-size: 12px">Next Round is Required</span>
+                style="color: red;text-align: left;font-size: 12px">Next Round is Required</span>
             </div>
           </div>
 
@@ -89,7 +89,7 @@
             </p-calendar>
             <div>
               <span *ngIf="editInterviewForm.get('joining').invalid && editInterviewForm.get('joining').touched"
-                style="color: #a94442;text-align: left;font-size: 12px">Joining is Required</span>
+                style="color: red;text-align: left;font-size: 12px">Joining is Required</span>
             </div>
           </div>
         </div>
@@ -104,7 +104,7 @@
             <div>
               <span
                 *ngIf="editInterviewForm.get('scheduledDate').invalid && editInterviewForm.get('scheduledDate').touched"
-                style="color: #a94442;text-align: left;font-size: 12px">Scheduled Date is Required</span>
+                style="color: red;text-align: left;font-size: 12px">Scheduled Date is Required</span>
             </div>
           </div>
         </div>
@@ -118,7 +118,7 @@
             <textarea class="form-control" id="feedback" rows="3" formControlName="feedback"></textarea>
             <div>
               <span *ngIf="editInterviewForm.get('feedback').invalid && editInterviewForm.get('feedback').touched"
-                style="color: #a94442;text-align: left;font-size: 12px">Feedback Required</span>
+                style="color: red;text-align: left;font-size: 12px">Feedback Required</span>
             </div>
           </div>
         </div>

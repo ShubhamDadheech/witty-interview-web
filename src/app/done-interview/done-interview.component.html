@@ -1,5 +1,5 @@
 <form [formGroup]="dateForm">
-  <div class="row">
+  <div class="row" style="max-width: 100%;">
 
     <div class="col-md-5">
       <div class="form-group" style="margin-top: 25px;">
@@ -17,18 +17,20 @@
 
 
 
-    <div class="col-md-3">
+    <div class="col-md-3" style="max-width: 100%;">
       <div class="form-group">
-        <label for="exampleInputEmail1">From Date *</label>
-        <p-calendar [showIcon]="true" [showTime]="false" [maxDate]="this.dateForm.get('to').value" class="ui-calendar" formControlName="from">
+        <label for="exampleInputEmail1">From Date *</label><br>
+        <p-calendar [showIcon]="true" [showTime]="false" [maxDate]="this.dateForm.get('to').value" class="ui-calendar"
+          formControlName="from">
         </p-calendar>
       </div>
     </div>
 
-    <div class="col-md-3">
+    <div class="col-md-3" style="max-width: 100%;">
       <div class="form-group">
-        <label for="exampleInputEmail1">To Date *</label>
-        <p-calendar [showIcon]="true" [showTime]="false" [minDate]="this.dateForm.get('from').value"  class="ui-calendar" formControlName="to">
+        <label for="exampleInputEmail1">To Date *</label><br>
+        <p-calendar [showIcon]="true" [showTime]="false" [minDate]="this.dateForm.get('from').value" class="ui-calendar"
+          formControlName="to">
         </p-calendar>
       </div>
     </div>
@@ -63,7 +65,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let d of candidates | filterInterview:searchText"  (click)="openCandidate(d.candidateDto.id)">
+            <tr *ngFor="let d of candidates | filterInterview:searchText" (click)="openCandidate(d.candidateDto.id)">
               <td>
                 <h6 class="m-0">{{d.candidateDto.firstName}} {{d.candidateDto.lastName}}</h6>
               </td>

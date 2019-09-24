@@ -33,10 +33,10 @@ const NavigationItems = [
     icon: 'icon-navigation',
     children: [
       {
-        id: 'dashboard',
-        title: 'Dashboard',
+        id: 'candidate',
+        title: 'Candidate',
         type: 'item',
-        url: '/candidate',
+        url: 'candidate',
         icon: 'feather icon-home',
         classes: 'nav-item'
       },
@@ -44,15 +44,15 @@ const NavigationItems = [
         id: 'add-candidate',
         title: 'Add Candidate',
         type: 'item',
-        url: '/add-candidate',
+        url: 'add-candidate',
         icon: 'feather icon-box',
         classes: 'nav-item'
       },
       {
         id: 'dashboard',
-        title: 'Future Interview',
+        title: 'Lineup Interview',
         type: 'item',
-        url: '/dashboard',
+        url: 'dashboard',
         icon: 'feather icon-home',
         classes: 'nav-item'
       },
@@ -60,8 +60,16 @@ const NavigationItems = [
         id: 'done-interview',
         title: 'Done Interview',
         type: 'item',
-        url: '/done-interview',
+        url: 'done-interview',
         icon: 'feather icon-users',
+        classes: 'nav-item'
+      },
+      {
+        id: 'dashboard-graph',
+        title: 'Reports',
+        type: 'item',
+        url: 'dashboard-graph',
+        icon: 'feather icon-briefcase',
         classes: 'nav-item'
       }
     ]

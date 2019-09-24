@@ -10,7 +10,8 @@ export class UrlsService {
   constructor(configService: ConfigService) {
 
 
-    let urlString = 'http://' + configService.HOST + ':' + configService.PORT + '/wims/';
+    // let urlString = 'http://' + configService.HOST + ':' + configService.PORT + '/wims/';
+    let urlString = 'http://' + configService.HOST + ':' + configService.PORT+'/' ;
 
 
 
@@ -69,7 +70,7 @@ export class UrlsService {
       },
       'StatusDropDownData': {
         'method': 'GET',
-        'url': urlString + 'interview/candidate-status'
+        'url': urlString + 'interview/enum'
       },
       'getLogedinUserByEmail': {
         'method': 'GET',
@@ -79,7 +80,15 @@ export class UrlsService {
         'method': 'GET',
         'url': urlString + 'interview/dashboard'
       },
-
+      'graphCount': {
+        'method': 'GET',
+        'url': urlString + 'candidate/interview/count/between-dates'
+      },
+      'graphData': {
+        'method': 'GET',
+        'url': urlString + 'candidate/interview/count/between-dates'
+      },
+     
     }
   }
 }

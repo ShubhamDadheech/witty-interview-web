@@ -26,6 +26,7 @@ import { ConfigurationComponent } from './theme/layout/admin/configuration/confi
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {CalendarModule} from 'primeng/calendar';
+import {ChartModule} from 'primeng/chart';
 
 import { CandidateComponent } from './candidate/candidate.component';
 import { AddCandidateComponent } from './add-candidate/add-candidate.component';
@@ -38,6 +39,7 @@ import { FilterListPipePipe } from './pipe/filter-list-pipe.pipe';
 import { FilterInterviewPipe} from './pipe/filter-interview.pipe';
 import { TokenInterceptor } from './service/token-interceptor';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { DashboardGraphComponent } from './dashboard-graph/dashboard-graph.component';
 
 
 
@@ -65,7 +67,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     EditInterviewModalComponent,
     FilterListPipePipe,
     FilterInterviewPipe,
-    DefaultComponent
+    DefaultComponent,
+    DashboardGraphComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -81,6 +84,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     HttpClientModule,
     CalendarModule,
     FullCalendarModule,
+    ChartModule,
     ToastrModule.forRoot()
     
   ],

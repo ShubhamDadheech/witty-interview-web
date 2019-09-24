@@ -69,6 +69,6 @@ export class AuthSigninComponent implements OnInit {
 
 
   goDashboard() {
-    this.router.navigate(['candidate']);
+    this.router.navigate(['witty/candidate']);
   }
 }

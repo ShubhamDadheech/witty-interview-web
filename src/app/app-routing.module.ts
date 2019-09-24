@@ -7,12 +7,14 @@ import { AddCandidateComponent } from './add-candidate/add-candidate.component';
 import { CheckCandidateComponent } from './check-candidate/check-candidate.component';
 import { DoneInterviewComponent } from './done-interview/done-interview.component';
 import { DefaultComponent } from './default/default.component';
+import { AuthSigninComponent } from './authentication/auth-signin/auth-signin.component';
+import { DashboardGraphComponent } from './dashboard-graph/dashboard-graph.component';
 
 
 const routes: Routes = [
 
   {
-    path: '',
+    path: 'witty',
     component: AdminComponent,
     children: [
       {
@@ -40,56 +42,28 @@ const routes: Routes = [
         component:DefaultComponent
       },
       {
+        path: 'dashboard-graph',
+        component:DashboardGraphComponent
+      },
+      {
         path: '',
         component:CandidateComponent
       }
     ]
   },
-  // {
-  //   path: '',
-  //   component: AdminComponent,
-  //   children: [
-  //     {
-  //       path: '',
-  //       redirectTo: 'dashboard',
-  //       pathMatch: 'full'
-  //     },
-  //     {
-  //       path: 'dashboard',
-  //       loadChildren: './demo/dashboard/dashboard.module#DashboardModule'
-  //     },
-  //     {
-  //       path: 'basic',
-  //       loadChildren: './demo/ui-elements/ui-basic/ui-basic.module#UiBasicModule'
-  //     },
-  //     {
-  //       path: 'forms',
-  //       loadChildren: './demo/pages/form-elements/form-elements.module#FormElementsModule'
-  //     },
-  //     {
-  //       path: 'tables',
-  //       loadChildren: './demo/pages/tables/tables.module#TablesModule'
-  //     },
-  //     {
-  //       path: 'charts',
-  //       loadChildren: './demo/pages/core-chart/core-chart.module#CoreChartModule'
-  //     },
-  //     {
-  //       path: 'maps',
-  //       loadChildren: './demo/pages/core-maps/core-maps.module#CoreMapsModule'
-  //     },
-  //     {
-  //       path: 'sample-page',
-  //       loadChildren: './demo/extra/sample-page/sample-page.module#SamplePageModule'
-  //     }
-  //   ]
-  // },
+
   {
     path: '',
     component: AuthComponent,
     children: [
       {
         path: 'auth',
+        loadChildren: './authentication/authentication.module#AuthenticationModule'
+        
+      },
+      {
+        path: '',
+        // component:AuthSigninComponent
         loadChildren: './authentication/authentication.module#AuthenticationModule'
         
       },
