@@ -67,6 +67,9 @@ export class AuthSigninComponent implements OnInit {
 
   }
 
+  forgetPassword(){
+    this.router.navigate(['forget-password']);
+  }
 
   goDashboard() {
     this.router.navigate(['witty/candidate']);

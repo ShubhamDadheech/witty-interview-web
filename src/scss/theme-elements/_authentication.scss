@@ -1,6 +1,16 @@
 /**  =====================
       Authentication css start
 ==========================  **/
+.bg-img {
+    //  background: url(assets/img/interview.png) no-repeat;
+    // background: url(assets/img/interview-wallpaper.png.jpg) no-repeat;
+    // background: url(assets/img/background1.jpg) no-repeat;
+    background: url(assets/img/Selection-process.png) no-repeat;
+    // background: url(assets/img/Selection-process1.jpg) no-repeat;
+    background-size: cover;
+    background-position: center center;
+    min-height:100vh;
+}
 .auth-wrapper {
     position: relative;
     display: flex;
@@ -41,6 +51,9 @@
                 font-size: 15px;
             }
         }
+    }
+
+    .auth-bg { 
     }
 
     .card {

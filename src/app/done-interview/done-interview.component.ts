@@ -25,19 +25,15 @@ export class DoneInterviewComponent implements OnInit {
     
     this.lodaDataForm();
 
-    console.log('from date ==> ' + this.dateForm.get('from').value);
-    console.log('to date ==> ' + this.dateForm.get('to').value);
-
     this.timePeriod = new HttpParams()
     .set('startDate', moment(this.todayDate).tz("Asia/Calcutta").format("YYYY-MM-DD"))
     .set('endDate', moment(this.todayDate).tz("Asia/Calcutta").format("YYYY-MM-DD"));
 
   this.httpService.callApi('doneInterviewBetweenTwoDate', { params: this.timePeriod }).subscribe((response => {
-    console.log(response);
+
     this.candidates = response;
-    console.log(this.candidates.length)
   }), (error) => {
-    console.log(error);
+  
   })
 
   }
@@ -51,11 +47,9 @@ export class DoneInterviewComponent implements OnInit {
       .set('endDate', moment(this.dateForm.get("to").value).tz("Asia/Calcutta").format("YYYY-MM-DD"));
 
     this.httpService.callApi('doneInterviewBetweenTwoDate', { params: this.timePeriod }).subscribe((response => {
-      console.log(response);
       this.candidates = response;
-      console.log(this.candidates.length)
     }), (error) => {
-      console.log(error);
+      
     })
 
   }
@@ -64,7 +58,6 @@ export class DoneInterviewComponent implements OnInit {
 
 
   openCandidate(id: string) {
-    console.log('id==>' + id);
     this.router.navigate(['witty/candidate', id]);
 
   }

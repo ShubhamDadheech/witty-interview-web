@@ -61,28 +61,28 @@
                             <th>Profile</th>
                             <th>Mobile Number</th>
                             <th>Aadhar number</th>
-                            <th>Interview Date</th>
+                            <th>{{this.descriminatorValue}} Date</th>
                             <th>Round Number</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let d of candidates | filterListPipe:searchText"
-                            (click)="openCandidate(d.candidateDto.id)">
+                        <tr *ngFor="let d of candidatesData "
+                            (click)="openCandidate(d.id)">
                             <td>
-                                <h6 class="m-0">{{d.candidateDto.firstName}} {{d.candidateDto.lastName}}</h6>
+                                <h6 class="m-0">{{d.firstName}} {{d.lastName}}</h6>
                             </td>
                             <td>
 
-                                <h6 class="m-0">{{d.candidateDto.email}}</h6>
+                                <h6 class="m-0">{{d.email}}</h6>
                             </td>
                             <td>
                                 <h6 class="m-0">{{d.profile}}</h6>
                             </td>
                             <td>
-                                <h6 class="m-0">{{d.candidateDto.primaryMobileNum}}</h6>
+                                <h6 class="m-0">{{d.primaryMobileNum}}</h6>
                             </td>
                             <td>
-                                <h6 class="m-0 ">{{d.candidateDto.aadhaarNum}}</h6>
+                                <h6 class="m-0 ">{{d.aadhaarNum}}</h6>
                             </td>
                             <td>
                                 <h6 class="m-0 ">{{d.nextRoundScheduleOn}}{{d.scheduledDate}}</h6>

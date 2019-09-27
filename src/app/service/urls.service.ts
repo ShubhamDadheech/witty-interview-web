@@ -10,8 +10,8 @@ export class UrlsService {
   constructor(configService: ConfigService) {
 
 
-    // let urlString = 'http://' + configService.HOST + ':' + configService.PORT + '/wims/';
-    let urlString = 'http://' + configService.HOST + ':' + configService.PORT+'/' ;
+    let urlString = 'http://' + configService.HOST + ':' + configService.PORT + '/wims/';
+    // let urlString = 'http://' + configService.HOST + ':' + configService.PORT + '/';
 
 
 
@@ -23,8 +23,7 @@ export class UrlsService {
       'logout': {
         'method': 'POST',
         'url': urlString + 'user/logout'
-      },
-
+      }, 
       'getInterviews': {
         'method': 'GET',
         'url': urlString + 'interview/on-today'
@@ -86,10 +85,17 @@ export class UrlsService {
       },
       'graphData': {
         'method': 'GET',
-        'url': urlString + 'candidate/interview/count/between-dates'
+        'url': urlString + 'candidate/interview/data/between-dates'
       },
-     
+      'forgetPassword': {
+        'method': 'GET',
+        'url': urlString + 'user/forget-password/'
+      },
+      'resetPassword': {
+        'method': 'GET',
+        'url': urlString + 'user/set-password'
+      },
+
     }
   }
 }
-

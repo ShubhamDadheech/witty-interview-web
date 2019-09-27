@@ -1,4 +1,4 @@
-<div class="auth-wrapper">
+<div class="auth-wrapper bg-img ">
   <div class="auth-content">
     
     <div class="auth-bg" >
@@ -6,11 +6,10 @@
       <span class="r s"></span>
       <span class="r s"></span>
       <span class="r"></span>  -->
-      <!-- <img alt=""  src="assets/img/interview.png"> -->
     </div>
 
     <form [formGroup]="loginForm" (ngSubmit)="login()">
-      <div class="card">
+      <div class="card" style="    box-shadow: 0 1px 20px 0 #333;border-radius: 5px;"> 
         <div class="card-body text-center">
           <div class="mb-4">
             <!-- <i class="feather icon-unlock auth-icon"></i> -->
@@ -38,6 +37,9 @@
           <button class="btn btn-primary mb-4" style="margin-top: 15px">Login</button>
           <div>
             <span style="color: red;text-align: left;font-size: 14px;margin-top: 5pt;">{{errorMessage}}</span>
+          </div>
+          <div>
+            <a class="passlink" (click)="forgetPassword()">Forget Password?</a>
           </div>
 
 

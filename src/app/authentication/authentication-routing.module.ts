@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { ForgetPasswordComponent } from './forget-password/forget-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 const routes: Routes = [
   {
@@ -16,6 +18,14 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: './auth-signin/auth-signin.module#AuthSigninModule'
+      },
+      {
+        path: 'forget-password',
+        component:ForgetPasswordComponent
+      },
+      {
+        path: 'reset-password',
+        component:ResetPasswordComponent
       }
     ]
   }

@@ -9,6 +9,7 @@ import { DoneInterviewComponent } from './done-interview/done-interview.componen
 import { DefaultComponent } from './default/default.component';
 import { AuthSigninComponent } from './authentication/auth-signin/auth-signin.component';
 import { DashboardGraphComponent } from './dashboard-graph/dashboard-graph.component';
+import { ForgetPasswordComponent } from './authentication/forget-password/forget-password.component';
 
 
 const routes: Routes = [
@@ -66,7 +67,8 @@ const routes: Routes = [
         // component:AuthSigninComponent
         loadChildren: './authentication/authentication.module#AuthenticationModule'
         
-      },
+      }
+      
     ]
   }
 ];

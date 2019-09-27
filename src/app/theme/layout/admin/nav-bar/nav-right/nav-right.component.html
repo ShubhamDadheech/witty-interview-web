@@ -1,24 +1,21 @@
 <ul class="navbar-nav">
   
 <li>
-    <div class="dropdown drp-user" ngbDropdown>
-      <a href="javascript:" ngbDropdownToggle data-toggle="dropdown">
-        <i class="icon feather icon-settings"></i>
+    <div class="dropdown drp-user" ngbDropdown style="content: none !important;">
+      <a href="javascript:" ngbDropdownToggle data-toggle="dropdown" >
+        <!-- <i class="icon feather icon-settings"></i> -->
+         <img src="assets/images/user/avatar-1.jpg" class="img-radius" alt="User-Profile-Image" style="max-height: 50px"> 
       </a>
       <div class="dropdown-menu dropdown-menu-right profile-notification" ngbDropdownMenu>
-        <div class="pro-head">
-           <img src="assets/images/user/avatar-1.jpg" class="img-radius" alt="User-Profile-Image"> 
+        <div class="pro-head" style="padding: 8px !important;">
+           <!-- <img src="assets/images/user/avatar-1.jpg" class="img-radius" alt="User-Profile-Image">  -->
           <span>{{userData}} </span>
-          <!-- <a href="javascript:" class="dud-logout" title="Logout" (click)="logout()">
-            <i class="feather icon-log-out" ></i>
-
-          </a> -->
+         
+         
         </div>
-        <ul class="pro-body">
+        <ul class="pro-body" style="padding: 10px 0;">
           <li (click)="logout()"><a href="javascript:" class="dropdown-item"><i class="feather icon-log-out"></i> Logout</a></li>
-          <!-- <li><a href="javascript:" class="dropdown-item"><i class="feather icon-user"></i> Profile</a></li>
-          <li><a href="javascript:" class="dropdown-item"><i class="feather icon-mail"></i> My Messages</a></li>
-          <li><a href="javascript:" class="dropdown-item"><i class="feather icon-lock"></i> Lock Screen</a></li> -->
+         
         </ul>
       </div>
     </div>

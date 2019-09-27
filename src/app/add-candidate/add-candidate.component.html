@@ -192,12 +192,6 @@
 
 
         </div>
-
-
-
-
-
-
       </app-card>
 
 
@@ -240,8 +234,9 @@
                           [minDate]="this.addForm.get('experience')['controls'][i].controls.from.value"></p-calendar>
                       </td>
                       <td>
-                         
-                       <input type="text" class="form-control" style="max-width: 100%" formControlName="duration" [readonly]="true"> 
+
+                        <input type="text" class="form-control" style="max-width: 100%" formControlName="duration"
+                          [readonly]="true">
                       </td>
                       <td>
                         <input type="text" class="form-control" formControlName="techStack">
@@ -387,7 +382,8 @@
           <div class="col-md-3">
             <div class="form-group">
               <label for="exampleFormControlSelect1">Marks type</label>
-              <select class="form-control" id="exampleFormControlSelect1" formControlName="collegeMarksType"  (change)="changeMarksValidation($event.target.value,'collegeMarks')">
+              <select class="form-control" id="exampleFormControlSelect1" formControlName="collegeMarksType"
+                (change)="changeMarksValidation($event.target.value,'collegeMarks')">
                 <option value="" disabled selected hidden>Select a value</option>
                 <option value="CGPA">CGPA</option>
                 <option value="Percentage">%</option>
@@ -463,7 +459,8 @@
           <div class="col-md-3">
             <div class="form-group">
               <label for="exampleFormControlSelect1">Marks type</label>
-              <select class="form-control" id="exampleFormControlSelect1" formControlName="dMarksType" (change)="changeMarksValidation($event.target.value,'dMarks')">
+              <select class="form-control" id="exampleFormControlSelect1" formControlName="dMarksType"
+                (change)="changeMarksValidation($event.target.value,'dMarks')">
                 <option value="null" disabled selected hidden>Select a value</option>
                 <option value="CGPA">CGPA</option>
                 <option value="Percentage">%</option>
@@ -522,7 +519,8 @@
           <div class="col-md-3">
             <div class="form-group">
               <label for="exampleFormControlSelect1">Marks type</label>
-              <select class="form-control" id="exampleFormControlSelect1" formControlName="iMarksType" (change)="changeMarksValidation($event.target.value,'iMarks')">
+              <select class="form-control" id="exampleFormControlSelect1" formControlName="iMarksType"
+                (change)="changeMarksValidation($event.target.value,'iMarks')">
                 <option value="null" disabled selected hidden>Select a value</option>
                 <option value="CGPA">CGPA</option>
                 <option value="Percentage">%</option>
@@ -585,7 +583,8 @@
           <div class="col-md-3">
             <div class="form-group">
               <label for="exampleFormControlSelect1">Marks type</label>
-              <select class="form-control" id="exampleFormControlSelect1" formControlName="hMarksType" (change)="changeMarksValidation($event.target.value,'hMarks')">
+              <select class="form-control" id="exampleFormControlSelect1" formControlName="hMarksType"
+                (change)="changeMarksValidation($event.target.value,'hMarks')">
                 <option value="" disabled selected hidden>Select a value</option>
                 <option value="CGPA">CGPA</option>
                 <option value="Percentage">%</option>

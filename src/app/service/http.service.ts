@@ -13,7 +13,7 @@ export class HttpService {
   }
 
   // using httpclient
-  callApi(action, options: { body?: any, headers?: HttpHeaders, params?: HttpParams, pathVariable?: any }): Observable<any> {
+  callApi(action, options: { body?: any, headers?: HttpHeaders, params?: HttpParams, pathVariable?: any, responseType?: any }): Observable<any> {
     console.log('Inside http constructor:: call API');
     let urlObject = this.urlsService.urlObject[action];
     let method = urlObject.method;
