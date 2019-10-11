@@ -37,12 +37,9 @@ export class EditInterviewModalComponent implements OnInit {
     if (this.editModalData) {
 
       this.httpService.callApi('getInterviewById', { pathVariable: this.editModalData }).subscribe((response) => {
-        console.log('response ==> ' + JSON.stringify(response));
         // this.editInterviewForm.get('interview').setValue(null);
         this.setValue(response);
         this.round = response.roundNo;
-        console.log('response.roundNo ==> ' + response.roundNo);
-
       }, error => {
 
       })
@@ -71,7 +68,6 @@ export class EditInterviewModalComponent implements OnInit {
     let body = this.prepareJson();
 
     this.httpService.callApi('SaveOrUpdateInterview', { body: body }).subscribe((response) => {
-      console.log('response ==> ' + JSON.stringify(response));
       this.toastr.success("success");
       this.closeModalEvent.emit(false);
     }, error => {
@@ -95,13 +91,11 @@ export class EditInterviewModalComponent implements OnInit {
     if (data.nextRoundDate) {
       nextRoundDate = moment.tz(new Date(data.nextRoundDate), "Asia/Calcutta").format();
       nextRoundDateArray = nextRoundDate.split('+');
-      // console.log(" check date ==> "+nextRoundDateArray[0]+".173");
     }
 
     if (data.scheduledDate) {
       scheduledRoundDate = moment.tz(new Date(data.scheduledDate), "Asia/Calcutta").format();
       scheduledRoundDateArray = scheduledRoundDate.split('+');
-      // console.log(" check date ==> "+nextRoundDateArray[0]+".173");
     }
 
     let jsonData = {
@@ -119,7 +113,6 @@ export class EditInterviewModalComponent implements OnInit {
       id: this.editModalData,
       scheduledDate: data.scheduledDate == null ? null : scheduledRoundDateArray[0] + ".173",
     }
-    console.log('jsonDATA ==>  ' + JSON.stringify(jsonData));
 
     return jsonData;
   }

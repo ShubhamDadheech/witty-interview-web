@@ -14,17 +14,15 @@ export class HttpService {
 
   // using httpclient
   callApi(action, options: { body?: any, headers?: HttpHeaders, params?: HttpParams, pathVariable?: any, responseType?: any }): Observable<any> {
-    console.log('Inside http constructor:: call API');
     let urlObject = this.urlsService.urlObject[action];
     let method = urlObject.method;
     let url = urlObject.url + (options.pathVariable || '');
-    console.log(url);
+
     return this.httpClient.request(method, url,options)
       .pipe(
         tap(result => {
           return result;
         }, error => {
-          console.log('Error => ', error.status)
           if (error.status == 401) {
             this.logout();
           }

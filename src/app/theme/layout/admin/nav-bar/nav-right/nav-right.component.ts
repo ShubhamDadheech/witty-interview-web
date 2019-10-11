@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {NgbDropdownConfig} from '@ng-bootstrap/ng-bootstrap';
-import {animate, style, transition, trigger} from '@angular/animations';
+import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
+import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpService } from 'src/app/service/http.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav-right',
@@ -11,11 +12,11 @@ import { HttpService } from 'src/app/service/http.service';
   animations: [
     trigger('slideInOut', [
       transition(':enter', [
-        style({transform: 'translateX(100%)'}),
-        animate('300ms ease-in', style({transform: 'translateX(0%)'}))
+        style({ transform: 'translateX(100%)' }),
+        animate('300ms ease-in', style({ transform: 'translateX(0%)' }))
       ]),
       transition(':leave', [
-        animate('300ms ease-in', style({transform: 'translateX(100%)'}))
+        animate('300ms ease-in', style({ transform: 'translateX(100%)' }))
       ])
     ])
   ]
@@ -24,22 +25,26 @@ export class NavRightComponent implements OnInit {
   public visibleUserList: boolean;
   public chatMessage: boolean;
   public friendId: boolean;
-  userData:any;
+  userData: any;
+  user: any;
 
-  constructor(config: NgbDropdownConfig, private httpService: HttpService) {
+  constructor(config: NgbDropdownConfig, private httpService: HttpService, private router: Router) {
     config.placement = 'bottom-right';
     this.visibleUserList = false;
     this.chatMessage = false;
-  }
 
-  ngOnInit() {
     let userEmail = sessionStorage.getItem('email');
-    this.httpService.callApi('getLogedinUserByEmail', {pathVariable: userEmail}).subscribe((response) => {
-      console.log('user detail ==> ' + JSON.stringify(response));
-      this.userData = response.firstName+" "+response.lastName;
+    this.httpService.callApi('getLogedinUserByEmail', { pathVariable: userEmail }).subscribe((response) => {
+      this.user = response;
+      this.userData = this.user.firstName + " " + this.user.lastName;
     }, error => {
 
     })
+
+  }
+
+  ngOnInit() {
+
 
   }
 
@@ -48,9 +53,18 @@ export class NavRightComponent implements OnInit {
     this.chatMessage = !this.chatMessage;
   }
 
-  logout(){
-    console.log("Inside logout");
-    
+  logout() {
     this.httpService.logout();
   }
+
+  profile() {
+    // witty/user-profile
+    this.router.navigate(['witty/user-profile']);
+  }
+
 }
+
+
+
+
+

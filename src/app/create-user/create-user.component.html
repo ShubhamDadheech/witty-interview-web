@@ -1,0 +1,186 @@
+ <!-- <ul class="nav nav-pills">
+  <li class="menubar" ><a (click)="menuClick()">Creat User</a></li>
+  <li class="menubar"><a (click)="menuClick()">Users</a></li>
+</ul> -->
+
+
+
+
+
+<form [formGroup]="addForm" id="app-card">
+
+  <app-card cardTitle="User Profile" [options]="false">
+    <div class="row">
+      <div class="col-md-4">
+
+        <div class="form-group">
+          <label for="exampleInputEmail1">First Name *</label>
+          <input type="text" class="form-control" id="firstName" placeholder="First Name"
+            (input)="changeFirstLetterCapital('firstName')" formControlName="firstName">
+
+          <div>
+            <span *ngIf="addForm.get('firstName').invalid && addForm.get('firstName').touched"
+              style="color: red;text-align: left;font-size: 12px">First Name is Required</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Last Name *</label>
+          <input type="text" class="form-control" id="lastName" placeholder="Last Name" formControlName="lastName"
+            (input)="changeFirstLetterCapital('lastName')">
+          <div>
+            <span *ngIf="addForm.get('lastName').invalid && addForm.get('lastName').touched"
+              style="color: red;text-align: left;font-size: 12px">Last Name is Required</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-md-4">
+
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email *</label>
+          <input type="text" class="form-control" id="email" placeholder="Email" formControlName="email">
+          <div>
+            <span *ngIf="addForm.get('email').hasError('required') && addForm.get('email').touched"
+              style="color: red;text-align: left;font-size: 12px">Email is Required</span>
+            <span *ngIf="addForm.get('email').hasError('pattern') && addForm.get('email').touched"
+              style="color: red;text-align: left;font-size: 12px">Invalid Email Formate abc@xyz.com</span>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Gender *</label>
+          <select class="form-control" id="exampleFormControlSelect1" formControlName="gender"
+            placeholder="Select gender">
+            <option value="" disabled selected hidden>Select a value</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+          <div>
+
+            <span *ngIf="addForm.get('gender').invalid && addForm.get('gender').touched"
+              style="color: red;text-align: left;font-size: 12px">Please select gender</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+
+        <div class="form-group">
+          <label for="exampleInputEmail1">Primary Mobile Number *</label>
+          <input type="text" class="form-control" id="mobileNum" placeholder="Primary Mobile Number"
+            formControlName="mobileNum" (keypress)="onKeyPress($event)" maxlength="10" minlength="10"
+            (focus)="notFocusedmobileNum=false" (focusout)="notFocusedmobileNum=true">
+          <div>
+            <span *ngIf="addForm.get('mobileNum').hasError('required') && addForm.get('mobileNum').touched"
+              style="color: red;text-align: left;font-size: 12px">Primary Mobile Number is Required</span>
+            <span
+              *ngIf="((addForm.get('mobileNum').hasError('minlength') ||addForm.get('mobileNum').hasError('maxlength') )&& notFocusedmobileNum) && !addForm.get('mobileNum').hasError('pattern')"
+              style="color: red;text-align: left;font-size: 12px">Mobile number must be 10 digits</span>
+            <span *ngIf="addForm.get('mobileNum').hasError('pattern') && addForm.get('mobileNum').touched"
+              style="color: red;text-align: left;font-size: 12px">Invalid Mobile Number</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+
+        <div class="form-group">
+          <label for="exampleInputEmail1">Role *</label>
+          <p-multiSelect class="form-control" [options]="roles" formControlName="roles"
+            (onChange)="changeRoleValue($event)" [panelStyle]="{minWidth:'19em'}"></p-multiSelect>
+          <div>
+          </div>
+        </div>
+
+
+
+      </div>
+
+
+
+
+
+
+      <!-- <div class="col-md-4">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Password *</label>
+          <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password">
+          <div>
+            <span *ngIf="addForm.get('password').hasError('required') && addForm.get('password').touched"
+              style="color: red;text-align: left;font-size: 12px">Password is Required</span>
+          </div>
+        </div>
+      </div> -->
+
+
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <button type="button" class="btn btn-success" (click)="saveUser()"
+          [disabled]="addForm.invalid">Submit</button>
+      </div>
+    </div>
+
+  </app-card>
+
+</form>
+
+
+
+
+<div class="row" id="users">
+
+  <div class="col-xl-12 col-md-12">
+    <div class="table-responsive">
+      <div class="tableFixHead">
+        <table class="table table-hover" style="background-color: #fff">
+          <thead>
+            <tr>
+              <th>Name </th>
+              <th>Email</th>
+              <th>Gender</th>
+              <th>Mobile Number</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let d of candidates">
+              <td>
+                <h6 class="m-0">{{d.firstName}} {{d.lastName}}</h6>
+              </td>
+              <td>
+
+                <h6 class="m-0">{{d.email}}</h6>
+              </td>
+              <td>
+                <h6 class="m-0">{{d.gender}}</h6>
+              </td>
+              <td>
+                <h6 class="m-0 ">{{d.mobileNum}}</h6>
+              </td>
+              <td>
+                <h6 class="m-0 ">{{d.active}}</h6>
+              </td>
+              <td>
+                <!-- <i class="fa fa-trash" aria-hidden="true" (click)="disableUser(d)"></i> -->
+                <a *ngIf="d.active==true" class="passlink" style="color: red" (click)="disableUser(d,'false')">Disable</a>
+                 <a class="passlink" *ngIf="d.active==false" style="color: blue"  (click)="disableUser(d,'true')">Enable</a> 
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>

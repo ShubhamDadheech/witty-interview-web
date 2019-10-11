@@ -53,21 +53,19 @@ export class DataService {
       this.toastr.success('Successfully Saved', 'Equipment');
     }, error => {
       this.toastr.error(error.error.message, 'Equipment');
-      console.log('Error getstatus => ', error)
+
     });
   }
 
   getSelectedPersonnel(personnelId: number,cb) {
-    console.log('personnelId ',personnelId,' this.selectedPersonnel ',this.selectedPersonnel)
     if (this.selectedPersonnel) {
       cb(this.selectedPersonnel);
     } else {
       this.httpService.callApi('getPersonalById', { pathVariable: '/' + personnelId }).subscribe(response => {
         this.selectedPersonnel=response;
-        console.log(response)
+      
         cb(this.selectedPersonnel);
       }, error => {
-        console.log('Error ', error)
       })
     }
   }

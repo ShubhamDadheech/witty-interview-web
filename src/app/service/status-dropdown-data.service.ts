@@ -18,13 +18,11 @@ export class StatusDropdownDataService {
       return;
     }
     this.httpService.callApi('StatusDropDownData', {}).subscribe((response => {
-      console.log(response);
       this.statusDropDownData = response;
       if (callback) {
         callback(this.statusDropDownData);
       }
     }), (error) => {
-      console.log(error);
     });
   }
 }

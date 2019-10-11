@@ -35,13 +35,17 @@ import { DoneInterviewComponent } from './done-interview/done-interview.componen
 import { DefaultComponent } from './default/default.component';
 import { EditInterviewModalComponent } from './edit-interview-modal/edit-interview-modal.component';
 
+
 import { FilterListPipePipe } from './pipe/filter-list-pipe.pipe';
 import { FilterInterviewPipe} from './pipe/filter-interview.pipe';
 import { TokenInterceptor } from './service/token-interceptor';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { DashboardGraphComponent } from './dashboard-graph/dashboard-graph.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { CreateUserComponent } from './create-user/create-user.component';
 
-
+import {MultiSelectModule} from 'primeng/multiselect';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
 
 @NgModule({
   declarations: [
@@ -68,7 +72,10 @@ import { DashboardGraphComponent } from './dashboard-graph/dashboard-graph.compo
     FilterListPipePipe,
     FilterInterviewPipe,
     DefaultComponent,
-    DashboardGraphComponent
+    DashboardGraphComponent,
+    UserProfileComponent,
+    CreateUserComponent,
+    
   ],
   imports: [
     BrowserAnimationsModule,
@@ -85,6 +92,8 @@ import { DashboardGraphComponent } from './dashboard-graph/dashboard-graph.compo
     CalendarModule,
     FullCalendarModule,
     ChartModule,
+    MultiSelectModule,
+    ScrollPanelModule,
     ToastrModule.forRoot()
     
   ],

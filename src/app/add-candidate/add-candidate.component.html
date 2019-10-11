@@ -201,8 +201,10 @@
 
           <div class="col-xl-12 col-md-12">
             <span class="table-add float-right mb-3 mr-2">
-              <a class="text-success" (click)="addExperience()">
-                <i class="fa fa-plus" aria-hidden="true"></i>
+              <a class="text-success">
+                <i class="fa fa-plus" *ngIf="!invalidExperience" aria-hidden="true" (click)="addExperience()"
+                  disabled></i>
+                <i class="fa fa-plus" *ngIf="invalidExperience" style="color: gray" aria-hidden="true"></i>
               </a>
             </span>
             <div class="table-responsive" style="overflow-x:inherit !important; ">
@@ -222,16 +224,35 @@
                     <!-- <tr *ngFor="let d of candidates | filterInterview:searchText"  (click)="openCandidate(d.candidateDto.id)"> -->
                     <tr *ngFor="let group of experienceArray.controls; let i = index;" [formGroupName]="i">
                       <td>
-                        <input type="text" class="form-control" formControlName="organization">
+                        <input type="text" class="form-control" formControlName="organization"
+                          (input)="validateExperience(i)">
+                        <div>
+                          <span
+                            *ngIf="addForm.get('experience')['controls'][i].controls.organization.invalid && addForm.get('experience')['controls'][i].controls.organization.touched"
+                            style="color: red;text-align: left;font-size: 12px">This field required</span>
+                        </div>
                       </td>
                       <td>
                         <p-calendar class="form-group" formControlName="from" (onSelect)="duration(i,'from')"
                           [maxDate]="this.addForm.get('experience')['controls'][i].controls.to.value"></p-calendar>
+
+                        <div>
+                          <span
+                            *ngIf="addForm.get('experience')['controls'][i].controls.from.invalid && addForm.get('experience')['controls'][i].controls.from.touched"
+                            style="color: red;text-align: left;font-size: 12px">This field required</span>
+                        </div>
                       </td>
                       <td>
                         <!-- <input type="date" class="form-control" formControlName="to"> -->
                         <p-calendar class="form-group" formControlName="to" (onSelect)="duration(i,'to')"
                           [minDate]="this.addForm.get('experience')['controls'][i].controls.from.value"></p-calendar>
+
+
+                        <div>
+                          <span
+                            *ngIf="addForm.get('experience')['controls'][i].controls.to.invalid && addForm.get('experience')['controls'][i].controls.to.touched"
+                            style="color: red;text-align: left;font-size: 12px">This field required</span>
+                        </div>
                       </td>
                       <td>
 
@@ -239,7 +260,13 @@
                           [readonly]="true">
                       </td>
                       <td>
-                        <input type="text" class="form-control" formControlName="techStack">
+                        <input type="text" class="form-control" formControlName="techStack"
+                          (input)="validateExperience(i)">
+                        <div>
+                          <span
+                            *ngIf="addForm.get('experience')['controls'][i].controls.techStack.invalid && addForm.get('experience')['controls'][i].controls.techStack.touched"
+                            style="color: red;text-align: left;font-size: 12px">This field required</span>
+                        </div>
                       </td>
                       <td>
                         <i class="fa fa-times" aria-hidden="true" style="color: red; margin-left: 20%"
@@ -609,13 +636,6 @@
 
             </div>
           </div>
-
-
-
-
-
-
-
         </div>
 
       </app-card>
@@ -629,7 +649,7 @@
           <div class="row">
             <div class="col-md-4">
               <div class="form-group">
-                <label for="exampleFormControlSelect1">Result *</label>
+                <label for="exampleFormControlSelect1">Status *</label>
                 <select class="form-control" id="exampleFormControlSelect1" formControlName="result"
                   (change)="changeActionEvent($event.target.value,i)"
                   [attr.disabled]="disabledTextField[i]===true? 'disabled':null">
@@ -639,7 +659,7 @@
                 <div>
                   <span
                     *ngIf="addForm.get('interview')['controls'][i].controls.result.invalid && addForm.get('interview')['controls'][i].controls.result.touched"
-                    style="color: red;text-align: left;font-size: 12px">Select at least one Result</span>
+                    style="color: red;text-align: left;font-size: 12px">Select at least one Status</span>
                 </div>
               </div>
             </div>
@@ -807,7 +827,7 @@
             <button type="button" class="btn btn-primary" *ngIf="showEditButton"
               (click)="editCandidate(addForm.get('interview')['controls'][i].controls.interviewId.value,i)">Edit</button>
 
-            <i class="fa fa-eraser" aria-hidden="true" (click)="checkError(i)"></i>
+
           </div>
 
         </div>
@@ -859,3 +879,11 @@
 
 <app-edit-interview-modal *ngIf="showEditModal" [editModalData]="editModalData"
   (closeModalEvent)="hideEditModal($event)"></app-edit-interview-modal>
+
+
+
+
+
+
+
+

@@ -28,7 +28,7 @@ export interface Navigation extends NavigationItem {
 const NavigationItems = [
   {
     id: 'navigation',
-    title: 'Navigation',
+    title: ' ',
     type: 'group',
     icon: 'icon-navigation',
     children: [
@@ -70,6 +70,14 @@ const NavigationItems = [
         type: 'item',
         url: 'dashboard-graph',
         icon: 'feather icon-briefcase',
+        classes: 'nav-item'
+      },
+      {
+        id: 'create-user',
+        title: 'Create User',
+        type: 'item',
+        url: 'create-user',
+        icon: 'feather icon-users',
         classes: 'nav-item'
       }
     ]

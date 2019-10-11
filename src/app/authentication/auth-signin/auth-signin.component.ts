@@ -33,7 +33,6 @@ export class AuthSigninComponent implements OnInit {
   }
 
   login() {
-    console.log('Inside login');
 
     if (sessionStorage.getItem('token')) {
       sessionStorage.clear();
@@ -44,7 +43,6 @@ export class AuthSigninComponent implements OnInit {
     urlSearchParams.append('username', formValue.email);
     urlSearchParams.append('password', formValue.password);
     let body = urlSearchParams.toString()
-    console.log('body: '+body);
     var headers = new HttpHeaders({ 'Authorization': 'Basic ' + 'd2l0dHktd2ViLWNsaWVudDoxMjM0NTY3ODkw', 'Content-Type': 'application/x-www-form-urlencoded', 'UUID': '1234567890' });
     this.httpService.callApi('login', { body, headers }).subscribe(
       (response) => {
@@ -60,8 +58,10 @@ export class AuthSigninComponent implements OnInit {
         }
       },
       error => {
-        console.log('Error  login => ', error)
         this.errorMessage = error.error.error_description;
+        if(error.error_description){
+          this.errorMessage = error.error_description;
+        }
       }
     );
 
@@ -75,3 +75,4 @@ export class AuthSigninComponent implements OnInit {
     this.router.navigate(['witty/candidate']);
   }
 }
+

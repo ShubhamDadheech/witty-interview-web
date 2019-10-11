@@ -65,7 +65,7 @@ export class CandidateComponent implements OnInit {
     //   //do something
     //   alert('prev is clicked, do something');
 
-    //   // console.log(this.todayDate);
+ 
 
     // });
 
@@ -80,14 +80,14 @@ export class CandidateComponent implements OnInit {
 
 
   eventClick(model) {
-    console.log(model.event.id);
+   
     this.router.navigate(['witty/candidate', model.event.id]);
   }
   eventDragStop(model) {
-    console.log(model);
+ 
   }
   dateClick(model) {
-    console.log(model);
+    
   }
 
 }

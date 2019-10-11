@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { ConfigService } from './config.service'
 
@@ -10,8 +11,8 @@ export class UrlsService {
   constructor(configService: ConfigService) {
 
 
-    let urlString = 'http://' + configService.HOST + ':' + configService.PORT + '/wims/';
-    // let urlString = 'http://' + configService.HOST + ':' + configService.PORT + '/';
+     let urlString = 'http://' + configService.HOST + ':' + configService.PORT + '/wims/';
+    //let urlString = 'http://' + configService.HOST + ':' + configService.PORT + '/';
 
 
 
@@ -23,7 +24,7 @@ export class UrlsService {
       'logout': {
         'method': 'POST',
         'url': urlString + 'user/logout'
-      }, 
+      },
       'getInterviews': {
         'method': 'GET',
         'url': urlString + 'interview/on-today'
@@ -69,7 +70,7 @@ export class UrlsService {
       },
       'StatusDropDownData': {
         'method': 'GET',
-        'url': urlString + 'interview/enum'
+        'url': urlString + 'interview/drop-down-data'
       },
       'getLogedinUserByEmail': {
         'method': 'GET',
@@ -95,7 +96,18 @@ export class UrlsService {
         'method': 'GET',
         'url': urlString + 'user/set-password'
       },
-
+      'updateUserProfile': {
+        'method': 'POST',
+        'url': urlString + 'user'
+      },
+      'getAllUser': {
+        'method': 'GET',
+        'url': urlString + 'user'
+      },
+      'disableUser': {
+        'method': 'DELETE',
+        'url': urlString + 'user/disable/id'
+      },
     }
   }
 }

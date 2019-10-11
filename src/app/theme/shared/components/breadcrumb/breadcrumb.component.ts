@@ -101,7 +101,7 @@ export class BreadcrumbComponent implements OnInit {
       }
     });
     this.navigationList = result;
-    this.titleService.setTitle(title + ' | Witty Brains');
+    this.titleService.setTitle(title + ' | WittyBrains');
   }
 
 }

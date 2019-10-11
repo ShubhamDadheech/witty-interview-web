@@ -40,6 +40,7 @@ export class AddCandidateComponent implements OnInit {
   showJoin: boolean = false;
   showInterviewSave: boolean = false;
   experienceList: any = [];
+  invalidExperience: boolean = false;
 
   constructor(private fb: FormBuilder, private httpService: HttpService, private route: ActivatedRoute,
     private toastr: ToastrService, private StatusDropdownDataService: StatusDropdownDataService, private router: Router) {
@@ -74,7 +75,6 @@ export class AddCandidateComponent implements OnInit {
   getCandidateById(id) {
     if (id) {
       this.httpService.callApi('getCandidateById', { pathVariable: id }).subscribe((response) => {
-        console.log('response ==> ' + JSON.stringify(response));
         // this.addForm.get('interview').setValue(null);
         this.interviewArray.removeAt(0);
         this.showEditButton = true;
@@ -175,12 +175,13 @@ export class AddCandidateComponent implements OnInit {
   }
 
   addExperienceGroup(data?) {
+    this.invalidExperience = true;
     return this.fb.group({
-      organization: [(data && data.organization) ? data.organization : ''],
-      from: [(data && data.from) ? data.from : ''],
-      to: [(data && data.to) ? data.to : ''],
+      organization: [(data && data.organization) ? data.organization : '', Validators.required],
+      from: [(data && data.from) ? data.from : '', Validators.required],
+      to: [(data && data.to) ? data.to : '', Validators.required],
       duration: [(data && data.duration) ? data.duration : ''],
-      techStack: [(data && data.techStack) ? data.techStack : ''],
+      techStack: [(data && data.techStack) ? data.techStack : '', Validators.required],
       id: [(data && data.id) ? data.id : null]
     });
   }
@@ -231,10 +232,10 @@ export class AddCandidateComponent implements OnInit {
       this.addForm.get('iMarks').markAsUntouched();
       this.addForm.get('iSchool').markAsUntouched();
 
-      console.log("show candidate");
+
 
     } else {
-      console.log("hide candidate");
+
 
       this.addForm.get('dMarksType').clearValidators();
       this.addForm.get('dMarks').clearValidators();
@@ -284,12 +285,13 @@ export class AddCandidateComponent implements OnInit {
       }
 
 
-    
+
     }
 
   }
 
   removeExperienceArray(index, id) {
+    this.invalidExperience = false;
     this.experienceArray.removeAt(index);
   }
 
@@ -305,17 +307,16 @@ export class AddCandidateComponent implements OnInit {
 
     // this.prepareInterviewData();
     let body = this.prepareJson();
-    console.log(JSON.stringify(body));
+
 
 
     this.httpService.callApi('createOrUpdateCandidate', { body: body }).subscribe((response) => {
-      // console.log('response ==> ' +JSON.stringify(response) );
+
       this.toastr.success("success");
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
       this.router.onSameUrlNavigation = 'reload';
       this.router.navigate(['witty/candidate', response.id]);
     }, error => {
-      console.log(error);
       this.toastr.error(error.error.message);
     })
   }
@@ -351,36 +352,34 @@ export class AddCandidateComponent implements OnInit {
 
 
       graduationCollegeName: data.college,
-      graduationMarksPercentageCGPA: data.collegeMarks,
+      graduationMarks: data.collegeMarks,
       graduationNotes: data.collegeComment,
       graduationMarksType: data.collegeMarksType,
 
 
       postGraduationCollegeName: data.pCollege,
-      postGraduationMarksPercentageCGPA: data.pCollegeMarks,
+      postGraduationMarks: data.pCollegeMarks,
       postGraduationNotes: data.pCollegeComment,
       postGraduationMarksType: data.pCollegeMarksType,
 
       interMediateMarksType: data.iMarksType,
       interMediateNotes: data.iComment,
       interMediateCollegeName: data.iSchool,
-      interMediateMarksPercentageCGPA: data.iMarks,
+      interMediateMarks: data.iMarks,
 
       highSchoolMarksType: data.hMarksType,
       highSchoolNotes: data.hComment,
       highSchoolCollegeName: data.hSchool,
-      highSchoolMarksPercentageCGPA: data.hMarks,
+      highSchoolMarks: data.hMarks,
 
       isDiploma: data.diploma == null ? false : data.diploma,
       diplomaCollageName: data.dSchool,
       diplomaMarksType: data.dMarksType,
-      diplomaMarksPercentageCGPA: data.dMarks,
+      diplomaMarks: data.dMarks,
       diplomaNotes: data.dComment,
       experienceDto: this.prepareExperienceData(),
 
     }
-    // console.log("final JSON ==> " + JSON.stringify(json));
-
     return json;
 
   }
@@ -426,7 +425,6 @@ export class AddCandidateComponent implements OnInit {
         if (value.nextRoundDate) {
           nextRoundDate = moment.tz(new Date(value.nextRoundDate), "Asia/Calcutta").format();
           nextRoundDateArray = nextRoundDate.split('+');
-          // console.log(" check date ==> "+nextRoundDateArray[0]+".173");
         }
         if (value.scheduledDate) {
           scheduledRoundDate = moment.tz(new Date(value.scheduledDate), "Asia/Calcutta").format();
@@ -476,7 +474,6 @@ export class AddCandidateComponent implements OnInit {
   }
 
   duration(index, controlName) {
-    console.log(this.addForm.get('experience')['controls'][index].controls[controlName].value);
 
     if (this.addForm.get('experience')['controls'][index].controls['from'].value && this.addForm.get('experience')['controls'][index].controls['to'].value) {
 
@@ -488,6 +485,7 @@ export class AddCandidateComponent implements OnInit {
       var numMonths = newDateMoment.diff(oldDateMoment, 'months');
       oldDateMoment = oldDateMoment.add(numMonths, 'months');
       var numDays = newDateMoment.diff(oldDateMoment, 'days');
+      numDays = numDays + 1;
 
       let year = numYears != 0 ? numYears + " years, " : "";
       let month = numMonths != 0 ? numMonths + " months, " : "";
@@ -496,7 +494,7 @@ export class AddCandidateComponent implements OnInit {
       this.addForm.get('experience')['controls'][index].controls['duration'].setValue(value);
 
     }
-
+    this.validateExperience(index);
   }
 
   onKeyPressPersent(event): boolean {
@@ -516,7 +514,6 @@ export class AddCandidateComponent implements OnInit {
   }
 
   changeActionEducation(event) {
-    console.log('Inside pg ' + event)
     if (event === "postgraduate") {
 
       this.showPG = true;
@@ -550,19 +547,16 @@ export class AddCandidateComponent implements OnInit {
     this.showInterviwer[index] = true;
     switch (event) {
       case "Rejected": {
-        console.log("Rejected");
         break;
       }
       case "Next Round": {
         this.addForm.get('interview')['controls'][index].controls['nextRoundDate'].setValidators(Validators.required);
         this.showNextRoundDate[index] = true;
-        console.log("Next Round");
         break;
       }
       case "Offer Placed": {
         this.addForm.get('interview')['controls'][index].controls['joining'].setValidators(Validators.required);
         this.showJoinDate[index] = true;
-        console.log("Offer Placed");
         break;
       }
       case "Scheduled": {
@@ -576,18 +570,15 @@ export class AddCandidateComponent implements OnInit {
         this.addForm.get('interview')['controls'][index].controls['interviewer'].setValue('');
         this.addForm.get('interview')['controls'][index].controls['interviewDate'].setValue();
         this.addForm.get('interview')['controls'][index].controls['scheduledDate'].setValidators(Validators.required);
-        console.log("Scheduled");
         break;
       }
       case "Did Not Appear": {
-        console.log("Did Not Appear");
         this.showInterviwer[index] = false;
         this.addForm.get('interview')['controls'][index].controls['interviewer'].clearValidators();
         this.addForm.get('interview')['controls'][index].controls['interviewer'].setValue("");
         break;
       }
       default: {
-        console.log("Invalid choice");
         break;
       }
     }
@@ -657,32 +648,32 @@ export class AddCandidateComponent implements OnInit {
           blackListReason: data.reasonForBlackListed,
 
           college: data.graduationCollegeName,
-          collegeMarks: data.graduationMarksPercentageCGPA,
+          collegeMarks: data.graduationMarks,
           collegeComment: data.graduationNotes,
           collegeMarksType: data.graduationMarksType,
 
           hSchool: data.highSchoolCollegeName,
-          hMarks: data.highSchoolMarksPercentageCGPA,
+          hMarks: data.highSchoolMarks,
           hMarksType: data.highSchoolMarksType,
           hComment: data.interMediateNotes,
 
 
           iSchool: data.interMediateCollegeName,
-          iMarks: data.interMediateMarksPercentageCGPA,
+          iMarks: data.interMediateMarks,
           iMarksType: data.interMediateMarksType,
           iComment: data.interMediateNotes,
 
           education: data.postGraduationCollegeName == null ? 'graduate' : 'postgraduate',
 
           pCollege: data.postGraduationCollegeName != null ? data.postGraduationCollegeName : '',
-          pCollegeMarks: data.postGraduationMarksPercentageCGPA != null ? data.postGraduationMarksPercentageCGPA : '',
+          pCollegeMarks: data.postGraduationMarks != null ? data.postGraduationMarks : '',
           pCollegeMarksType: data.postGraduationMarksType != null ? data.postGraduationMarksType : '',
           pCollegeComment: data.postGraduationNotes != null ? data.postGraduationNotes : '',
 
           diploma: data.isDiploma,
           dSchool: data.diplomaCollageName != null ? data.diplomaCollageName : '',
           dMarksType: data.diplomaMarksType != null ? data.diplomaMarksType : '',
-          dMarks: data.diplomaMarksPercentageCGPA != null ? data.diplomaMarksPercentageCGPA : '',
+          dMarks: data.diplomaMarks != null ? data.diplomaMarks : '',
           dComment: data.diplomaNotes != null ? data.diplomaNotes : '',
 
           profile: data.profile,
@@ -692,7 +683,7 @@ export class AddCandidateComponent implements OnInit {
           joined: data.joined,
           reasonForNotJoining: data.reasonForNotJoining,
         };
-        // console.log('data1 ', data1)
+
         this.addForm.patchValue(data1);
         //this.interviewArray.patchValue(interviedData[1])
         interviedData.forEach(element => {
@@ -702,8 +693,8 @@ export class AddCandidateComponent implements OnInit {
         experienceData.forEach(element => {
           this.experienceArray.push(this.addExperienceGroup(element));
         });
-        console.log('pg data' + data.postGraduationMarksPercentageCGPA);
-        if (data.postGraduationCollegeName && data.postGraduationMarksPercentageCGPA) {
+
+        if (data.postGraduationCollegeName && data.postGraduationMarks) {
 
 
           this.changeActionEducation("postgraduate");
@@ -724,7 +715,6 @@ export class AddCandidateComponent implements OnInit {
           this.showJoin = true;
           this.addForm.get('joined').setValue("true");
         }
-        // console.log(this.addForm.getRawValue());
       }
 
     }
@@ -775,27 +765,24 @@ export class AddCandidateComponent implements OnInit {
           if (value.interviewStatus === "Rejected") {
             this.showInterviwer[incVaribale] = true;
 
-            console.log("Rejected");
+
 
           } else if (value.interviewStatus === "Next Round") {
             this.showNextRoundDate[incVaribale] = true;
             nextRoundDate = moment.tz(new Date(value.nextRoundScheduleOn), "Asia/Calcutta").format();
             nextRoundDateArray = nextRoundDate.split('+');
-            console.log("next");
+
           } else if (value.interviewStatus === "Offer Placed") {
             this.showJoinDate[incVaribale] = true;
-            console.log("offer");
+
           } else if (value.interviewStatus === "Scheduled") {
             this.showRoundDate[incVaribale] = false;
             this.showScheduledDate[incVaribale] = true;
             this.showInterviwer[incVaribale] = false;
-            console.log("sche");
+
           } else if (value.interviewStatus === "Did Not Appear") {
             // this.showRoundDate[incVaribale] = false;
             this.showInterviwer[incVaribale] = false;
-
-
-            console.log("not");
           }
         }
 
@@ -850,31 +837,12 @@ export class AddCandidateComponent implements OnInit {
     }
   }
 
-  checkError(index) {
-
-    console.log("scheduledDate ==> " + this.addForm.get('interview')['controls'][index].controls['scheduledDate'].valid);
-    console.log("nextRoundDate ==> " + this.addForm.get('interview')['controls'][index].controls['nextRoundDate'].valid);
-    console.log("joining ==> " + this.addForm.get('interview')['controls'][index].controls['joining'].valid);
-
-    console.log("feedback ==> " + this.addForm.get('interview')['controls'][index].controls['feedback'].valid);
-    console.log("interviewDate ==> " + this.addForm.get('interview')['controls'][index].controls['interviewDate'].valid);
-    console.log("interviewType ==> " + this.addForm.get('interview')['controls'][index].controls['interviewType'].valid);
-    console.log("interviewMode ==> " + this.addForm.get('interview')['controls'][index].controls['interviewMode'].valid);
-    console.log("result ==> " + this.addForm.get('interview')['controls'][index].controls['result'].valid);
-
-    console.log("Interviewer ==> " + this.addForm.get('interview')['controls'][index].controls['interviewer'].valid);
-
-
-
-
-
-  }
 
 
   saveInterview(id, index) {
     // let data = JSON.stringify(this.addForm.get('interview')['controls'][index].getRawValue());
     let data = this.addForm.get('interview')['controls'][index].value;
-    console.log("data  ==> " + JSON.stringify(data));
+
 
 
 
@@ -891,7 +859,6 @@ export class AddCandidateComponent implements OnInit {
       if (data.nextRoundDate) {
         nextRoundDate = moment.tz(new Date(data.nextRoundDate), "Asia/Calcutta").format();
         nextRoundDateArray = nextRoundDate.split('+');
-        // console.log(" check date ==> "+nextRoundDateArray[0]+".173");
       }
       if (data.scheduledDate) {
         scheduledRoundDate = moment.tz(new Date(data.scheduledDate), "Asia/Calcutta").format();
@@ -912,14 +879,13 @@ export class AddCandidateComponent implements OnInit {
 
       }
 
-      console.log("JsonData  ==> " + JSON.stringify(JsonData));
+
 
 
 
     }
 
     this.httpService.callApi('SaveOrUpdateInterview', { body: JsonData }).subscribe((response) => {
-      console.log('response ==> ' + JSON.stringify(response));
       this.toastr.success("success");
       this.showInterviewSave = false;
       this.disabledTextField[index] = true;
@@ -939,7 +905,7 @@ export class AddCandidateComponent implements OnInit {
     this.addForm.get(controlName).clearValidators();
     if (value == 'Percentage') {
       this.addForm.get(controlName).setValidators([Validators.required, Validators.pattern('(^100(\\.0{1,2})?$)|(^([0-9]([0-9])?|0)(\\.[0-9]{1,2})?$)')]);
-     
+
     } else if (value == 'CGPA') {
       this.addForm.get(controlName).setValidators([Validators.required, Validators.pattern('(^10(\\.0{1,2})?$)|(^(([0-9])?|0)(\\.[0-9]{1,2})?$)')])
     } else {
@@ -947,6 +913,17 @@ export class AddCandidateComponent implements OnInit {
     }
     //  this.addForm.get(controlName).markAsTouched();
     this.addForm.get(controlName).updateValueAndValidity();
+  }
+
+
+  validateExperience(index) {
+    this.invalidExperience = true;
+    if (this.addForm.get('experience')['controls'][index].controls['organization'].valid &&
+      this.addForm.get('experience')['controls'][index].controls['from'].valid &&
+      this.addForm.get('experience')['controls'][index].controls['to'].valid &&
+      this.addForm.get('experience')['controls'][index].controls['techStack'].valid) {
+      this.invalidExperience = false;
+    }
   }
 
 

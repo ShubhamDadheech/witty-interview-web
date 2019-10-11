@@ -10,6 +10,8 @@ import { DefaultComponent } from './default/default.component';
 import { AuthSigninComponent } from './authentication/auth-signin/auth-signin.component';
 import { DashboardGraphComponent } from './dashboard-graph/dashboard-graph.component';
 import { ForgetPasswordComponent } from './authentication/forget-password/forget-password.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { CreateUserComponent } from './create-user/create-user.component';
 
 
 const routes: Routes = [
@@ -49,9 +51,18 @@ const routes: Routes = [
       {
         path: '',
         component:CandidateComponent
+      },
+      {
+        path: 'user-profile',
+        component:UserProfileComponent
+      },
+      {
+        path: 'create-user',
+        component:CreateUserComponent
       }
     ]
   },
+
 
   {
     path: '',
@@ -78,3 +89,31 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

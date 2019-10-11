@@ -51,12 +51,11 @@ export class CheckCandidateComponent implements OnInit {
     // http://192.168.1.37:9093/candidate/search?firstName=sumit&lastName=yadav&fatherName=vinay%20yadav&primaryMobileNo=9897867767&email=sumit123@gmail.com
 
     this.httpService.callApi('checkCandidate', {params:this.candidateDetail}).subscribe((response => {
-      console.log(response);
+     
       // this.candidates = response;
-      // console.log(this.candidates.length)
+      
     }), (error) => {
       // this.toastr.error(error.error.message, 'Personnel');
-      console.log(error);
     })
   }
 }

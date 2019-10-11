@@ -25,9 +25,6 @@ export class DefaultComponent implements OnInit {
     
     // this.allCandidates();
     this.lodaDataForm();
-
-    console.log('from date ==> ' + this.dateForm.get('from').value);
-    console.log('to date ==> ' + this.dateForm.get('to').value);
     this. apply();
   }
 
@@ -40,38 +37,29 @@ export class DefaultComponent implements OnInit {
       .set('endDate', moment(this.dateForm.get("to").value).tz("Asia/Calcutta").format("YYYY-MM-DD"));
 
     this.httpService.callApi('interviewBetweenTwoDate', { params: this.timePeriod }).subscribe((response => {
-      console.log(response);
       this.candidates = response;
-      console.log(this.candidates.length)
     }), (error) => {
-      console.log(error);
     })
 
   }
 
   todayInterview() {
     this.httpService.callApi('todayInterview', {}).subscribe((response => {
-      console.log(response);
       this.candidates = response;
-      console.log(this.candidates.length)
-    }), (error) => {
-      console.log(error);
+     }), (error) => {
+
     })
   }
 
   allCandidates() {
     this.httpService.callApi('getCandidates', {}).subscribe((response => {
-      console.log(response);
       this.candidates = response;
-      console.log(this.candidates.length)
     }), (error) => {
-      // this.toastr.error(error.error.message, 'Personnel');
-      console.log(error);
+
     })
   }
 
   openCandidate(id: string) {
-    console.log('id==>' + id);
     this.router.navigate(['witty/candidate', id]);
 
   }

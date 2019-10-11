@@ -32,12 +32,10 @@ export class ForgetPasswordComponent implements OnInit {
   login() {
     let emailId = this.loginForm.get('email').value;
     this.httpService.callApi('forgetPassword', { pathVariable: emailId, responseType: 'text' }).subscribe((response) => {
-      console.log("response ==> " + response);
       this.toastr.success(response);
       this.router.navigate(['auth/signin']);
 
     }, error => {
-      console.log(error);
       this.toastr.error(error.error.message);
     })
   }

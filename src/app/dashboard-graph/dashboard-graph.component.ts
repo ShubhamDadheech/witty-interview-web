@@ -48,7 +48,7 @@ export class DashboardGraphComponent implements OnInit {
       this.obj = response;
       this.setValue(this.obj);
     }), (error) => {
-      console.log(error);
+  
     })
 
 
@@ -96,43 +96,36 @@ export class DashboardGraphComponent implements OnInit {
   }
 
   selectData(event) {
-    console.log("event ==> " + JSON.stringify(event.element._index));
+ 
     let value;
     this.showGraph = !this.showGraph;
     switch (event.element._index) {
       case 0: {
         value = "Did Not Appear";
-        console.log("DidNotAppear");
         break;
       }
       case 1: {
-        value = "Joined";
-        console.log("Joined");
-        break;
+        value = "Joined"; 
+       break;
       }
       case 2: {
         value = "Next Round";
-        console.log("NextRound");
         break;
       }
       case 3: {
         value = "Offer Placed";
-        console.log("OfferPlaced");
         break;
       }
       case 4: {
         value = "Rejected";
-        console.log("Rejected");
         break;
       }
       case 5: {
         value = "Scheduled";
-        console.log("Scheduled");
         break;
       }
       default: {
         value = null;
-        console.log("Invalid choice");
         break;
       }
     }
@@ -144,10 +137,8 @@ export class DashboardGraphComponent implements OnInit {
       .set('descriminator', this.descriminatorValue);
 
     this.httpService.callApi('graphData', { params: this.timePeriod }).subscribe((response => {
-      // console.log("graphData ==> " + JSON.stringify(response));
       this.candidatesData = response;
     }), (error) => {
-      console.log(error);
     });
 
   }
@@ -164,16 +155,13 @@ export class DashboardGraphComponent implements OnInit {
       this.setValue(this.obj);
 
     }), (error) => {
-      console.log(error);
     });
 
     if (!this.showGraph) {
       this.timePeriod.set('descriminator', this.descriminatorValue);
       this.httpService.callApi('graphData', { params: this.timePeriod }).subscribe((response => {
-        // console.log("graphData when apply==> " + JSON.stringify(response));
         this.candidatesData = response;
       }), (error) => {
-        console.log(error);
       });
     }
 
@@ -185,7 +173,6 @@ export class DashboardGraphComponent implements OnInit {
   }
 
   openCandidate(id: string) {
-    console.log('id==>' + id);
     this.router.navigate(['witty/candidate', id]);
 
   }
