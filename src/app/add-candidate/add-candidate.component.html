@@ -732,7 +732,7 @@
             <div class="col-md-4" *ngIf="showScheduledDate[i]">
               <div class="form-group">
                 <label for="exampleInputEmail1">Scheduled Date * </label>
-                <p-calendar [showIcon]="true" class="ui-calendar" [showTime]="true" hourFormat="24"
+                <p-calendar [showIcon]="true" class="ui-calendar" [showTime]="true" hourFormat="24"  [disabledDays]="[0,6]"
                   formControlName="scheduledDate" hideOnDateTimeSelect="true" [disabled]="disabledTextField[i]">
                 </p-calendar>
                 <div>
@@ -777,7 +777,7 @@
               <div class="form-group">
                 <label for="exampleInputEmail1">Joining Date *</label>
                 <p-calendar [showIcon]="true" [showTime]="false" class="ui-calendar" formControlName="joining"
-                  hideOnDateTimeSelect="true" [disabled]="disabledTextField[i]"
+                  hideOnDateTimeSelect="true" [disabled]="disabledTextField[i]"  [disabledDays]="[0,6]"
                   [minDate]="addForm.get('interview')['controls'][i].controls.interviewDate.value">
                 </p-calendar>
                 <div>
@@ -874,9 +874,6 @@
 
 
       </app-card>
-
-
-
     </div>
 
   </div>
