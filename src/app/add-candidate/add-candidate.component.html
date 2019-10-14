@@ -789,7 +789,14 @@
             </div>
           </div>
 
-
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="allowForcefully" formControlName="allowForcefully">
+                <label class="form-check-label" for="exampleCheck1">Forcefully allow before 3 months</label>
+              </div>
+            </div>
+          </div>
 
 
           <div class="row" *ngIf="!showScheduledDate[i]">
@@ -879,11 +886,3 @@
 
 <app-edit-interview-modal *ngIf="showEditModal" [editModalData]="editModalData"
   (closeModalEvent)="hideEditModal($event)"></app-edit-interview-modal>
-
-
-
-
-
-
-
-

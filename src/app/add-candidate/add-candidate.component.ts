@@ -170,7 +170,8 @@ export class AddCandidateComponent implements OnInit {
       interviewType: [(data && data.interviewType) ? data.interviewType : '', Validators.required],
 
       interviewId: [(data && data.interviewId) ? data.interviewId : null],
-      scheduledDate: [(data && data.scheduledDate) ? data.scheduledDate : null]
+      scheduledDate: [(data && data.scheduledDate) ? data.scheduledDate : null],
+      allowForcefully: [(data && data.override) ? data.override : null]
     });
   }
 
@@ -442,6 +443,7 @@ export class AddCandidateComponent implements OnInit {
           "scheduledDate": value.scheduledDate == null ? null : scheduledDateArray[0] + ".173",
           "interviewType": value.interviewType,
           "interviewMode": value.interviewMode,
+          "override": value.allowForcefully,
 
         }
       });
@@ -805,6 +807,7 @@ export class AddCandidateComponent implements OnInit {
           interviewType: value.interviewType,
 
           interviewMode: value.interviewMode,
+          allowForcefully: value.override,
         }
         this.interviewList.push(arrayData);
         return arrayData;
@@ -876,13 +879,8 @@ export class AddCandidateComponent implements OnInit {
         "scheduledDate": data.scheduledDate == null ? null : scheduledDateArray[0] + ".173",
         "interviewType": data.interviewType,
         "interviewMode": data.interviewMode,
-
+        "override": data.allowForcefully
       }
-
-
-
-
-
     }
 
     this.httpService.callApi('SaveOrUpdateInterview', { body: JsonData }).subscribe((response) => {
@@ -893,11 +891,7 @@ export class AddCandidateComponent implements OnInit {
     }, error => {
       this.toastr.error(error.error.message);
     })
-
-
-
-
-  }
+}
 
 
 

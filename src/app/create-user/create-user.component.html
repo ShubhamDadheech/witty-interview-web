@@ -95,12 +95,12 @@
 
         <div class="form-group">
           <label for="exampleInputEmail1">Role *</label>
-          <p-multiSelect class="form-control" [options]="roles" formControlName="roles"
-            (onChange)="changeRoleValue($event)" [panelStyle]="{minWidth:'19em'}"></p-multiSelect>
+          <p-multiSelect class="multiSelectInput" [options]="roles" formControlName="roles"
+            (onChange)="changeRoleValue($event)" ></p-multiSelect>
           <div>
           </div>
         </div>
-
+        <!-- [panelStyle]="{minWidth:'19em'}" -->
 
 
       </div>

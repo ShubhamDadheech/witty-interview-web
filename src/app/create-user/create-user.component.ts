@@ -51,7 +51,7 @@ export class CreateUserComponent implements OnInit {
     this.loadForm();
     this.getAllUser();
 
-  
+
 
   }
 
@@ -127,20 +127,22 @@ export class CreateUserComponent implements OnInit {
 
   }
 
-  disableUser(data,status) {
+  disableUser(data, status) {
 
-    let timePeriod = new HttpParams()
-      .set('id', data.id)
-      .set('status', status);
+    if (confirm("Are you sure to change action ")) {
+      let timePeriod = new HttpParams()
+        .set('id', data.id)
+        .set('status', status);
 
-    this.httpService.callApi('disableUser', { params: timePeriod }).subscribe((response) => {
-      // this.candidates = response;
-      // this.toastr.success("Successfully");
-      this.getAllUser();
-    }, error => {
-      this.toastr.error(error.error.message);
-    })
-  }
+      this.httpService.callApi('disableUser', { params: timePeriod }).subscribe((response) => {
+        // this.candidates = response;
+        // this.toastr.success("Successfully");
+        this.getAllUser();
+      }, error => {
+        this.toastr.error(error.error.message);
+      })
+    }
+ }
 
   getAllUser() {
     this.httpService.callApi('getAllUser', {}).subscribe((response) => {
@@ -151,8 +153,15 @@ export class CreateUserComponent implements OnInit {
     })
   }
 
+  onKeyPress(event): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
 
-//   menuClick(){
-// this.showCreateUser=false;
-//   }
+  }
+  //   menuClick(){
+  // this.showCreateUser=false;
+  //   }
 }
