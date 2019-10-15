@@ -224,16 +224,17 @@ export class AddCandidateComponent implements OnInit {
       this.addForm.get('iSchool').clearValidators();
       this.addForm.get('iComment').clearValidators();
 
-      this.addForm.get('iMarksType').setValue("null");
-      this.addForm.get('iMarks').setValue(null);
-      this.addForm.get('iSchool').setValue(null);
-      this.addForm.get('iComment').setValue(null);
-      
+
+
       this.addForm.get('iComment').markAsUntouched();
       this.addForm.get('iMarksType').markAsUntouched();
       this.addForm.get('iMarks').markAsUntouched();
       this.addForm.get('iSchool').markAsUntouched();
 
+      this.addForm.get('iMarksType').setValue(null);
+      this.addForm.get('iMarks').setValue(null);
+      this.addForm.get('iSchool').setValue(null);
+      this.addForm.get('iComment').setValue(null);
 
 
     } else {
@@ -243,7 +244,7 @@ export class AddCandidateComponent implements OnInit {
       this.addForm.get('dMarks').clearValidators();
       this.addForm.get('dSchool').clearValidators();
 
-      this.addForm.get('dMarksType').setValue("null");
+      this.addForm.get('dMarksType').setValue(null);
       this.addForm.get('dMarks').setValue(null);
       this.addForm.get('dSchool').setValue(null);
       this.addForm.get('dComment').setValue(null);
