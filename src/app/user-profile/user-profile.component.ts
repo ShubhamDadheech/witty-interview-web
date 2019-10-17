@@ -12,6 +12,7 @@ export class UserProfileComponent implements OnInit {
 
   addForm: FormGroup;
   user: any;
+
   constructor(private httpService: HttpService, private fb: FormBuilder, private toastr: ToastrService, ) {
   }
 

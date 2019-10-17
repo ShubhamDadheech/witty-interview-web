@@ -876,8 +876,9 @@
 
   </div>
   <button type="button" class="btn btn-success" (click)="addCandidate()" [disabled]="addForm.invalid">Submit</button>
-
 </form>
-
+<div class="loading-indicator" *ngIf="loadder">
+  <p-progressSpinner></p-progressSpinner>
+  </div>
 <app-edit-interview-modal *ngIf="showEditModal" [editModalData]="editModalData"
   (closeModalEvent)="hideEditModal($event)"></app-edit-interview-modal>

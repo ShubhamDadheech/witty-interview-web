@@ -41,13 +41,14 @@ export class AddCandidateComponent implements OnInit {
   showInterviewSave: boolean = false;
   experienceList: any = [];
   invalidExperience: boolean = false;
+  loadder: boolean = false;
   constructor(private fb: FormBuilder, private httpService: HttpService, private route: ActivatedRoute,
     private toastr: ToastrService, private StatusDropdownDataService: StatusDropdownDataService, private router: Router) {
 
   }
 
   ngOnInit() {
-
+this.loadder = true;
     this.showCandidate = true;
     this.loadLoginForm();
     this.addForm.get('education').setValue("graduate");
@@ -64,8 +65,9 @@ export class AddCandidateComponent implements OnInit {
       this.routeParamId = params.id;
       if (params.id) {
         this.getCandidateById(this.routeParamId);
+        this.loadder = false;
       } else {
-
+        this.loadder = false;
       }
     });
 
@@ -300,7 +302,7 @@ export class AddCandidateComponent implements OnInit {
   }
   addCandidate() {
 
-
+    this.loadder = true;
     // this.prepareInterviewData();
     let body = this.prepareJson();
 
@@ -309,11 +311,16 @@ export class AddCandidateComponent implements OnInit {
     this.httpService.callApi('createOrUpdateCandidate', { body: body }).subscribe((response) => {
 
       this.toastr.success("success");
+      this.loadder = false;
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
       this.router.onSameUrlNavigation = 'reload';
       this.router.navigate(['witty/candidate', response.id]);
     }, error => {
+      alert("lkjl");
+      this.loadder = false;
+
       this.toastr.error(error.error.message);
+ 
     })
   }
 
