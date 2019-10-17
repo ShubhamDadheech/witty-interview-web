@@ -41,7 +41,6 @@ export class AddCandidateComponent implements OnInit {
   showInterviewSave: boolean = false;
   experienceList: any = [];
   invalidExperience: boolean = false;
-
   constructor(private fb: FormBuilder, private httpService: HttpService, private route: ActivatedRoute,
     private toastr: ToastrService, private StatusDropdownDataService: StatusDropdownDataService, private router: Router) {
 
@@ -225,16 +224,10 @@ export class AddCandidateComponent implements OnInit {
       this.addForm.get('iComment').clearValidators();
 
 
-
-      this.addForm.get('iComment').markAsUntouched();
-      this.addForm.get('iMarksType').markAsUntouched();
-      this.addForm.get('iMarks').markAsUntouched();
-      this.addForm.get('iSchool').markAsUntouched();
-
-      this.addForm.get('iMarksType').setValue(null);
-      this.addForm.get('iMarks').setValue(null);
-      this.addForm.get('iSchool').setValue(null);
-      this.addForm.get('iComment').setValue(null);
+      this.addForm.get('iMarksType').updateValueAndValidity();
+      this.addForm.get('iMarks').updateValueAndValidity();
+      this.addForm.get('iSchool').updateValueAndValidity();
+      this.addForm.get('iComment').updateValueAndValidity();
 
 
     } else {
@@ -322,6 +315,12 @@ export class AddCandidateComponent implements OnInit {
     }, error => {
       this.toastr.error(error.error.message);
     })
+  }
+
+
+  showDiplomaAndSetValue() {
+    this.showDiploma = true;
+
   }
 
   prepareJson() {
@@ -706,6 +705,10 @@ export class AddCandidateComponent implements OnInit {
           this.changeActionEducation("graduate");
         }
 
+        if (data.isDiploma) {
+          this.showDiplomaAndSetValue();
+        }
+
         if (data.reasonForBlackListed) {
           this.showBlacklistReason = true;
         }
@@ -893,7 +896,7 @@ export class AddCandidateComponent implements OnInit {
     }, error => {
       this.toastr.error(error.error.message);
     })
-}
+  }
 
 
 
@@ -921,6 +924,5 @@ export class AddCandidateComponent implements OnInit {
       this.invalidExperience = false;
     }
   }
-
 
 }
