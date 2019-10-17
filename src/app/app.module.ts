@@ -46,6 +46,7 @@ import { CreateUserComponent } from './create-user/create-user.component';
 
 import {MultiSelectModule} from 'primeng/multiselect';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
     ChartModule,
     MultiSelectModule,
     ScrollPanelModule,
+    ProgressSpinnerModule,
     ToastrModule.forRoot()
     
   ],

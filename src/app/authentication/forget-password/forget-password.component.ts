@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class ForgetPasswordComponent implements OnInit {
   loginForm: FormGroup;
   showError: boolean = false;
+  loadder: boolean = false;
   constructor(private fb: FormBuilder, private httpService: HttpService, private toastr: ToastrService, private router: Router) { }
 
 
@@ -30,13 +31,16 @@ export class ForgetPasswordComponent implements OnInit {
 
 
   login() {
+    this.loadder = true;
     let emailId = this.loginForm.get('email').value;
     this.httpService.callApi('forgetPassword', { pathVariable: emailId, responseType: 'text' }).subscribe((response) => {
       this.toastr.success(response);
+      this.loadder = false;
       this.router.navigate(['auth/signin']);
 
     }, error => {
       this.toastr.error(error.error.message);
+      this.loadder = false;
     })
   }
 

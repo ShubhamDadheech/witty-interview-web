@@ -21,7 +21,7 @@ export class CreateUserComponent implements OnInit {
   roleData: any;
   candidates: any;
   // showCreateUser:boolean = true;
-
+  loadder: boolean = false;
   constructor(private httpService: HttpService, private fb: FormBuilder, private toastr: ToastrService, ) {
 
   }
@@ -72,11 +72,13 @@ export class CreateUserComponent implements OnInit {
 
   saveUser() {
     let body = this.prepaerJSONData();
-
+this.loadder = true
     this.httpService.callApi('updateUserProfile', { body: body }).subscribe((response) => {
       this.ngOnInit();
+      this.loadder = false;
       this.toastr.success("Successfully updated your profile");
     }, error => {
+      this.loadder = false;
       this.toastr.error(error.error.message);
     })
 
