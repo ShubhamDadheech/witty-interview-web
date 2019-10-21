@@ -42,13 +42,15 @@ export class AddCandidateComponent implements OnInit {
   experienceList: any = [];
   invalidExperience: boolean = false;
   loadder: boolean = false;
+  updatedInterviewDate: any;
+  disabledInterviewDate: boolean[] = [false];
   constructor(private fb: FormBuilder, private httpService: HttpService, private route: ActivatedRoute,
     private toastr: ToastrService, private StatusDropdownDataService: StatusDropdownDataService, private router: Router) {
 
   }
 
   ngOnInit() {
-this.loadder = true;
+    this.loadder = true;
     this.showCandidate = true;
     this.loadLoginForm();
     this.addForm.get('education').setValue("graduate");
@@ -192,14 +194,33 @@ this.loadder = true;
     this.experienceArray.push(this.addExperienceGroup());
   }
 
-  addInterview() {
+  addInterview(index) {
     this.interviewArray.push(this.addinterviewsGroup());
     this.disabledTextField[this.interviewArray.length - 1] = false;
     this.showEditButton = false;
+    this.setRoundDateFromPreviousDate(index);
+  }
+
+
+  setRoundDateFromPreviousDate(index) {
+    let date;
+    if (this.addForm.get('interview')['controls'][index].controls['nextRoundDate'].value) {
+
+      date = this.addForm.get('interview')['controls'][index].controls['nextRoundDate'].value;
+
+    } else if (this.addForm.get('interview')['controls'][index].controls['scheduledDate'].value) {
+
+      date = this.addForm.get('interview')['controls'][index].controls['scheduledDate'].value;
+
+    } else if (this.addForm.get('interview')['controls'][index].controls['joining'].value) {
+
+      date = this.addForm.get('interview')['controls'][index].controls['joining'].value;
+
+    }
+    this.updatedInterviewDate = date;
   }
 
   showHideBlacklist() {
-    // alert("sdfdsfsdf");
     this.showBlacklistReason = !this.showBlacklistReason;
     if (this.showBlacklistReason) {
       this.addForm.get('blackListReason').setValidators(Validators.required);
@@ -230,7 +251,7 @@ this.loadder = true;
       this.addForm.get('iMarks').updateValueAndValidity();
       this.addForm.get('iSchool').updateValueAndValidity();
       this.addForm.get('iComment').updateValueAndValidity();
-
+      // this.addForm.get('iMarksType').setValue(null);
 
     } else {
 
@@ -316,11 +337,10 @@ this.loadder = true;
       this.router.onSameUrlNavigation = 'reload';
       this.router.navigate(['witty/candidate', response.id]);
     }, error => {
-      alert("lkjl");
       this.loadder = false;
 
       this.toastr.error(error.error.message);
- 
+
     })
   }
 
@@ -549,12 +569,15 @@ this.loadder = true;
 
   changeActionEvent(event, index) {
     this.clearValidation(index);
-
     this.addForm.get('interview')['controls'][index].controls['feedback'].setValidators(Validators.required);
     this.addForm.get('interview')['controls'][index].controls['interviewer'].setValidators(Validators.required);
     this.addForm.get('interview')['controls'][index].controls['interviewDate'].setValidators(Validators.required);
     this.showRoundDate[index] = true;
     this.showInterviwer[index] = true;
+
+    //for set previous date 
+    this.addForm.get('interview')['controls'][index].controls['interviewDate'].setValue(this.updatedInterviewDate);
+    this.disabledInterviewDate[index] = true;
     switch (event) {
       case "Rejected": {
         break;
@@ -592,7 +615,6 @@ this.loadder = true;
         break;
       }
     }
-
   }
 
   clearValidation(index) {
@@ -610,7 +632,7 @@ this.loadder = true;
     this.addForm.get('interview')['controls'][index].controls['joining'].markAsUntouched();
     this.addForm.get('interview')['controls'][index].controls['feedback'].markAsUntouched();
     this.addForm.get('interview')['controls'][index].controls['interviewer'].markAsUntouched();
-    this.addForm.get('interview')['controls'][index].controls['interviewDate'].markAsUntouched();
+    // this.addForm.get('interview')['controls'][index].controls['interviewDate'].markAsUntouched();
     this.addForm.get('interview')['controls'][index].controls['interviewMode'].markAsUntouched();
     this.addForm.get('interview')['controls'][index].controls['interviewType'].markAsUntouched();
 
@@ -843,13 +865,32 @@ this.loadder = true;
 
   }
 
-  changeInterviewType(event) {
-    this.addForm.get('joined').setValue(null);
-    if (event == "HR") {
-      this.showJoin = true;
+  changeInterviewType(event, index) {
+
+    let resultData = this.addForm.get('interview')['controls'][index].controls.result.value
+    if (index == 0 && event == "HR") {
+
+      if (resultData != "Offer Placed") {
+        this.toastr.warning("First round cannot be HR round");
+        this.addForm.get('interview')['controls'][index].controls.interviewType.setValue("");
+      } else {
+        this.showJoin = true;
+      }
+
     } else {
-      this.showJoin = false;
+
+      if (this.addForm.get('interview')['controls'][index].controls.result.value == "Scheduled" && event == "HR") {
+        this.toastr.warning("Cannot use Schedulde with HR round");
+      } else {
+        this.addForm.get('joined').setValue(null);
+        if (event == "HR") {
+          this.showJoin = true;
+        } else {
+          this.showJoin = false;
+        }
+      }
     }
+
   }
 
 
@@ -857,10 +898,6 @@ this.loadder = true;
   saveInterview(id, index) {
     // let data = JSON.stringify(this.addForm.get('interview')['controls'][index].getRawValue());
     let data = this.addForm.get('interview')['controls'][index].value;
-
-
-
-
 
     // let data = this.addForm.getRawValue();
     let JsonData
@@ -931,5 +968,7 @@ this.loadder = true;
       this.invalidExperience = false;
     }
   }
+
+
 
 }

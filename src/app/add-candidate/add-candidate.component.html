@@ -717,7 +717,7 @@
                 <label for="exampleInputEmail1">Interview Date *</label>
                 <p-calendar [showIcon]="true" [showTime]="false" class="ui-calendar" formControlName="interviewDate"
                   hideOnDateTimeSelect="true" [disabledDays]="[0,6]" [disabledDates]="holidays"
-                  [disabled]="disabledTextField[i]"
+                  [disabled]="disabledTextField[i] ||disabledInterviewDate[i]"
                   [maxDate]="addForm.get('interview')['controls'][i].controls.nextRoundDate.value != null?addForm.get('interview')['controls'][i].controls.nextRoundDate.value:
                   addForm.get('interview')['controls'][i].controls.joining.value!= null?addForm.get('interview')['controls'][i].controls.joining.value:null">
                 </p-calendar>
@@ -822,9 +822,8 @@
               (click)="saveInterview(addForm.get('interview')['controls'][i].controls.interviewId.value,i)"
               [disabled]="addForm.invalid">Save</button>
 
-            <button type="button" class="btn btn-success" *ngIf="!showInterviewSave" (click)="addInterview()"
-              [disabled]="addForm.invalid">Add
-              More</button>
+            <button type="button" class="btn btn-success" *ngIf="!showInterviewSave" (click)="addInterview(i)"
+              [disabled]="addForm.invalid">Add More</button>
 
             <button type="button" class="btn btn-primary" [disabled]="i===0"
               (click)="removeInterview(i,addForm.get('interview')['controls'][i].controls.interviewId.value)">Remove</button>
@@ -879,6 +878,6 @@
 </form>
 <div class="loading-indicator" *ngIf="loadder">
   <p-progressSpinner></p-progressSpinner>
-  </div>
+</div>
 <app-edit-interview-modal *ngIf="showEditModal" [editModalData]="editModalData"
   (closeModalEvent)="hideEditModal($event)"></app-edit-interview-modal>

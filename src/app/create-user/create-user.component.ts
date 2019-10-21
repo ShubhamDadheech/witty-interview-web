@@ -72,7 +72,7 @@ export class CreateUserComponent implements OnInit {
 
   saveUser() {
     let body = this.prepaerJSONData();
-this.loadder = true
+    this.loadder = true
     this.httpService.callApi('updateUserProfile', { body: body }).subscribe((response) => {
       this.ngOnInit();
       this.loadder = false;
@@ -144,7 +144,7 @@ this.loadder = true
         this.toastr.error(error.error.message);
       })
     }
- }
+  }
 
   getAllUser() {
     this.httpService.callApi('getAllUser', {}).subscribe((response) => {
