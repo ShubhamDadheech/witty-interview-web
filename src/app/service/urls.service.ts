@@ -10,11 +10,8 @@ export class UrlsService {
   urlObject: any;
   constructor(configService: ConfigService) {
 
-
-    //  let urlString = 'http://' + configService.HOST + ':' + configService.PORT + '/wims/';
-    let urlString = 'http://' + configService.HOST + ':' + configService.PORT + '/';
-
-
+    let urlString = 'http://' + configService.HOST + ':' + configService.PORT + '/wims/';
+    //let urlString = 'http://' + configService.HOST + ':' + configService.PORT + '/';
 
     this.urlObject = {
       'login': {
