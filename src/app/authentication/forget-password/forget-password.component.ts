@@ -39,8 +39,16 @@ export class ForgetPasswordComponent implements OnInit {
       this.router.navigate(['auth/signin']);
 
     }, error => {
-      this.toastr.error(error.error.message);
+
+
+      if (error.status == 404) {
+        this.toastr.error("User not found");
+      } else {
+        this.toastr.error(error.error.message);
+      }
       this.loadder = false;
+
+
     })
   }
 
