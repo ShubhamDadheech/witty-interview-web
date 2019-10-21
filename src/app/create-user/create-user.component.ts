@@ -122,8 +122,7 @@ export class CreateUserComponent implements OnInit {
       }
       this.roleData.push(role);
     })
-    console.log("  event.value ==> " + event.value);
-    console.log(" roleData ==> " + JSON.stringify(this.roleData));
+
 
 
 

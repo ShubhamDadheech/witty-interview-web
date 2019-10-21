@@ -348,6 +348,18 @@ export class AddCandidateComponent implements OnInit {
   showDiplomaAndSetValue() {
     this.showDiploma = true;
 
+    this.addForm.get('iMarksType').clearValidators();
+    this.addForm.get('iMarks').clearValidators();
+    this.addForm.get('iSchool').clearValidators();
+    this.addForm.get('iComment').clearValidators();
+
+    this.addForm.get('iMarksType').updateValueAndValidity();
+    this.addForm.get('iMarks').updateValueAndValidity();
+    this.addForm.get('iSchool').updateValueAndValidity();
+    this.addForm.get('iComment').updateValueAndValidity();
+
+
+
   }
 
   prepareJson() {
@@ -575,44 +587,58 @@ export class AddCandidateComponent implements OnInit {
     this.showRoundDate[index] = true;
     this.showInterviwer[index] = true;
 
-    //for set previous date 
+    //for set previous date  result
     this.addForm.get('interview')['controls'][index].controls['interviewDate'].setValue(this.updatedInterviewDate);
     this.disabledInterviewDate[index] = true;
-    switch (event) {
-      case "Rejected": {
-        break;
+
+    let value = true
+    if (index != 0) {
+      value = this.addForm.get('interview')['controls'][index - 1].controls['interviewDate'].value != "Did Not Appear" ? true : false
+      this.disabledInterviewDate[index] = false;
+
+    }
+   
+    if (value) {
+      if(index == 0){
+        this.disabledInterviewDate[index] = false;
       }
-      case "Next Round": {
-        this.addForm.get('interview')['controls'][index].controls['nextRoundDate'].setValidators(Validators.required);
-        this.showNextRoundDate[index] = true;
-        break;
-      }
-      case "Offer Placed": {
-        this.addForm.get('interview')['controls'][index].controls['joining'].setValidators(Validators.required);
-        this.showJoinDate[index] = true;
-        break;
-      }
-      case "Scheduled": {
-        this.showScheduledDate[index] = true;
-        this.showRoundDate[index] = false;
-        this.showInterviwer[index] = false;
-        this.addForm.get('interview')['controls'][index].controls['feedback'].clearValidators();
-        this.addForm.get('interview')['controls'][index].controls['interviewer'].clearValidators();
-        this.addForm.get('interview')['controls'][index].controls['interviewDate'].clearValidators();
-        this.addForm.get('interview')['controls'][index].controls['feedback'].setValue('');
-        this.addForm.get('interview')['controls'][index].controls['interviewer'].setValue('');
-        this.addForm.get('interview')['controls'][index].controls['interviewDate'].setValue();
-        this.addForm.get('interview')['controls'][index].controls['scheduledDate'].setValidators(Validators.required);
-        break;
-      }
-      case "Did Not Appear": {
-        this.showInterviwer[index] = false;
-        this.addForm.get('interview')['controls'][index].controls['interviewer'].clearValidators();
-        this.addForm.get('interview')['controls'][index].controls['interviewer'].setValue("");
-        break;
-      }
-      default: {
-        break;
+      switch (event) {
+        case "Rejected": {
+          // this.disabledInterviewDate[index] = false;
+          break;
+        }
+        case "Next Round": {
+          this.addForm.get('interview')['controls'][index].controls['nextRoundDate'].setValidators(Validators.required);
+          this.showNextRoundDate[index] = true;
+          break;
+        }
+        case "Offer Placed": {
+          this.addForm.get('interview')['controls'][index].controls['joining'].setValidators(Validators.required);
+          this.showJoinDate[index] = true;
+          break;
+        }
+        case "Scheduled": {
+          this.showScheduledDate[index] = true;
+          this.showRoundDate[index] = false;
+          this.showInterviwer[index] = false;
+          this.addForm.get('interview')['controls'][index].controls['feedback'].clearValidators();
+          this.addForm.get('interview')['controls'][index].controls['interviewer'].clearValidators();
+          this.addForm.get('interview')['controls'][index].controls['interviewDate'].clearValidators();
+          this.addForm.get('interview')['controls'][index].controls['feedback'].setValue('');
+          this.addForm.get('interview')['controls'][index].controls['interviewer'].setValue('');
+          this.addForm.get('interview')['controls'][index].controls['interviewDate'].setValue();
+          this.addForm.get('interview')['controls'][index].controls['scheduledDate'].setValidators(Validators.required);
+          break;
+        }
+        case "Did Not Appear": {
+          this.showInterviwer[index] = false;
+          this.addForm.get('interview')['controls'][index].controls['interviewer'].clearValidators();
+          this.addForm.get('interview')['controls'][index].controls['interviewer'].setValue("");
+          break;
+        }
+        default: {
+          break;
+        }
       }
     }
   }
@@ -692,7 +718,7 @@ export class AddCandidateComponent implements OnInit {
 
           iSchool: data.interMediateCollegeName,
           iMarks: data.interMediateMarks,
-          iMarksType: data.interMediateMarksType,
+          iMarksType: data.interMediateMarksType != null ? data.interMediateMarksType : '',
           iComment: data.interMediateNotes,
 
           education: data.postGraduationCollegeName == null ? 'graduate' : 'postgraduate',
@@ -966,9 +992,22 @@ export class AddCandidateComponent implements OnInit {
       this.addForm.get('experience')['controls'][index].controls['to'].valid &&
       this.addForm.get('experience')['controls'][index].controls['techStack'].valid) {
       this.invalidExperience = false;
+
     }
   }
 
 
+  // showError() {
+  //   console.log("iMarksType ==>  "+ this.addForm.get('iMarksType').valid);
+  //   console.log("iMarks ==>  "+ this.addForm.get('iMarks').valid);
+  //   console.log("iSchool ==>  "+ this.addForm.get('iSchool').valid);
+  //   console.log("iComment ==>  "+ this.addForm.get('iComment').valid);
 
+  //   console.log("dMarksType ==>  "+ this.addForm.get('dMarksType').valid);
+  //   console.log("dMarks ==>  "+ this.addForm.get('dMarks').valid);
+  //   console.log("dSchool ==>  "+ this.addForm.get('dSchool').valid);
+  //   console.log("dComment ==>  "+ this.addForm.get('dComment').valid);
+
+
+  // }
 }
