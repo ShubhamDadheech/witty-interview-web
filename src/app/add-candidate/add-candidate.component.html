@@ -793,7 +793,8 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group form-check">
-                <input type="checkbox" class="form-check-input" id="allowForcefully" formControlName="allowForcefully">
+                <input type="checkbox" class="form-check-input" id="allowForcefully" formControlName="allowForcefully"
+                [attr.disabled]="disabledTextField[i]===true? 'disabled':null">
                 <label class="form-check-label" for="exampleCheck1">Forcefully allow before 3 months</label>
               </div>
             </div>

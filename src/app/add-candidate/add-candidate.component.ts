@@ -81,13 +81,17 @@ export class AddCandidateComponent implements OnInit {
         // this.addForm.get('interview').setValue(null);
         this.interviewArray.removeAt(0);
         this.showEditButton = true;
-        this.setValue(response)
+        this.setValue(response);
       }, error => {
         this.toastr.error(error.error.message)
       })
     } else {
 
     }
+
+
+
+
   }
 
   loadLoginForm() {
@@ -174,7 +178,7 @@ export class AddCandidateComponent implements OnInit {
 
       interviewId: [(data && data.interviewId) ? data.interviewId : null],
       scheduledDate: [(data && data.scheduledDate) ? data.scheduledDate : null],
-      allowForcefully: [(data && data.override) ? data.override : null]
+      allowForcefully: [(data && data.allowForcefully) ? data.allowForcefully : null]
     });
   }
 
@@ -483,7 +487,7 @@ export class AddCandidateComponent implements OnInit {
           "scheduledDate": value.scheduledDate == null ? null : scheduledDateArray[0] + ".173",
           "interviewType": value.interviewType,
           "interviewMode": value.interviewMode,
-          "override": value.allowForcefully,
+          "override": value.allowForcefully == null ? false : true,
 
         }
       });
@@ -594,53 +598,57 @@ export class AddCandidateComponent implements OnInit {
     let value = true
     if (index != 0) {
       value = this.addForm.get('interview')['controls'][index - 1].controls['interviewDate'].value != "Did Not Appear" ? true : false
-      this.disabledInterviewDate[index] = false;
 
     }
-   
-    if (value) {
-      if(index == 0){
-        this.disabledInterviewDate[index] = false;
+
+    if (value != false) {
+      this.disabledInterviewDate[index] = false;
+    }
+
+    if (index == 0) {
+      this.disabledInterviewDate[index] = false;
+    }
+
+
+    switch (event) {
+      case "Rejected": {
+        // this.disabledInterviewDate[index] = false;
+        break;
       }
-      switch (event) {
-        case "Rejected": {
-          // this.disabledInterviewDate[index] = false;
-          break;
-        }
-        case "Next Round": {
-          this.addForm.get('interview')['controls'][index].controls['nextRoundDate'].setValidators(Validators.required);
-          this.showNextRoundDate[index] = true;
-          break;
-        }
-        case "Offer Placed": {
-          this.addForm.get('interview')['controls'][index].controls['joining'].setValidators(Validators.required);
-          this.showJoinDate[index] = true;
-          break;
-        }
-        case "Scheduled": {
-          this.showScheduledDate[index] = true;
-          this.showRoundDate[index] = false;
-          this.showInterviwer[index] = false;
-          this.addForm.get('interview')['controls'][index].controls['feedback'].clearValidators();
-          this.addForm.get('interview')['controls'][index].controls['interviewer'].clearValidators();
-          this.addForm.get('interview')['controls'][index].controls['interviewDate'].clearValidators();
-          this.addForm.get('interview')['controls'][index].controls['feedback'].setValue('');
-          this.addForm.get('interview')['controls'][index].controls['interviewer'].setValue('');
-          this.addForm.get('interview')['controls'][index].controls['interviewDate'].setValue();
-          this.addForm.get('interview')['controls'][index].controls['scheduledDate'].setValidators(Validators.required);
-          break;
-        }
-        case "Did Not Appear": {
-          this.showInterviwer[index] = false;
-          this.addForm.get('interview')['controls'][index].controls['interviewer'].clearValidators();
-          this.addForm.get('interview')['controls'][index].controls['interviewer'].setValue("");
-          break;
-        }
-        default: {
-          break;
-        }
+      case "Next Round": {
+        this.addForm.get('interview')['controls'][index].controls['nextRoundDate'].setValidators(Validators.required);
+        this.showNextRoundDate[index] = true;
+        break;
+      }
+      case "Offer Placed": {
+        this.addForm.get('interview')['controls'][index].controls['joining'].setValidators(Validators.required);
+        this.showJoinDate[index] = true;
+        break;
+      }
+      case "Scheduled": {
+        this.showScheduledDate[index] = true;
+        this.showRoundDate[index] = false;
+        this.showInterviwer[index] = false;
+        this.addForm.get('interview')['controls'][index].controls['feedback'].clearValidators();
+        this.addForm.get('interview')['controls'][index].controls['interviewer'].clearValidators();
+        this.addForm.get('interview')['controls'][index].controls['interviewDate'].clearValidators();
+        this.addForm.get('interview')['controls'][index].controls['feedback'].setValue('');
+        this.addForm.get('interview')['controls'][index].controls['interviewer'].setValue('');
+        this.addForm.get('interview')['controls'][index].controls['interviewDate'].setValue();
+        this.addForm.get('interview')['controls'][index].controls['scheduledDate'].setValidators(Validators.required);
+        break;
+      }
+      case "Did Not Appear": {
+        this.showInterviwer[index] = false;
+        this.addForm.get('interview')['controls'][index].controls['interviewer'].clearValidators();
+        this.addForm.get('interview')['controls'][index].controls['interviewer'].setValue("");
+        break;
+      }
+      default: {
+        break;
       }
     }
+
   }
 
   clearValidation(index) {
@@ -869,6 +877,7 @@ export class AddCandidateComponent implements OnInit {
           interviewMode: value.interviewMode,
           allowForcefully: value.override,
         }
+
         this.interviewList.push(arrayData);
         return arrayData;
       });
@@ -954,7 +963,7 @@ export class AddCandidateComponent implements OnInit {
         "scheduledDate": data.scheduledDate == null ? null : scheduledDateArray[0] + ".173",
         "interviewType": data.interviewType,
         "interviewMode": data.interviewMode,
-        "override": data.allowForcefully
+        "override": data.allowForcefully == null ? false : true
       }
     }
 
