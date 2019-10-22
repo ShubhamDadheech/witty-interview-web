@@ -21,6 +21,7 @@ export class CreateUserComponent implements OnInit {
   roleData: any;
   candidates: any;
   // showCreateUser:boolean = true;
+  notFocusedmobileNum = false;
   loadder: boolean = false;
   constructor(private httpService: HttpService, private fb: FormBuilder, private toastr: ToastrService, ) {
 
