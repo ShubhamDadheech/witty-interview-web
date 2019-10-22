@@ -22,7 +22,7 @@
           <div style="color: red;text-align: left;font-size: 12px;">
             <span *ngIf="loginForm.get('email').hasError('required') && loginForm.get('email').touched ">Email is
               Required</span>
-            <span *ngIf="loginForm.get('email').hasError('pattern')">Email in Correct Pattern</span>
+            <span *ngIf="loginForm.get('email').hasError('pattern') && loginForm.get('email').touched ">Invalid Email Formate abc@xyz.com</span>
           </div>
           <div class="input-group" style="margin-top: 15px">
             <input type="password" class="form-control" placeholder="Password" formControlName="password" required>
