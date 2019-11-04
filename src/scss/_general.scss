@@ -3,8 +3,9 @@ body {
     font-size: $theme-font-size;
     color: $theme-font-color;
     font-weight: 400;
-    background: $theme-background;
+    // background: $theme-background;
     position: relative;
+    background-color: #fff;
 }
 
 * {

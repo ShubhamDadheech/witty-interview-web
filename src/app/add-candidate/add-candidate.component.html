@@ -715,7 +715,7 @@
             <div class="col-md-4" *ngIf="showRoundDate[i]">
               <div class="form-group">
                 <label for="exampleInputEmail1">Interview Date *</label>
-                <p-calendar [showIcon]="true" [showTime]="false" class="ui-calendar" formControlName="interviewDate"
+                <p-calendar [showIcon]="true" [showTime]="false" class="ui-calendar" formControlName="interviewDate" 
                   hideOnDateTimeSelect="true" [disabledDays]="[0,6]" [disabledDates]="holidays"
                   [disabled]="disabledTextField[i] ||disabledInterviewDate[i]"
                   [maxDate]="addForm.get('interview')['controls'][i].controls.nextRoundDate.value != null?addForm.get('interview')['controls'][i].controls.nextRoundDate.value:
@@ -732,7 +732,7 @@
             <div class="col-md-4" *ngIf="showScheduledDate[i]">
               <div class="form-group">
                 <label for="exampleInputEmail1">Scheduled Date * </label>
-                <p-calendar [showIcon]="true" class="ui-calendar" [showTime]="true" hourFormat="24"
+                <p-calendar [showIcon]="true" class="ui-calendar" [showTime]="true" hourFormat="24" 
                   [disabledDays]="[0,6]" formControlName="scheduledDate" hideOnDateTimeSelect="true"
                   [disabled]="disabledTextField[i]">
                 </p-calendar>
