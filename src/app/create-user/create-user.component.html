@@ -149,7 +149,7 @@
               <th>Email</th>
               <th>Gender</th>
               <th>Mobile Number</th>
-              <th>Status</th>
+              <!-- <th>Status</th> -->
               <th>Action</th>
             </tr>
           </thead>
@@ -163,14 +163,14 @@
                 <h6 class="m-0">{{d.email}}</h6>
               </td>
               <td>
-                <h6 class="m-0">{{d.gender}}</h6>
+                <h6 class="m-0">{{d.gender | titlecase}}</h6>
               </td>
               <td>
                 <h6 class="m-0 ">{{d.mobileNum}}</h6>
               </td>
-              <td>
+              <!-- <td>
                 <h6 class="m-0 ">{{d.active}}</h6>
-              </td>
+              </td> -->
               <td>
                 <!-- <i class="fa fa-trash" aria-hidden="true" (click)="disableUser(d)"></i> -->
                 <a *ngIf="d.active==true" class="passlink" style="color: red" (click)="disableUser(d,'false')">Disable</a>

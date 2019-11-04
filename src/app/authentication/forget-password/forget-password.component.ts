@@ -31,6 +31,7 @@ export class ForgetPasswordComponent implements OnInit {
 
 
   login() {
+   if(this.loginForm.valid){
     this.loadder = true;
     let emailId = this.loginForm.get('email').value;
     this.httpService.callApi('forgetPassword', { pathVariable: emailId, responseType: 'text' }).subscribe((response) => {
@@ -39,17 +40,16 @@ export class ForgetPasswordComponent implements OnInit {
       this.router.navigate(['auth/signin']);
 
     }, error => {
-
-
       if (error.status == 404) {
         this.toastr.error("User not found");
       } else {
         this.toastr.error(error.error.message);
       }
       this.loadder = false;
-
-
     })
+   }else{
+     
+   }
   }
 
   validateEmail() {
@@ -65,6 +65,10 @@ export class ForgetPasswordComponent implements OnInit {
 
   removeError() {
     this.showError = false;
+  }
+
+  homePage() {
+    this.router.navigate(['auth/signin']);
   }
 
 }

@@ -74,7 +74,7 @@ const NavigationItems = [
       },
       {
         id: 'create-user',
-        title: 'Create User',
+        title: 'Users',
         type: 'item',
         url: 'create-user',
         icon: 'feather icon-users',

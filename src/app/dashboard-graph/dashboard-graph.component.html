@@ -22,16 +22,16 @@
                 </p-calendar>
             </div>
         </div>
-
+        <div class="col-md-1"></div>
         <div class="col-md-1">
-            <div class="form-group" style="padding-top: 26px; float: right;">
+            <div class="form-group" style="padding-top: 26px; padding-left: 20px;">
                 <button type="button" class="btn btn-success"
                     [class.green]="this.dateForm.get('from').value > this.dateForm.get('to').value || this.dateForm.get('from').value==null "
                     (click)="apply()"
                     [disabled]="this.dateForm.get('from').value > this.dateForm.get('to').value || this.dateForm.get('from').value==null ">Apply</button>
             </div>
         </div>
-        <div class="col-md-5"></div>
+        <div class="col-md-1"></div>
         <div class="col-md-2" *ngIf="!showGraph">
             <div class="form-group" style="padding-top: 26px; float: right;">
                 <button type="button" class="btn btn-success" (click)="showGraphs()">Show Graph</button>

@@ -77,7 +77,7 @@ export class CreateUserComponent implements OnInit {
     this.httpService.callApi('updateUserProfile', { body: body }).subscribe((response) => {
       this.ngOnInit();
       this.loadder = false;
-      this.toastr.success("Successfully updated your profile");
+      this.toastr.success("Successfully save profile");
     }, error => {
       this.loadder = false;
       this.toastr.error(error.error.message);

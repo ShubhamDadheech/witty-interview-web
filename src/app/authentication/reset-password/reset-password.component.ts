@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpParams } from '@angular/common/http';
 import { HttpService } from 'src/app/service/http.service';
 import { ToastrService } from 'ngx-toastr';
+import * as moment from 'moment-timezone';
 
 @Component({
   selector: 'app-reset-password',
@@ -16,13 +17,31 @@ export class ResetPasswordComponent implements OnInit {
   notMatch: boolean = false;
   userEmail: any;
   showSubmit: boolean = false;
+  showExpired: boolean = false;
+  currentDate:any;
+  urlDate:any;
   constructor(private fb: FormBuilder, private activeRoute: ActivatedRoute, private httpService: HttpService, private toastr: ToastrService, private router: Router) { }
 
   ngOnInit() {
     this.loadLoginForm();
     this.userEmail = this.activeRoute.snapshot.queryParamMap.get('email');
-    if(this.userEmail == null){
-        this.toastr.error("Invalid Request URL")
+     this.urlDate = this.activeRoute.snapshot.queryParamMap.get('date');
+
+     this.currentDate = new Date();
+    let date1 = moment(this.urlDate);
+    let date2 = moment(this.currentDate);
+    // console.log("currentDate ==> "+ currentDate.getTime());
+
+   
+
+    let diff = (date2 - date1) / 3600000;
+
+    if (diff > 1) {
+      this.showExpired = true;
+    }
+
+    if (this.userEmail == null) {
+      this.toastr.error("Invalid Request URL")
     }
   }
 
@@ -55,20 +74,26 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   login() {
+    let result = this.loginForm.get('password').value != this.loginForm.get('confirmPassword').value ? false : true;
 
-    let param = new HttpParams()
-      .set('password', this.loginForm.get('password').value)
-      .set('confirmPassword', this.loginForm.get('confirmPassword').value)
-      .set('email', this.userEmail);
+    if (this.loginForm.valid && result) {
+      let param = new HttpParams()
+        .set('password', this.loginForm.get('password').value)
+        .set('confirmPassword', this.loginForm.get('confirmPassword').value)
+        .set('email', this.userEmail)
+        .set('passwordUpdatedMailTime',this.urlDate);
 
 
-    this.httpService.callApi('resetPassword', { params: param, responseType: 'text' }).subscribe((response) => {
-      this.toastr.success(response);
-      this.router.navigate(['auth/signin']);
+      this.httpService.callApi('resetPassword', { params: param, responseType: 'text' }).subscribe((response) => {
+        this.toastr.success(response);
+        this.router.navigate(['auth/signin']);
 
-    }, error => {
-      this.toastr.error(error.error.message);
-    })
+      }, error => {
+        this.toastr.error(error.error.message);
+      })
+    } else {
+      this.notMatch = true
+    }
 
   }
 
@@ -77,13 +102,20 @@ export class ResetPasswordComponent implements OnInit {
     let pass = this.loginForm.get('password').value;
     let confirmPass = this.loginForm.get('confirmPassword').value;
     let email = this.userEmail;
-    this.showSubmit = false; 
-    if ((pass != null && confirmPass != null && email !=null) && pass === confirmPass) {
+    this.showSubmit = false;
+    if ((pass != null && confirmPass != null && email != null) && pass === confirmPass) {
       this.showSubmit = true;
     }
-    
+
   }
 
+  homePage() {
+    this.router.navigate(['auth/signin']);
+  }
+
+  forgetPassword() {
+    this.router.navigate(['forget-password']);
+  }
 
   removeError() {
     this.notMatch = false;
