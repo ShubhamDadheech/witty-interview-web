@@ -37,6 +37,7 @@ export class NavRightComponent implements OnInit {
     this.httpService.callApi('getLogedinUserByEmail', { pathVariable: userEmail }).subscribe((response) => {
       this.user = response;
       this.userData = this.user.firstName + " " + this.user.lastName;
+      sessionStorage.setItem('admin', response.admin);
     }, error => {
 
     })

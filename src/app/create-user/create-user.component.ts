@@ -23,8 +23,9 @@ export class CreateUserComponent implements OnInit {
   // showCreateUser:boolean = true;
   notFocusedmobileNum = false;
   loadder: boolean = false;
+  userAdmin: boolean = false;
   constructor(private httpService: HttpService, private fb: FormBuilder, private toastr: ToastrService, ) {
-
+    this.userAdmin = sessionStorage.getItem('admin') === "true" ? true : false;
   }
 
   loadForm() {
@@ -38,26 +39,21 @@ export class CreateUserComponent implements OnInit {
         Validators.required,
         Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}')
       ])],
-      roles: ['', Validators.required]
+      admin: []
     });
   }
 
   ngOnInit() {
-    this.roles = [
-      { label: 'Admin', value: 'Admin' },
-      { label: 'HR', value: 'HR' },
-      { label: 'User', value: 'User' },
-
-    ];
     this.loadForm();
     this.getAllUser();
-
 
 
   }
 
   setFormData(data) {
     if (data) {
+      console.log(" data.admin ==> "+ data.admin);
+      
       let formData = {
         id: data.id,
         firstName: data.firstName,
@@ -65,7 +61,7 @@ export class CreateUserComponent implements OnInit {
         mobileNum: data.mobileNum,
         gender: data.gender,
         email: data.email,
-        roles: data.roles,
+        admin: data.admin
       }
       this.addForm.patchValue(formData);
     }
@@ -101,8 +97,8 @@ export class CreateUserComponent implements OnInit {
       mobileNum: data.mobileNum,
       gender: data.gender,
       email: data.email,
-      roles: this.roleData,
-      active: true
+      active: true,
+      admin:data.admin
       // password: data.password,
     }
     return json;
@@ -114,20 +110,6 @@ export class CreateUserComponent implements OnInit {
     this.addForm.get(controlerName).setValue(name);
   }
 
-  changeRoleValue(event) {
-    this.roleData = [];
-    event.value.forEach(r => {
-      let role = {
-        roleName: r,
-        active: true
-      }
-      this.roleData.push(role);
-    })
-
-
-
-
-  }
 
   disableUser(data, status) {
 
@@ -162,6 +144,10 @@ export class CreateUserComponent implements OnInit {
     }
     return true;
 
+  }
+
+  editUser(data) {
+    this.setFormData(data);
   }
   //   menuClick(){
   // this.showCreateUser=false;

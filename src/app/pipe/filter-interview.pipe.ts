@@ -48,6 +48,19 @@ export class FilterInterviewPipe implements PipeTransform {
             return true;
           }
         }
+
+        if(item.interviewType){
+          if (item.interviewType.toLowerCase().indexOf(searchValue) > -1) {
+            return true;
+          }
+        }
+
+        if(item.interviewMode){
+          if (item.interviewMode.toLowerCase().indexOf(searchValue) > -1) {
+            return true;
+          }
+        }
+
         if (item.nextRoundScheduleOn) {
           let date = moment.tz(new Date(item.nextRoundScheduleOn), "Asia/Calcutta").format("DD/MM/YYYY hh:mm a")
           if (date.toLowerCase().indexOf(searchValue) > -1) {

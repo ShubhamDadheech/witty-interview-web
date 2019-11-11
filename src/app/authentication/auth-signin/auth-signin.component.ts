@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { HttpService } from 'src/app/service/http.service';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/service/data.service';
+import { ErrorMessageService } from 'src/app/service/error-message.service';
 
 @Component({
   selector: 'app-auth-signin',
@@ -16,7 +17,8 @@ export class AuthSigninComponent implements OnInit {
   private loginSubscription: Subscription;
   public errorMessage: string;
   loginForm: FormGroup;
-  constructor(private fb: FormBuilder, private httpService: HttpService, private router: Router, private dataService: DataService) { }
+  submitted:boolean = false;
+  constructor(private fb: FormBuilder, private httpService: HttpService, private router: Router, private dataService: DataService, private errorMessageService: ErrorMessageService) { }
 
   ngOnInit() {
     this.loadLoginForm();
@@ -24,15 +26,20 @@ export class AuthSigninComponent implements OnInit {
 
   loadLoginForm() {
     this.loginForm = this.fb.group({
-      email: ['',Validators.compose([
+      email: ['', Validators.compose([
         Validators.required,
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+        Validators.email
       ])],
       password: ['', Validators.required]
     });
   }
 
   login() {
+
+    if (this.loginForm.invalid) {
+      this.submitted = true;
+      return;
+    }
 
     if (sessionStorage.getItem('token')) {
       sessionStorage.clear();
@@ -47,19 +54,19 @@ export class AuthSigninComponent implements OnInit {
     this.httpService.callApi('login', { body, headers }).subscribe(
       (response) => {
         if (response['access_token']) {
-           let userEmail = this.loginForm.get('email').value;
+          let userEmail = this.loginForm.get('email').value;
           sessionStorage.setItem('token', response['access_token']);
           sessionStorage.setItem('email', userEmail);
-         
+
           this.dataService.isLoggedIn = true;
-          
+
           this.goDashboard();
-  
+
         }
       },
       error => {
         this.errorMessage = error.error.error_description;
-        if(error.error_description){
+        if (error.error_description) {
           this.errorMessage = error.error_description;
         }
       }
@@ -67,7 +74,7 @@ export class AuthSigninComponent implements OnInit {
 
   }
 
-  forgetPassword(){
+  forgetPassword() {
     this.router.navigate(['forget-password']);
   }
 

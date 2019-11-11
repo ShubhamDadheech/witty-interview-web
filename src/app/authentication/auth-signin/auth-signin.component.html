@@ -20,17 +20,17 @@
             <input type="text" class="form-control" placeholder="Email" formControlName="email" required>
           </div>
           <div style="color: red;text-align: left;font-size: 12px;">
-            <span *ngIf="loginForm.get('email').hasError('required') && loginForm.get('email').touched ">Email is
-              Required</span>
-            <span *ngIf="loginForm.get('email').hasError('pattern') && loginForm.get('email').touched ">Invalid Email Formate abc@xyz.com</span>
+            <span *ngIf="(loginForm.get('email').hasError('required') && loginForm.get('email').touched) || (loginForm.get('email').hasError('required') && submitted) ">{{errorMessageService.requireField}}</span>
+            <span *ngIf="loginForm.get('email').hasError('email') && loginForm.get('email').touched ">{{errorMessageService.emailPattern}}</span>
+            <!-- Invalid Email Formate abc@xyz.com -->
           </div>
           <div class="input-group" style="margin-top: 15px">
             <input type="password" class="form-control" placeholder="Password" formControlName="password" required>
 
           </div>
-          <div style="color: red;text-align: left;font-size: 12px;"> <span
-              *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched  ">Password is
-              Required</span>
+          <div style="color: red;text-align: left;font-size: 12px;"> 
+            <span *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched  ">{{errorMessageService.requireField}}</span>
+              <span *ngIf="loginForm.get('password').invalid && submitted  ">{{errorMessageService.requireField}}</span>
 
           </div>
 
@@ -39,7 +39,7 @@
             <span style="color: red;text-align: left;font-size: 14px;margin-top: 5pt;">{{errorMessage}}</span>
           </div>
           <div>
-            <a class="passlink" (click)="forgetPassword()">Forget Password?</a>
+            <a class="passlink" (click)="forgetPassword()">Forgot Password?</a>
           </div>
 
 

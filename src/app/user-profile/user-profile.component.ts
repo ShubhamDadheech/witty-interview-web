@@ -12,6 +12,7 @@ export class UserProfileComponent implements OnInit {
 
   addForm: FormGroup;
   user: any;
+  disableTextField: boolean = true;
 
   constructor(private httpService: HttpService, private fb: FormBuilder, private toastr: ToastrService, ) {
   }
@@ -36,6 +37,9 @@ export class UserProfileComponent implements OnInit {
     let userEmail = sessionStorage.getItem('email');
     this.httpService.callApi('getLogedinUserByEmail', { pathVariable: userEmail }).subscribe((response) => {
       this.user = response;
+      if (response.admin) {
+        this.disableTextField = false;
+      }
 
       this.setFormData(response);
     }, error => {

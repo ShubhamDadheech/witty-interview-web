@@ -5,6 +5,7 @@ import { HttpService } from '../service/http.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { StatusDropdownDataService } from '../service/status-dropdown-data.service';
+import { ErrorMessageService } from '../service/error-message.service';
 
 
 @Component({
@@ -16,11 +17,13 @@ export class AddCandidateComponent implements OnInit {
 
   addForm: FormGroup;
   showEditModal: boolean = false;
+  submitted: boolean = false;
   showCandidate: boolean = false
   editModalData: any;
   showJoinDate: boolean[] = [false];
   showRoundDate: boolean[] = [false];
   showPG: boolean = false;
+  showDoctorate: boolean = false;
   showNextRoundDate: boolean[] = [false];
   showScheduledDate: boolean[] = [false];
   notFocused = false;
@@ -45,7 +48,7 @@ export class AddCandidateComponent implements OnInit {
   updatedInterviewDate: any;
   disabledInterviewDate: boolean[] = [false];
   constructor(private fb: FormBuilder, private httpService: HttpService, private route: ActivatedRoute,
-    private toastr: ToastrService, private StatusDropdownDataService: StatusDropdownDataService, private router: Router) {
+    private toastr: ToastrService, private StatusDropdownDataService: StatusDropdownDataService, private router: Router, private errorMessageService: ErrorMessageService) {
 
   }
 
@@ -102,7 +105,7 @@ export class AddCandidateComponent implements OnInit {
       fatherName: ['', Validators.required],
       email: ['', Validators.compose([
         Validators.required,
-        Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}')
+        Validators.email
       ])],
       pMobile: ['', Validators.compose([
         Validators.required,
@@ -148,6 +151,12 @@ export class AddCandidateComponent implements OnInit {
       pCollegeMarks: [null],
       pCollegeMarksType: [],
       pCollegeComment: [],
+
+      doctorateCollege: [],
+      doctorateCollegeMarks: [null],
+      doctorateCollegeMarksType: [],
+      doctorateCollegeComment: [],
+
       profile: ['', Validators.required],
       joined: [null],
       reasonForNotJoining: [null],
@@ -184,13 +193,15 @@ export class AddCandidateComponent implements OnInit {
 
   addExperienceGroup(data?) {
     this.invalidExperience = true;
+    
     return this.fb.group({
       organization: [(data && data.organization) ? data.organization : '', Validators.required],
       from: [(data && data.from) ? data.from : '', Validators.required],
       to: [(data && data.to) ? data.to : '', Validators.required],
       duration: [(data && data.duration) ? data.duration : ''],
       techStack: [(data && data.techStack) ? data.techStack : '', Validators.required],
-      id: [(data && data.id) ? data.id : null]
+      id: [(data && data.id) ? data.id : null],
+      reasonForLeaving: [(data && data.reasonForLeaving) ? data.reasonForLeaving : '']
     });
   }
 
@@ -327,6 +338,11 @@ export class AddCandidateComponent implements OnInit {
   }
   addCandidate() {
 
+    if (this.addForm.invalid) {
+      this.submitted = true;
+      return
+    }
+
     this.loadder = true;
     // this.prepareInterviewData();
     let body = this.prepareJson();
@@ -401,6 +417,11 @@ export class AddCandidateComponent implements OnInit {
       graduationNotes: data.collegeComment,
       graduationMarksType: data.collegeMarksType,
 
+      doctorateCollegeName:data.doctorateCollege,
+      doctorateMarks:data.doctorateCollegeMarks,
+      doctorateMarksType:data.doctorateCollegeMarksType,
+      doctorateNotes:data.doctorateCollegeComment,
+
 
       postGraduationCollegeName: data.pCollege,
       postGraduationMarks: data.pCollegeMarks,
@@ -445,7 +466,8 @@ export class AddCandidateComponent implements OnInit {
           "endAt": value.to,
           "technology": value.techStack,
           "duration": value.duration,
-          "id": id
+          "id": id,
+          "reasonForLeaving":value.reasonForLeaving
 
         }
       });
@@ -559,28 +581,74 @@ export class AddCandidateComponent implements OnInit {
     this.addForm.get(controlerName).setValue(name);
   }
 
-  changeActionEducation(event) {
+  changeActionEducation(event, addOrUpdate) {
+    this.showDoctorate = false;
+
+    if (addOrUpdate) {
+      this.clearPostgradutionValidation();
+      this.clearDoctorateValidation();
+    }
+
+
+    this.showPG = false;
     if (event === "postgraduate") {
-
+      this.postgradutionValidation();
       this.showPG = true;
-      this.addForm.get('pCollege').setValidators(Validators.required);
-      this.addForm.get('pCollegeMarks').setValidators([Validators.required, Validators.pattern('(^100(\\.0{1,2})?$)|(^([0-9]([0-9])?|0)(\\.[0-9]{1,2})?$)')])
-      this.addForm.get('pCollegeMarksType').setValidators(Validators.required);
+
       this.addForm.get('education').setValue('postgraduate');
+    } else if (event === "doctorate") {
+      this.showDoctorate = true;
+      this.showPG = true;
+      this.postgradutionValidation();
+      this.doctorateValidation();
 
-
+      this.addForm.get('education').setValue('doctorate');
     } else {
-      this.showPG = false;
-      this.addForm.get('pCollege').clearValidators();
-      this.addForm.get('pCollegeMarksType').clearValidators();
-      this.addForm.get('pCollegeMarks').clearValidators();
+
       this.addForm.get('education').setValue('graduate');
-      this.addForm.get('pCollege').setValue(null);
-      this.addForm.get('pCollegeMarks').setValue(null);
 
     }
 
 
+  }
+
+  postgradutionValidation() {
+    this.addForm.get('pCollege').setValidators(Validators.required);
+    this.addForm.get('pCollegeMarks').setValidators([Validators.required, Validators.pattern('(^100(\\.0{1,2})?$)|(^([0-9]([0-9])?|0)(\\.[0-9]{1,2})?$)')])
+    this.addForm.get('pCollegeMarksType').setValidators(Validators.required);
+    this.addForm.get('pCollegeMarksType').setValue("");
+  }
+
+  doctorateValidation() {
+    this.addForm.get('doctorateCollege').setValidators(Validators.required);
+    this.addForm.get('doctorateCollegeMarks').setValidators([Validators.required, Validators.pattern('(^100(\\.0{1,2})?$)|(^([0-9]([0-9])?|0)(\\.[0-9]{1,2})?$)')])
+    this.addForm.get('doctorateCollegeMarksType').setValidators(Validators.required);
+    this.addForm.get('doctorateCollegeMarksType').setValue("");
+
+  }
+
+  clearPostgradutionValidation() {
+    this.addForm.get('pCollege').clearValidators();
+    this.addForm.get('pCollegeMarksType').clearValidators();
+    this.addForm.get('pCollegeMarks').clearValidators();
+    this.addForm.get('pCollege').setValue(null);
+    this.addForm.get('pCollegeMarks').setValue(null);
+
+    this.addForm.get('pCollege').markAsUntouched();
+    this.addForm.get('pCollegeMarksType').markAsUntouched();
+    this.addForm.get('pCollegeMarks').markAsUntouched();
+  }
+
+  clearDoctorateValidation() {
+    this.addForm.get('doctorateCollege').clearValidators();
+    this.addForm.get('doctorateCollegeMarksType').clearValidators();
+    this.addForm.get('doctorateCollegeMarks').clearValidators();
+    this.addForm.get('doctorateCollege').setValue(null);
+    this.addForm.get('doctorateCollegeMarks').setValue(null);
+
+    this.addForm.get('doctorateCollege').markAsUntouched();
+    this.addForm.get('doctorateCollegeMarksType').markAsUntouched();
+    this.addForm.get('doctorateCollegeMarks').markAsUntouched();
   }
 
   changeActionEvent(event, index) {
@@ -729,12 +797,19 @@ export class AddCandidateComponent implements OnInit {
           iMarksType: data.interMediateMarksType != null ? data.interMediateMarksType : '',
           iComment: data.interMediateNotes,
 
-          education: data.postGraduationCollegeName == null ? 'graduate' : 'postgraduate',
+          // education: data.postGraduationCollegeName == null ? 'graduate' : 'postgraduate',
 
           pCollege: data.postGraduationCollegeName != null ? data.postGraduationCollegeName : '',
           pCollegeMarks: data.postGraduationMarks != null ? data.postGraduationMarks : '',
           pCollegeMarksType: data.postGraduationMarksType != null ? data.postGraduationMarksType : '',
           pCollegeComment: data.postGraduationNotes != null ? data.postGraduationNotes : '',
+
+
+
+          doctorateCollege: data.doctorateCollegeName != null ? data.doctorateCollegeName : '',
+          doctorateCollegeMarks: data.doctorateMarks != null ? data.doctorateMarks : '',
+          doctorateCollegeMarksType: data.doctorateMarksType != null ? data.doctorateMarksType : '',
+          doctorateCollegeComment: data.doctorateNotes != null ? data.doctorateNotes : '',
 
           diploma: data.isDiploma,
           dSchool: data.diplomaCollageName != null ? data.diplomaCollageName : '',
@@ -760,13 +835,41 @@ export class AddCandidateComponent implements OnInit {
           this.experienceArray.push(this.addExperienceGroup(element));
         });
 
-        if (data.postGraduationCollegeName && data.postGraduationMarks) {
+        if (data.qualificationType == "Graduation") {
 
+          this.changeActionEducation("graduate", false);
 
-          this.changeActionEducation("postgraduate");
+        } else if (data.qualificationType == "PostGraduation") {
+
+          this.changeActionEducation("postgraduate", false);
         } else {
-          this.changeActionEducation("graduate");
+          this.changeActionEducation("doctorate", false);
         }
+
+        if (data.graduationMarksType) {
+          this.changeMarksValidation(data.graduationMarksType, "collegeMarksType", true)
+        }
+
+        if (data.highSchoolMarksType) {
+          this.changeMarksValidation(data.highSchoolMarksType, "hMarksType", true)
+        }
+
+        if (data.interMediateMarksType) {
+          this.changeMarksValidation(data.interMediateMarksType, "iMarksType", true)
+        }
+
+        if (data.postGraduationMarksType) {
+          this.changeMarksValidation(data.postGraduationMarksType, "pCollegeMarksType", true)
+        }
+
+        if (data.doctorateMarksType) {
+          this.changeMarksValidation(data.doctorateMarksType, "doctorateCollegeMarksType", true)
+        }
+
+        if (data.diplomaMarksType) {
+          this.changeMarksValidation(data.diplomaMarksType, "dMarksType", true)
+        }
+
 
         if (data.isDiploma) {
           this.showDiplomaAndSetValue();
@@ -804,6 +907,7 @@ export class AddCandidateComponent implements OnInit {
           techStack: value.technology,
           duration: value.duration,
           id: value.id,
+          reasonForLeaving:value.reasonForLeaving,
 
         }
         this.experienceList.push(arrayData);
@@ -979,18 +1083,30 @@ export class AddCandidateComponent implements OnInit {
 
 
 
-  changeMarksValidation(value, controlName) {
-    this.addForm.get(controlName).clearValidators();
-    if (value == 'Percentage') {
-      this.addForm.get(controlName).setValidators([Validators.required, Validators.pattern('(^100(\\.0{1,2})?$)|(^([0-9]([0-9])?|0)(\\.[0-9]{1,2})?$)')]);
+  changeMarksValidation(value, controlName, addOrUpdate) {
 
-    } else if (value == 'CGPA') {
-      this.addForm.get(controlName).setValidators([Validators.required, Validators.pattern('(^10(\\.0{1,2})?$)|(^(([0-9])?|0)(\\.[0-9]{1,2})?$)')])
-    } else {
-
+    if(addOrUpdate){
+     
+    }else{
+      this.addForm.get(controlName).clearValidators();
+      if (value == 'Percentage') {
+        this.addForm.get(controlName).setValidators([Validators.required, Validators.pattern('(^100(\\.0{1,2})?$)|(^([0-9]([0-9])?|0)(\\.[0-9]{1,2})?$)')]);
+  
+      } else if (value == 'CGPA') {
+        this.addForm.get(controlName).setValidators([Validators.required, Validators.pattern('(^10(\\.0{1,2})?$)|(^(([0-9])?|0)(\\.[0-9]{1,2})?$)')])
+      } else {
+  
+      }
     }
+    
+   
     //  this.addForm.get(controlName).markAsTouched();
+
+    if (addOrUpdate) {
+      this.addForm.get(controlName).setValue(value);
+    } 
     this.addForm.get(controlName).updateValueAndValidity();
+
   }
 
 
@@ -1019,4 +1135,8 @@ export class AddCandidateComponent implements OnInit {
 
 
   // }
+
+  cancel() {
+    this.ngOnInit();
+  }
 }

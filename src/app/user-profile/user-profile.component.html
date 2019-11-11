@@ -1,12 +1,12 @@
-<form [formGroup]="addForm"  *ngIf="user">
+<form [formGroup]="addForm" *ngIf="user">
 
   <app-card cardTitle="User Profile" [options]="false">
     <div class="row">
       <div class="col-md-4">
-
+        <!-- [attr.disabled]="!disableTextField ==true? 'disabled':null" -->
         <div class="form-group">
           <label for="exampleInputEmail1">First Name *</label>
-          <input type="text" class="form-control" id="firstName" placeholder="First Name"
+          <input type="text" class="form-control" id="firstName" placeholder="First Name" [attr.disabled]="disableTextField===true? 'disabled':null"
             (input)="changeFirstLetterCapital('firstName')" formControlName="firstName">
 
           <div>
@@ -19,7 +19,7 @@
         <div class="form-group">
           <label for="exampleInputEmail1">Last Name *</label>
           <input type="text" class="form-control" id="lastName" placeholder="Last Name" formControlName="lastName"
-            (input)="changeFirstLetterCapital('lastName')">
+          [attr.disabled]="disableTextField===true? 'disabled':null" (input)="changeFirstLetterCapital('lastName')">
           <div>
             <span *ngIf="addForm.get('lastName').invalid && addForm.get('lastName').touched"
               style="color: red;text-align: left;font-size: 12px">Last Name is Required</span>
@@ -32,7 +32,8 @@
 
         <div class="form-group">
           <label for="exampleInputEmail1">Email *</label>
-          <input type="text" class="form-control" id="email" placeholder="Email" formControlName="email">
+          <input type="text" class="form-control" id="email" placeholder="Email" formControlName="email"
+          [attr.disabled]="disableTextField===true? 'disabled':null">
           <div>
             <span *ngIf="addForm.get('email').hasError('required') && addForm.get('email').touched"
               style="color: red;text-align: left;font-size: 12px">Email is Required</span>
@@ -49,7 +50,7 @@
         <div class="form-group">
           <label for="exampleFormControlSelect1">Gender *</label>
           <select class="form-control" id="exampleFormControlSelect1" formControlName="gender"
-            placeholder="Select gender">
+          [attr.disabled]="disableTextField===true? 'disabled':null" placeholder="Select gender">
             <option value="" disabled selected hidden>Select a value</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
@@ -68,8 +69,8 @@
         <div class="form-group">
           <label for="exampleInputEmail1">Primary Mobile Number *</label>
           <input type="text" class="form-control" id="mobileNum" placeholder="Primary Mobile Number"
-            formControlName="mobileNum" (keypress)="onKeyPress($event)" maxlength="10" minlength="10"
-            (focus)="notFocusedmobileNum=false" (focusout)="notFocusedmobileNum=true">
+          [attr.disabled]="disableTextField===true? 'disabled':null" formControlName="mobileNum" (keypress)="onKeyPress($event)" maxlength="10"
+            minlength="10" (focus)="notFocusedmobileNum=false" (focusout)="notFocusedmobileNum=true">
           <div>
             <span *ngIf="addForm.get('mobileNum').hasError('required') && addForm.get('mobileNum').touched"
               style="color: red;text-align: left;font-size: 12px">Primary Mobile Number is Required</span>
@@ -97,7 +98,7 @@
 
 
     </div>
-    <div class="row">
+    <div class="row" *ngIf="user.admin">
       <div class="col-md-4">
         <button type="button" class="btn btn-success" (click)="updateUser()"
           [disabled]="addForm.invalid">Submit</button>
@@ -107,4 +108,3 @@
   </app-card>
 
 </form>
-

@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 export interface NavigationItem {
   id: string;
@@ -37,7 +37,7 @@ const NavigationItems = [
         title: 'Candidate',
         type: 'item',
         url: 'candidate',
-        icon: 'feather icon-home',
+        icon: 'feather icon-user',
         classes: 'nav-item'
       },
       {
@@ -45,7 +45,7 @@ const NavigationItems = [
         title: 'Add Candidate',
         type: 'item',
         url: 'add-candidate',
-        icon: 'feather icon-box',
+        icon: 'feather icon-user-plus',
         classes: 'nav-item'
       },
       {
@@ -61,7 +61,7 @@ const NavigationItems = [
         title: 'Done Interview',
         type: 'item',
         url: 'done-interview',
-        icon: 'feather icon-users',
+        icon: 'feather icon-calendar',
         classes: 'nav-item'
       },
       {
@@ -82,7 +82,7 @@ const NavigationItems = [
       }
     ]
   },
-  
+
 ];
 
 @Injectable()

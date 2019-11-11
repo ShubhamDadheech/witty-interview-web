@@ -61,7 +61,7 @@
               <th>Mobile Number</th>
               <th>Aadhar number</th>
               <th>Interview Date</th>
-              <th>Round Number</th>
+              <th>Interview Type</th>
             </tr>
           </thead>
           <tbody>
@@ -86,7 +86,7 @@
                 <h6 class="m-0 ">{{d.nextRoundScheduleOn | date: 'dd/MM/yyyy hh:mm a'}}{{d.scheduledDate | date: 'dd/MM/yyyy hh:mm a'}}</h6>
               </td>
               <td>
-                <h6 class="m-0 ">{{d.roundNum}}</h6>
+                <h6 class="m-0 ">{{d.interviewType}}  ({{d.interviewMode}})</h6>
               </td>
             </tr>
           </tbody>

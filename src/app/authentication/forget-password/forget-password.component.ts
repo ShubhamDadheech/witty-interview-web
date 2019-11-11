@@ -3,6 +3,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { HttpService } from 'src/app/service/http.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { ErrorMessageService } from 'src/app/service/error-message.service';
 
 @Component({
   selector: 'app-forget-password',
@@ -13,7 +14,8 @@ export class ForgetPasswordComponent implements OnInit {
   loginForm: FormGroup;
   showError: boolean = false;
   loadder: boolean = false;
-  constructor(private fb: FormBuilder, private httpService: HttpService, private toastr: ToastrService, private router: Router) { }
+  submitted: boolean = false;
+  constructor(private fb: FormBuilder, private httpService: HttpService, private toastr: ToastrService, private router: Router, private errorMessageService:ErrorMessageService) { }
 
 
   ngOnInit() {
@@ -24,7 +26,7 @@ export class ForgetPasswordComponent implements OnInit {
     this.loginForm = this.fb.group({
       email: ['', Validators.compose([
         Validators.required,
-        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+        Validators.email
       ])]
     });
   }
@@ -48,24 +50,12 @@ export class ForgetPasswordComponent implements OnInit {
       this.loadder = false;
     })
    }else{
-     
+     this.submitted = true;
+     return;
    }
   }
 
-  validateEmail() {
 
-    if (this.loginForm.get('email').hasError('pattern')) {
-      this.showError = true;
-    } else {
-      this.showError = false;
-    }
-
-  }
-
-
-  removeError() {
-    this.showError = false;
-  }
 
   homePage() {
     this.router.navigate(['auth/signin']);

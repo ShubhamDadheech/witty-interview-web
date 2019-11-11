@@ -11,8 +11,10 @@
                 (input)="changeFirstLetterCapital('firstName')" formControlName="firstName">
 
               <div>
-                <span *ngIf="addForm.get('firstName').invalid && addForm.get('firstName').touched"
-                  style="color: red;text-align: left;font-size: 12px">First Name is Required</span>
+                <span
+                  *ngIf="(addForm.get('firstName').invalid && addForm.get('firstName').touched ) || (addForm.get('firstName').invalid && submitted)"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
+
               </div>
             </div>
           </div>
@@ -36,8 +38,9 @@
               <input type="text" class="form-control" id="fatherName" placeholder="Father's Name"
                 (input)="changeFirstLetterCapital('fatherName')" formControlName="fatherName">
               <div>
-                <span *ngIf="addForm.get('fatherName').invalid && addForm.get('fatherName').touched"
-                  style="color: red;text-align: left;font-size: 12px">Father Name is Required</span>
+                <span
+                  *ngIf="(addForm.get('fatherName').invalid && addForm.get('fatherName').touched) || (addForm.get('fatherName').invalid && submitted)"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
               </div>
             </div>
           </div>
@@ -50,10 +53,11 @@
               <label for="exampleInputEmail1">Email *</label>
               <input type="text" class="form-control" id="email" placeholder="Email" formControlName="email">
               <div>
-                <span *ngIf="addForm.get('email').hasError('required') && addForm.get('email').touched"
-                  style="color: red;text-align: left;font-size: 12px">Email is Required</span>
-                <span *ngIf="addForm.get('email').hasError('pattern') && addForm.get('email').touched"
-                  style="color: red;text-align: left;font-size: 12px">Invalid Email Formate abc@xyz.com</span>
+                <span
+                  *ngIf="(addForm.get('email').hasError('required') && addForm.get('email').touched) || (addForm.get('email').hasError('required') && submitted)"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
+                <span *ngIf="addForm.get('email').hasError('email') && addForm.get('email').touched"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.emailPattern}}</span>
               </div>
             </div>
           </div>
@@ -65,13 +69,15 @@
                 formControlName="pMobile" (keypress)="onKeyPress($event)" maxlength="10" minlength="10"
                 (focus)="notFocusedPMobile=false" (focusout)="notFocusedPMobile=true">
               <div>
-                <span *ngIf="addForm.get('pMobile').hasError('required') && addForm.get('pMobile').touched"
-                  style="color: red;text-align: left;font-size: 12px">Primary Mobile Number is Required</span>
                 <span
-                  *ngIf="((addForm.get('pMobile').hasError('minlength') ||addForm.get('pMobile').hasError('maxlength') )&& notFocusedPMobile) && !addForm.get('pMobile').hasError('pattern')"
-                  style="color: red;text-align: left;font-size: 12px">Mobile number must be 10 digits</span>
-                <span *ngIf="addForm.get('pMobile').hasError('pattern') && addForm.get('pMobile').touched"
-                  style="color: red;text-align: left;font-size: 12px">Invalid Mobile Number</span>
+                  *ngIf="(addForm.get('pMobile').hasError('required') && addForm.get('pMobile').touched) ||(addForm.get('pMobile').hasError('required') && submitted)"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
+                <span
+                  *ngIf="((addForm.get('pMobile').hasError('minlength') ||addForm.get('pMobile').hasError('maxlength') )&& notFocusedPMobile)"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.mobileNumberLength}}</span>
+                <span
+                  *ngIf="addForm.get('pMobile').hasError('pattern') && addForm.get('pMobile').touched && notFocusedPMobile"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.mobileNumberPattern}}</span>
               </div>
             </div>
           </div>
@@ -84,10 +90,10 @@
                 (focusout)="notFocused=true" maxlength="10" minlength="10">
               <div>
                 <span
-                  *ngIf=" (notFocused && (addForm.get('sMobile').hasError('minlength') ||addForm.get('sMobile').hasError('maxlength')))&& !addForm.get('sMobile').hasError('pattern') "
-                  style="color: red;text-align: left;font-size: 12px">Mobile number must be 10 digits</span>
-                <span *ngIf="addForm.get('sMobile').hasError('pattern') "
-                  style="color: red;text-align: left;font-size: 12px">Invalid Number</span>
+                  *ngIf=" (notFocused && (addForm.get('sMobile').hasError('minlength') ||addForm.get('sMobile').hasError('maxlength'))) "
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.mobileNumberLength}}</span>
+                <span *ngIf="addForm.get('sMobile').hasError('pattern') && addForm.get('sMobile').touched && notFocused"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.mobileNumberPattern}}</span>
               </div>
             </div>
           </div>
@@ -105,7 +111,7 @@
                       style="color: red;text-align: left;font-size: 12px">Aadhar Number is Required</span> -->
                 <span
                   *ngIf="((addForm.get('aadhar').hasError('minlength') ||addForm.get('aadhar').hasError('maxlength') )&& notFocusedPMobile) && !addForm.get('aadhar').hasError('pattern')"
-                  style="color: red;text-align: left;font-size: 12px">Aadhar number must be 12 digits</span>
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.aadharNumberLength}}</span>
               </div>
             </div>
 
@@ -124,8 +130,9 @@
               </select>
               <div>
 
-                <span *ngIf="addForm.get('gender').invalid && addForm.get('gender').touched"
-                  style="color: red;text-align: left;font-size: 12px">Please select gender</span>
+                <span
+                  *ngIf="(addForm.get('gender').invalid && addForm.get('gender').touched) || (addForm.get('gender').invalid && submitted)"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
                 <!-- <span
               *ngIf="addForm.get('interview')['controls'][i].controls.result.invalid && addForm.get('interview')['controls'][i].controls.result.touched"
               style="color: red;text-align: left;font-size: 12px">Select at least one Result</span> -->
@@ -150,8 +157,9 @@
               <label for="exampleInputEmail1">Profile *</label>
               <input type="text" class="form-control" id="profile" placeholder="Profile" formControlName="profile">
               <div>
-                <span *ngIf="addForm.get('profile').invalid && addForm.get('profile').touched"
-                  style="color: red;text-align: left;font-size: 12px">Profile is Required</span>
+                <span
+                  *ngIf="(addForm.get('profile').invalid && addForm.get('profile').touched) || (addForm.get('profile').invalid && submitted)"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
               </div>
             </div>
           </div>
@@ -183,8 +191,9 @@
               <textarea class="form-control" id="blackListReason" rows="3" formControlName="blackListReason"
                 [attr.disabled]="disabledTextField[i]===true? 'disabled':null"></textarea>
               <div>
-                <span *ngIf="addForm.get('blackListReason').invalid && addForm.get('blackListReason').touched"
-                  style="color: red;text-align: left;font-size: 12px">Feedback is Required</span>
+                <span
+                  *ngIf="(addForm.get('blackListReason').invalid && addForm.get('blackListReason').touched) || (addForm.get('blackListReason').invalid && submitted)"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
               </div>
             </div>
           </div>
@@ -217,6 +226,7 @@
                       <th>To</th>
                       <th>Duration</th>
                       <th>Tech Stack</th>
+                      <th>Reason for Leaving</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -228,8 +238,8 @@
                           (input)="validateExperience(i)">
                         <div>
                           <span
-                            *ngIf="addForm.get('experience')['controls'][i].controls.organization.invalid && addForm.get('experience')['controls'][i].controls.organization.touched"
-                            style="color: red;text-align: left;font-size: 12px">This field required</span>
+                            *ngIf="(addForm.get('experience')['controls'][i].controls.organization.invalid && addForm.get('experience')['controls'][i].controls.organization.touched) || (addForm.get('experience')['controls'][i].controls.organization.invalid && submitted)"
+                            style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
                         </div>
                       </td>
                       <td>
@@ -238,8 +248,8 @@
 
                         <div>
                           <span
-                            *ngIf="addForm.get('experience')['controls'][i].controls.from.invalid && addForm.get('experience')['controls'][i].controls.from.touched"
-                            style="color: red;text-align: left;font-size: 12px">This field required</span>
+                            *ngIf="(addForm.get('experience')['controls'][i].controls.from.invalid && addForm.get('experience')['controls'][i].controls.from.touched) || (addForm.get('experience')['controls'][i].controls.from.invalid && submitted)"
+                            style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
                         </div>
                       </td>
                       <td>
@@ -250,13 +260,13 @@
 
                         <div>
                           <span
-                            *ngIf="addForm.get('experience')['controls'][i].controls.to.invalid && addForm.get('experience')['controls'][i].controls.to.touched"
-                            style="color: red;text-align: left;font-size: 12px">This field required</span>
+                            *ngIf="(addForm.get('experience')['controls'][i].controls.to.invalid && addForm.get('experience')['controls'][i].controls.to.touched) || (addForm.get('experience')['controls'][i].controls.to.invalid && submitted)"
+                            style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
                         </div>
                       </td>
                       <td>
-
-                        <input type="text" class="form-control" style="max-width: 100%" formControlName="duration"
+                        <!-- style="max-width: 100%" -->
+                        <input type="text" class="form-control"  formControlName="duration"
                           [readonly]="true">
                       </td>
                       <td>
@@ -264,10 +274,16 @@
                           (input)="validateExperience(i)">
                         <div>
                           <span
-                            *ngIf="addForm.get('experience')['controls'][i].controls.techStack.invalid && addForm.get('experience')['controls'][i].controls.techStack.touched"
-                            style="color: red;text-align: left;font-size: 12px">This field required</span>
+                            *ngIf="(addForm.get('experience')['controls'][i].controls.techStack.invalid && addForm.get('experience')['controls'][i].controls.techStack.touched) || (addForm.get('experience')['controls'][i].controls.techStack.invalid && submitted)"
+                            style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
                         </div>
                       </td>
+
+                      <td>
+                        <input type="text" class="form-control" formControlName="reasonForLeaving">
+
+                      </td>
+
                       <td>
                         <i class="fa fa-times" aria-hidden="true" style="color: red; margin-left: 20%"
                           (click)="removeExperienceArray(i,addForm.get('experience')['controls'][i].controls.id.value)"></i>
@@ -297,7 +313,8 @@
             <div class="form-group">
               <label for="exampleFormControlSelect1">Qualification *</label>
               <select class="form-control" id="exampleFormControlSelect1" formControlName="education"
-                (change)="changeActionEducation($event.target.value)">
+                (change)="changeActionEducation($event.target.value,true)">
+                <option value="doctorate">Doctorate</option>
                 <option value="postgraduate">Postgraduate</option>
                 <option value="graduate">Graduate</option>
               </select>
@@ -311,6 +328,70 @@
         </div>
 
 
+        <div class="row" *ngIf="showDoctorate">
+          <div class="col-md-3">
+
+            <div class="form-group">
+              <label for="exampleInputEmail1">Doctorate College Name *</label>
+              <input type="text" class="form-control" id="pCollege" placeholder="Doctorate College"
+                formControlName="doctorateCollege">
+              <div>
+                <span *ngIf="(addForm.get('doctorateCollege').invalid && addForm.get('doctorateCollege').touched) || (addForm.get('doctorateCollege').invalid && submitted)"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+
+            <div class="form-group">
+              <label for="exampleInputEmail1">Marks *</label>
+              <input type="text" class="form-control" id="collegeMarks" placeholder="Marks"
+                formControlName="doctorateCollegeMarks">
+              <div>
+                <span
+                  *ngIf="(addForm.get('doctorateCollegeMarks').hasError('required') && addForm.get('doctorateCollegeMarks').touched) || (addForm.get('doctorateCollegeMarks').hasError('required') && submitted)"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
+                <span *ngIf="addForm.get('doctorateCollegeMarks').hasError('pattern')"
+                  style="color: red;text-align: left;font-size: 12px">Invalid Pattern</span>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">Marks type</label>
+              <select class="form-control" id="exampleFormControlSelect1" formControlName="doctorateCollegeMarksType"
+                (change)="changeMarksValidation($event.target.value,'doctorateCollegeMarks',false)">
+                <option value="" disabled selected hidden>Select a value</option>
+                <option value="CGPA">CGPA</option>
+                <option value="Percentage">%</option>
+              </select>
+              <div>
+
+                <span
+                  *ngIf="(addForm.get('doctorateCollegeMarksType').invalid && addForm.get('doctorateCollegeMarksType').touched) || (addForm.get('doctorateCollegeMarksType').invalid && submitted)"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
+                <!-- <span
+              *ngIf="addForm.get('interview')['controls'][i].controls.result.invalid && addForm.get('interview')['controls'][i].controls.result.touched"
+              style="color: red;text-align: left;font-size: 12px">Select at least one Result</span> -->
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+
+            <div class="form-group">
+              <label for="exampleInputEmail1">Comment</label>
+              <input type="text" class="form-control" id="collegeMarks" placeholder="Comment"
+                formControlName="doctorateCollegeComment">
+
+            </div>
+          </div>
+
+        </div>
 
 
         <div class="row" *ngIf="showPG">
@@ -321,8 +402,8 @@
               <input type="text" class="form-control" id="pCollege" placeholder="Post-Graduation College"
                 formControlName="pCollege">
               <div>
-                <span *ngIf="addForm.get('pCollege').invalid && addForm.get('pCollege').touched"
-                  style="color: red;text-align: left;font-size: 12px">College Name is Required</span>
+                <span *ngIf="(addForm.get('pCollege').invalid && addForm.get('pCollege').touched) || (addForm.get('pCollege').invalid && submitted)"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
               </div>
             </div>
           </div>
@@ -334,8 +415,8 @@
               <input type="text" class="form-control" id="collegeMarks" placeholder="Marks"
                 formControlName="pCollegeMarks">
               <div>
-                <span *ngIf="addForm.get('pCollegeMarks').hasError('required') && addForm.get('pCollegeMarks').touched"
-                  style="color: red;text-align: left;font-size: 12px">College Marks is Required</span>
+                <span *ngIf="(addForm.get('pCollegeMarks').hasError('required') && addForm.get('pCollegeMarks').touched) || (addForm.get('pCollegeMarks').hasError('required') && submitted)"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
                 <span *ngIf="addForm.get('pCollegeMarks').hasError('pattern')"
                   style="color: red;text-align: left;font-size: 12px">Invalid Pattern</span>
               </div>
@@ -348,15 +429,15 @@
             <div class="form-group">
               <label for="exampleFormControlSelect1">Marks type</label>
               <select class="form-control" id="exampleFormControlSelect1" formControlName="pCollegeMarksType"
-                (change)="changeMarksValidation($event.target.value,'pCollegeMarks')">
+                (change)="changeMarksValidation($event.target.value,'pCollegeMarks',false)">
                 <option value="" disabled selected hidden>Select a value</option>
                 <option value="CGPA">CGPA</option>
                 <option value="Percentage">%</option>
               </select>
               <div>
 
-                <span *ngIf="addForm.get('pCollegeMarksType').invalid && addForm.get('pCollegeMarksType').touched"
-                  style="color: red;text-align: left;font-size: 12px">Please select marks type</span>
+                <span *ngIf="(addForm.get('pCollegeMarksType').invalid && addForm.get('pCollegeMarksType').touched) || (addForm.get('pCollegeMarksType').invalid && submitted)"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
                 <!-- <span
               *ngIf="addForm.get('interview')['controls'][i].controls.result.invalid && addForm.get('interview')['controls'][i].controls.result.touched"
               style="color: red;text-align: left;font-size: 12px">Select at least one Result</span> -->
@@ -385,8 +466,8 @@
               <input type="text" class="form-control" id="college" placeholder="Graduation College"
                 formControlName="college">
               <div>
-                <span *ngIf="addForm.get('college').invalid && addForm.get('college').touched"
-                  style="color: red;text-align: left;font-size: 12px">College Name is Required</span>
+                <span *ngIf="(addForm.get('college').invalid && addForm.get('college').touched) || (addForm.get('college').invalid && submitted)"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
               </div>
             </div>
           </div>
@@ -398,8 +479,8 @@
               <input type="text" class="form-control" id="collegeMarks" placeholder="Marks"
                 formControlName="collegeMarks">
               <div>
-                <span *ngIf="addForm.get('collegeMarks').hasError('required') && addForm.get('collegeMarks').touched"
-                  style="color: red;text-align: left;font-size: 12px">College Marks is Required</span>
+                <span *ngIf="(addForm.get('collegeMarks').hasError('required') && addForm.get('collegeMarks').touched) || (addForm.get('collegeMarks').hasError('required') && submitted)"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
                 <span *ngIf="addForm.get('collegeMarks').hasError('pattern')"
                   style="color: red;text-align: left;font-size: 12px">Invalid Pattern</span>
               </div>
@@ -410,15 +491,15 @@
             <div class="form-group">
               <label for="exampleFormControlSelect1">Marks type</label>
               <select class="form-control" id="exampleFormControlSelect1" formControlName="collegeMarksType"
-                (change)="changeMarksValidation($event.target.value,'collegeMarks')">
+                (change)="changeMarksValidation($event.target.value,'collegeMarks',false)">
                 <option value="" disabled selected hidden>Select a value</option>
                 <option value="CGPA">CGPA</option>
                 <option value="Percentage">%</option>
               </select>
               <div>
 
-                <span *ngIf="addForm.get('collegeMarksType').invalid && addForm.get('collegeMarksType').touched"
-                  style="color: red;text-align: left;font-size: 12px">Please select marks type</span>
+                <span *ngIf="(addForm.get('collegeMarksType').invalid && addForm.get('collegeMarksType').touched)||(addForm.get('collegeMarksType').invalid && submitted)"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
                 <!-- <span
               *ngIf="addForm.get('interview')['controls'][i].controls.result.invalid && addForm.get('interview')['controls'][i].controls.result.touched"
               style="color: red;text-align: left;font-size: 12px">Select at least one Result</span> -->
@@ -463,8 +544,8 @@
               <label for="exampleInputEmail1">Diploma *</label>
               <input type="text" class="form-control" id="dSchool" placeholder="Diploma" formControlName="dSchool">
               <div>
-                <span *ngIf="addForm.get('dSchool').invalid && addForm.get('dSchool').touched"
-                  style="color: red;text-align: left;font-size: 12px">Diploma college Name is Required</span>
+                <span *ngIf="(addForm.get('dSchool').invalid && addForm.get('dSchool').touched) || (addForm.get('dSchool').invalid && submitted)"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
               </div>
             </div>
           </div>
@@ -475,8 +556,8 @@
               <label for="exampleInputEmail1">Diploma Marks *</label>
               <input type="text" class="form-control" id="dMarks" placeholder="Diploma Marks" formControlName="dMarks">
               <div>
-                <span *ngIf="addForm.get('dMarks').hasError('required') && addForm.get('dMarks').touched"
-                  style="color: red;text-align: left;font-size: 12px">Marks is Required</span>
+                <span *ngIf="(addForm.get('dMarks').hasError('required') && addForm.get('dMarks').touched) || (addForm.get('dMarks').hasError('required') && submitted)"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
                 <span *ngIf="addForm.get('dMarks').hasError('pattern')"
                   style="color: red;text-align: left;font-size: 12px">Invalid Pattern</span>
               </div>
@@ -487,15 +568,15 @@
             <div class="form-group">
               <label for="exampleFormControlSelect1">Marks type</label>
               <select class="form-control" id="exampleFormControlSelect1" formControlName="dMarksType"
-                (change)="changeMarksValidation($event.target.value,'dMarks')">
+                (change)="changeMarksValidation($event.target.value,'dMarks',false)">
                 <option value="null" disabled selected hidden>Select a value</option>
                 <option value="CGPA">CGPA</option>
                 <option value="Percentage">%</option>
               </select>
               <div>
 
-                <span *ngIf="addForm.get('dMarksType').invalid && addForm.get('dMarksType').touched"
-                  style="color: red;text-align: left;font-size: 12px">Please select marks type</span>
+                <span *ngIf="(addForm.get('dMarksType').invalid && addForm.get('dMarksType').touched) || (addForm.get('dMarksType').invalid && submitted)"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
                 <!-- <span
               *ngIf="addForm.get('interview')['controls'][i].controls.result.invalid && addForm.get('interview')['controls'][i].controls.result.touched"
               style="color: red;text-align: left;font-size: 12px">Select at least one Result</span> -->
@@ -522,8 +603,8 @@
               <label for="exampleInputEmail1">Inter School *</label>
               <input type="text" class="form-control" id="iSchool" placeholder="Inter School" formControlName="iSchool">
               <div>
-                <span *ngIf="addForm.get('iSchool').invalid && addForm.get('iSchool').touched"
-                  style="color: red;text-align: left;font-size: 12px">Inter School Name is Required</span>
+                <span *ngIf="(addForm.get('iSchool').invalid && addForm.get('iSchool').touched) || (addForm.get('iSchool').invalid && submitted)"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
               </div>
             </div>
           </div>
@@ -535,8 +616,8 @@
               <input type="text" class="form-control" id="iMarks" placeholder="Inter School Marks"
                 formControlName="iMarks">
               <div>
-                <span *ngIf="addForm.get('iMarks').hasError('required') && addForm.get('iMarks').touched"
-                  style="color: red;text-align: left;font-size: 12px">Inter School Marks is Required</span>
+                <span *ngIf="(addForm.get('iMarks').hasError('required') && addForm.get('iMarks').touched) || (addForm.get('iMarks').hasError('required') && submitted)"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
                 <span *ngIf="addForm.get('iMarks').hasError('pattern')"
                   style="color: red;text-align: left;font-size: 12px">Invalid Pattern</span>
               </div>
@@ -547,15 +628,15 @@
             <div class="form-group">
               <label for="exampleFormControlSelect1">Marks type</label>
               <select class="form-control" id="exampleFormControlSelect1" formControlName="iMarksType"
-                (change)="changeMarksValidation($event.target.value,'iMarks')">
+                (change)="changeMarksValidation($event.target.value,'iMarks',false)">
                 <option value="null" disabled selected hidden>Select a value</option>
                 <option value="CGPA">CGPA</option>
                 <option value="Percentage">%</option>
               </select>
               <div>
 
-                <span *ngIf="addForm.get('iMarksType').invalid && addForm.get('iMarksType').touched"
-                  style="color: red;text-align: left;font-size: 12px">Please select marks type</span>
+                <span *ngIf="(addForm.get('iMarksType').invalid && addForm.get('iMarksType').touched) || (addForm.get('iMarksType').invalid && submitted)"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
                 <!-- <span
               *ngIf="addForm.get('interview')['controls'][i].controls.result.invalid && addForm.get('interview')['controls'][i].controls.result.touched"
               style="color: red;text-align: left;font-size: 12px">Select at least one Result</span> -->
@@ -584,8 +665,8 @@
               <label for="exampleInputEmail1">High School *</label>
               <input type="text" class="form-control" id="hSchool" placeholder="High School" formControlName="hSchool">
               <div>
-                <span *ngIf="addForm.get('hSchool').invalid && addForm.get('hSchool').touched"
-                  style="color: red;text-align: left;font-size: 12px">High School Name is Required</span>
+                <span *ngIf="(addForm.get('hSchool').invalid && addForm.get('hSchool').touched) || (addForm.get('hSchool').invalid && submitted)"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
               </div>
             </div>
           </div>
@@ -597,8 +678,8 @@
               <input type="text" class="form-control" id="hMarks" placeholder="High School Marks"
                 formControlName="hMarks">
               <div>
-                <span *ngIf="addForm.get('hMarks').hasError('required') && addForm.get('hMarks').touched"
-                  style="color: red;text-align: left;font-size: 12px">High School Marks is Required</span>
+                <span *ngIf="(addForm.get('hMarks').hasError('required') && addForm.get('hMarks').touched) || (addForm.get('hMarks').hasError('required') && submitted)"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
                 <span *ngIf="addForm.get('hMarks').hasError('pattern')"
                   style="color: red;text-align: left;font-size: 12px">Invalid Pattern</span>
               </div>
@@ -611,15 +692,15 @@
             <div class="form-group">
               <label for="exampleFormControlSelect1">Marks type</label>
               <select class="form-control" id="exampleFormControlSelect1" formControlName="hMarksType"
-                (change)="changeMarksValidation($event.target.value,'hMarks')">
+                (change)="changeMarksValidation($event.target.value,'hMarks',false)">
                 <option value="" disabled selected hidden>Select a value</option>
                 <option value="CGPA">CGPA</option>
                 <option value="Percentage">%</option>
               </select>
               <div>
 
-                <span *ngIf="addForm.get('hMarksType').invalid && addForm.get('hMarksType').touched"
-                  style="color: red;text-align: left;font-size: 12px">Please select marks type</span>
+                <span *ngIf="(addForm.get('hMarksType').invalid && addForm.get('hMarksType').touched) || (addForm.get('hMarksType').invalid && submitted)"
+                  style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
                 <!-- <span
               *ngIf="addForm.get('interview')['controls'][i].controls.result.invalid && addForm.get('interview')['controls'][i].controls.result.touched"
               style="color: red;text-align: left;font-size: 12px">Select at least one Result</span> -->
@@ -658,8 +739,8 @@
                 </select>
                 <div>
                   <span
-                    *ngIf="addForm.get('interview')['controls'][i].controls.result.invalid && addForm.get('interview')['controls'][i].controls.result.touched"
-                    style="color: red;text-align: left;font-size: 12px">Select at least one Status</span>
+                    *ngIf="(addForm.get('interview')['controls'][i].controls.result.invalid && addForm.get('interview')['controls'][i].controls.result.touched) || (addForm.get('interview')['controls'][i].controls.result.invalid && submitted)"
+                    style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
                 </div>
               </div>
             </div>
@@ -678,8 +759,8 @@
                 </select>
                 <div>
                   <span
-                    *ngIf="addForm.get('interview')['controls'][i].controls.interviewMode.invalid && addForm.get('interview')['controls'][i].controls.interviewMode.touched"
-                    style="color: red;text-align: left;font-size: 12px">Select at least one Result</span>
+                    *ngIf="(addForm.get('interview')['controls'][i].controls.interviewMode.invalid && addForm.get('interview')['controls'][i].controls.interviewMode.touched) || (addForm.get('interview')['controls'][i].controls.interviewMode.invalid && submitted)"
+                    style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
                 </div>
               </div>
             </div>
@@ -700,8 +781,8 @@
                 </select>
                 <div>
                   <span
-                    *ngIf="addForm.get('interview')['controls'][i].controls.interviewType.invalid && addForm.get('interview')['controls'][i].controls.interviewType.touched"
-                    style="color: red;text-align: left;font-size: 12px">Select at least one Result</span>
+                    *ngIf="(addForm.get('interview')['controls'][i].controls.interviewType.invalid && addForm.get('interview')['controls'][i].controls.interviewType.touched) || (addForm.get('interview')['controls'][i].controls.interviewType.invalid && submitted)"
+                    style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
                 </div>
               </div>
             </div>
@@ -715,7 +796,7 @@
             <div class="col-md-4" *ngIf="showRoundDate[i]">
               <div class="form-group">
                 <label for="exampleInputEmail1">Interview Date *</label>
-                <p-calendar [showIcon]="true" [showTime]="false" class="ui-calendar" formControlName="interviewDate" 
+                <p-calendar [showIcon]="true" [showTime]="false" class="ui-calendar" formControlName="interviewDate"
                   hideOnDateTimeSelect="true" [disabledDays]="[0,6]" [disabledDates]="holidays"
                   [disabled]="disabledTextField[i] ||disabledInterviewDate[i]"
                   [maxDate]="addForm.get('interview')['controls'][i].controls.nextRoundDate.value != null?addForm.get('interview')['controls'][i].controls.nextRoundDate.value:
@@ -723,8 +804,8 @@
                 </p-calendar>
                 <div>
                   <span
-                    *ngIf="addForm.get('interview')['controls'][i].controls.interviewDate.invalid && addForm.get('interview')['controls'][i].controls.interviewDate.touched"
-                    style="color: red;text-align: left;font-size: 12px">Interview Date is Required</span>
+                    *ngIf="(addForm.get('interview')['controls'][i].controls.interviewDate.invalid && addForm.get('interview')['controls'][i].controls.interviewDate.touched) || (addForm.get('interview')['controls'][i].controls.interviewDate.invalid && submitted)"
+                    style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
                 </div>
               </div>
             </div>
@@ -732,14 +813,14 @@
             <div class="col-md-4" *ngIf="showScheduledDate[i]">
               <div class="form-group">
                 <label for="exampleInputEmail1">Scheduled Date * </label>
-                <p-calendar [showIcon]="true" class="ui-calendar" [showTime]="true" hourFormat="24" 
+                <p-calendar [showIcon]="true" class="ui-calendar" [showTime]="true" hourFormat="24"
                   [disabledDays]="[0,6]" formControlName="scheduledDate" hideOnDateTimeSelect="true"
                   [disabled]="disabledTextField[i]">
                 </p-calendar>
                 <div>
                   <span
-                    *ngIf="addForm.get('interview')['controls'][i].controls.scheduledDate.invalid && addForm.get('interview')['controls'][i].controls.scheduledDate.touched"
-                    style="color: red;text-align: left;font-size: 12px">Scheduled Date is Required</span>
+                    *ngIf="(addForm.get('interview')['controls'][i].controls.scheduledDate.invalid && addForm.get('interview')['controls'][i].controls.scheduledDate.touched) || (addForm.get('interview')['controls'][i].controls.scheduledDate.invalid && submitted)"
+                    style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
                 </div>
               </div>
             </div>
@@ -752,8 +833,8 @@
                   formControlName="interviewer" [attr.disabled]="disabledTextField[i]===true? 'disabled':null">
                 <div>
                   <span
-                    *ngIf="addForm.get('interview')['controls'][i].controls.interviewer.invalid && addForm.get('interview')['controls'][i].controls.interviewer.touched"
-                    style="color: red;text-align: left;font-size: 12px">Interviewer Name is Required</span>
+                    *ngIf="(addForm.get('interview')['controls'][i].controls.interviewer.invalid && addForm.get('interview')['controls'][i].controls.interviewer.touched) || (addForm.get('interview')['controls'][i].controls.interviewer.invalid && submitted)"
+                    style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
                 </div>
               </div>
             </div>
@@ -767,8 +848,8 @@
                 </p-calendar>
                 <div>
                   <span
-                    *ngIf="addForm.get('interview')['controls'][i].controls.nextRoundDate.invalid && addForm.get('interview')['controls'][i].controls.nextRoundDate.touched"
-                    style="color: red;text-align: left;font-size: 12px">Next Round is Required</span>
+                    *ngIf="(addForm.get('interview')['controls'][i].controls.nextRoundDate.invalid && addForm.get('interview')['controls'][i].controls.nextRoundDate.touched) || (addForm.get('interview')['controls'][i].controls.nextRoundDate.invalid && submitted)"
+                    style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
                 </div>
               </div>
 
@@ -783,8 +864,8 @@
                 </p-calendar>
                 <div>
                   <span
-                    *ngIf="addForm.get('interview')['controls'][i].controls.joining.invalid && addForm.get('interview')['controls'][i].controls.joining.touched"
-                    style="color: red;text-align: left;font-size: 12px">Joining Date is Required</span>
+                    *ngIf="(addForm.get('interview')['controls'][i].controls.joining.invalid && addForm.get('interview')['controls'][i].controls.joining.touched) || (addForm.get('interview')['controls'][i].controls.joining.invalid && submitted)"
+                    style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
                 </div>
               </div>
             </div>
@@ -794,7 +875,7 @@
             <div class="col-md-6">
               <div class="form-group form-check">
                 <input type="checkbox" class="form-check-input" id="allowForcefully" formControlName="allowForcefully"
-                [attr.disabled]="disabledTextField[i]===true? 'disabled':null">
+                  [attr.disabled]="disabledTextField[i]===true? 'disabled':null">
                 <label class="form-check-label" for="exampleCheck1">Forcefully allow before 3 months</label>
               </div>
             </div>
@@ -809,8 +890,8 @@
                   [attr.disabled]="disabledTextField[i]===true? 'disabled':null"></textarea>
                 <div>
                   <span
-                    *ngIf="addForm.get('interview')['controls'][i].controls.feedback.invalid && addForm.get('interview')['controls'][i].controls.feedback.touched"
-                    style="color: red;text-align: left;font-size: 12px">Feedback is Required</span>
+                    *ngIf="(addForm.get('interview')['controls'][i].controls.feedback.invalid && addForm.get('interview')['controls'][i].controls.feedback.touched) || (addForm.get('interview')['controls'][i].controls.feedback.invalid && submitted)"
+                    style="color: red;text-align: left;font-size: 12px">{{errorMessageService.requireField}}</span>
                 </div>
               </div>
             </div>
@@ -819,9 +900,8 @@
 
           <div class="row" style="float: right" *ngIf="i===(interviewArray.controls.length-1) ">
 
-            <button type="button" class="btn btn-success" *ngIf="showInterviewSave"
-              (click)="saveInterview(addForm.get('interview')['controls'][i].controls.interviewId.value,i)"
-              [disabled]="addForm.invalid">Save</button>
+            <!-- <button type="button" class="btn btn-success" *ngIf="showInterviewSave"
+              (click)="saveInterview(addForm.get('interview')['controls'][i].controls.interviewId.value,i)">Save</button> -->
 
             <button type="button" class="btn btn-success" *ngIf="!showInterviewSave" (click)="addInterview(i)"
               [disabled]="addForm.invalid">Add More</button>
@@ -875,8 +955,10 @@
     </div>
 
   </div>
-  <button type="button" class="btn btn-success" (click)="addCandidate()" [disabled]="addForm.invalid">Submit</button>
-  <!-- <button type="button" class="btn btn-success" (click)="showError()">Validate</button> -->
+  <button type="button" class="btn btn-success" (click)="addCandidate()">Submit</button>
+
+  <button type="button" class="btn btn-success" (click)="cancel()">Cancel</button>
+  <!-- <button type="button" class="btn btn-success" (click)="showError()">Validate</button>  reasonForLeaving -->
 </form>
 <div class="loading-indicator" *ngIf="loadder">
   <p-progressSpinner></p-progressSpinner>
