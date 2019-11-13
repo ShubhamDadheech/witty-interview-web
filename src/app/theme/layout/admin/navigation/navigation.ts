@@ -34,7 +34,7 @@ const NavigationItems = [
     children: [
       {
         id: 'candidate',
-        title: 'Candidate',
+        title: 'Dashboard',
         type: 'item',
         url: 'candidate',
         icon: 'feather icon-user',
@@ -42,9 +42,9 @@ const NavigationItems = [
       },
       {
         id: 'add-candidate',
-        title: 'Add Candidate',
+        title: 'Candidates',
         type: 'item',
-        url: 'add-candidate',
+        url: 'all-candidate',
         icon: 'feather icon-user-plus',
         classes: 'nav-item'
       },

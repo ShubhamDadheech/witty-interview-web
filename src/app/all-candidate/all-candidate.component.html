@@ -1,0 +1,77 @@
+<div class="row" style="max-width: 100%;">
+
+  <div class="col-md-5">
+    <div class="form-group" style="margin-top: 25px;">
+      <div class="input-group">
+        <label for="exampleInputEmail1"></label>
+        <input class="form-control" type="text" placeholder="Search" aria-label="Search" [(ngModel)]="searchText"
+          [ngModelOptions]="{standalone: true}" autocomplete="off">
+        <div class="input-group-append">
+          <span class="input-group-text red lighten-3" id="basic-text1"><i class="fas fa-search text-grey"
+              aria-hidden="true"></i></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-5"></div>
+  <div class="col-md-2">
+    <div class="form-group" style="padding-top: 26px; float: right;">
+      <button type="button" class="btn btn-success" (click)="newCandidate()">Add Candidate</button>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="row">
+
+  <div class="col-xl-12 col-md-12">
+    <div class="table-responsive">
+      <div class="tableFixHead">
+        <table class="table table-hover" style="background-color: #fff">
+          <thead>
+            <tr>
+              <th>Name </th>
+              <th>Email</th>
+              <th>Profile</th>
+              <th>Mobile Number</th>
+              <th>Aadhar number</th>
+              <th>Gender</th>
+              <th>Create Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let d of candidates | filterCandidate:searchText:'roundDate'" (click)="openCandidate(d.id)">
+              <td>
+                <h6 class="m-0">{{d.firstName}} {{d.lastName}}</h6>
+              </td>
+              <td>
+
+                <h6 class="m-0">{{d.email}}</h6>
+              </td>
+              <td>
+                <h6 class="m-0">{{d.profile}}</h6>
+              </td>
+              <td>
+                <h6 class="m-0">{{d.primaryMobileNum}}</h6>
+              </td>
+              <td>
+                <h6 class="m-0 ">{{d.aadhaarNum}}</h6>
+              </td>
+              <td>
+                <h6 class="m-0 ">{{d.gender}}</h6>
+              </td>
+              <td>
+                <h6 class="m-0 ">{{d.createDate}}</h6>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+
+
+</div>

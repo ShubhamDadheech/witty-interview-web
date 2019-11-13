@@ -47,6 +47,8 @@ import { CreateUserComponent } from './create-user/create-user.component';
 import {MultiSelectModule} from 'primeng/multiselect';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import { AllCandidateComponent } from './all-candidate/all-candidate.component';
+import { FilterCandidatePipe } from './pipe/filter-candidate.pipe';
 
 @NgModule({
   declarations: [
@@ -76,6 +78,8 @@ import {ProgressSpinnerModule} from 'primeng/progressspinner';
     DashboardGraphComponent,
     UserProfileComponent,
     CreateUserComponent,
+    AllCandidateComponent,
+    FilterCandidatePipe,
     
   ],
   imports: [

@@ -12,6 +12,7 @@ import { DashboardGraphComponent } from './dashboard-graph/dashboard-graph.compo
 import { ForgetPasswordComponent } from './authentication/forget-password/forget-password.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { CreateUserComponent } from './create-user/create-user.component';
+import { AllCandidateComponent } from './all-candidate/all-candidate.component';
 
 
 const routes: Routes = [
@@ -59,6 +60,10 @@ const routes: Routes = [
       {
         path: 'create-user',
         component:CreateUserComponent
+      },
+      {
+        path: 'all-candidate',
+        component:AllCandidateComponent
       }
     ]
   },
