@@ -41,7 +41,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let d of candidates | filterCandidate:searchText:'roundDate'" (click)="openCandidate(d.id)">
+            <tr *ngFor="let d of candidates | filterCandidate:searchText" (click)="openCandidate(d.id)">
               <td>
                 <h6 class="m-0">{{d.firstName}} {{d.lastName}}</h6>
               </td>

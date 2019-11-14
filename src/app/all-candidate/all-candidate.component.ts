@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 export class AllCandidateComponent implements OnInit {
 
   candidates: any = [];
+  searchText;
 
   constructor(private httpService: HttpService, private router: Router) { }
 
