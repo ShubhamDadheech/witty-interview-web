@@ -29,7 +29,7 @@
     "css-animator": "^2.3.1",
     "fullcalendar": "4.0.0-alpha",
     "hammerjs": "^2.0.8",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "jszip": "^3.1.5",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.26",
