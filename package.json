@@ -32,7 +32,7 @@
     "jquery": "^3.3.1",
     "jszip": "^3.1.5",
     "moment": "^2.24.0",
-    "moment-timezone": "^0.5.26",
+    "moment-timezone": "^0.5.35",
     "morris.js": "github:morrisjs/morris.js",
     "mousetrap": "^1.6.2",
     "ng-click-outside": "^4.0.0",
